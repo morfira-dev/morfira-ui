@@ -5,6 +5,11 @@ import {
   type ResolvedDialogOptions,
 } from '@morfira-dev/core/dialog';
 
+import {
+  acquireDocumentScrollLock,
+  releaseDocumentScrollLock,
+} from './internal/scroll-lock.js';
+
 const MANAGED_ATTRIBUTES: readonly string[] = [
   'aria-describedby',
   'aria-labelledby',
@@ -34,13 +39,6 @@ const TABBABLE_SELECTOR = [
 
 type AttributeSnapshot = ReadonlyMap<string, string | null>;
 type CloseRequestReason = Exclude<DialogDismissReason, 'native-close'>;
-
-interface ScrollLockRecord {
-  count: number;
-  readonly overflow: string;
-}
-
-const scrollLocks = new WeakMap<Document, ScrollLockRecord>();
 
 export type DialogFocusTarget = HTMLElement | (() => HTMLElement | null);
 
@@ -102,37 +100,6 @@ function applyDialogState(
   dialog.setAttribute('aria-labelledby', state.ids.titleId);
   setOptionalAttribute(dialog, 'aria-describedby', state.ids.descriptionId);
   dialog.setAttribute('tabindex', '-1');
-}
-
-function acquireScrollLock(document: Document): void {
-  const record = scrollLocks.get(document);
-
-  if (record !== undefined) {
-    record.count += 1;
-    return;
-  }
-
-  scrollLocks.set(document, {
-    count: 1,
-    overflow: document.documentElement.style.overflow,
-  });
-  document.documentElement.style.overflow = 'hidden';
-}
-
-function releaseScrollLock(document: Document): void {
-  const record = scrollLocks.get(document);
-
-  if (record === undefined) {
-    return;
-  }
-
-  record.count -= 1;
-  if (record.count > 0) {
-    return;
-  }
-
-  document.documentElement.style.overflow = record.overflow;
-  scrollLocks.delete(document);
 }
 
 function resolveFocusTarget(target: DialogFocusTarget | undefined): HTMLElement | null {
@@ -239,14 +206,14 @@ export function enhanceDialog(
 
   const lockScroll = (): void => {
     if (!scrollLocked) {
-      acquireScrollLock(document);
+      acquireDocumentScrollLock(document);
       scrollLocked = true;
     }
   };
 
   const unlockScroll = (): void => {
     if (scrollLocked) {
-      releaseScrollLock(document);
+      releaseDocumentScrollLock(document);
       scrollLocked = false;
     }
   };

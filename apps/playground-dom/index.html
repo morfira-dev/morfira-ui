@@ -18,6 +18,13 @@
     <link rel="stylesheet" href="../../packages/css/dist/popover.css" />
     <link rel="stylesheet" href="../../packages/css/dist/tabs.css" />
     <link rel="stylesheet" href="../../packages/css/dist/accordion.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/menu.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/dropdown.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/combobox.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/autocomplete.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/toast.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/drawer.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/table.css" />
     <style>
       @layer playground {
         * {
@@ -134,6 +141,35 @@
 
         .dark-panel {
           color-scheme: dark;
+        }
+
+        .phase3-demo {
+          position: relative;
+          min-block-size: 19rem;
+        }
+
+        .phase3-demo > p {
+          color: var(--morfira-content-secondary);
+        }
+
+        .phase3-demo > p + * {
+          margin-block-start: var(--morfira-space-4);
+        }
+
+        .combobox-stack {
+          display: grid;
+          gap: var(--morfira-space-2);
+          max-inline-size: 24rem;
+        }
+
+        .toast-stage {
+          display: grid;
+          gap: var(--morfira-space-4);
+          align-content: start;
+        }
+
+        [data-morfira-table-container] {
+          margin-block-start: var(--morfira-space-4);
         }
       }
     </style>
@@ -556,6 +592,159 @@ Ready for staged rollout.</textarea>
           </button>
         </footer>
       </dialog>
+
+      <h2 class="section-title">Phase 3 application primitives</h2>
+      <div class="grid" id="phase3-components">
+        <section class="panel phase3-demo" aria-labelledby="menu-proof-heading">
+          <h2 id="menu-proof-heading">Menu and Dropdown</h2>
+          <p>Keyboard-first release actions with disabled-item skipping.</p>
+          <button type="button" data-morfira-button id="release-menu-trigger">
+            Release actions
+          </button>
+          <div id="release-menu" hidden>
+            <button type="button">Promote release</button>
+            <button type="button" disabled>Rollback unavailable</button>
+            <button type="button">Archive release</button>
+          </div>
+          <p id="release-menu-result" aria-live="polite">No action selected.</p>
+        </section>
+
+        <section class="panel phase3-demo" aria-labelledby="combobox-proof-heading">
+          <h2 id="combobox-proof-heading">Combobox and Autocomplete</h2>
+          <div class="combobox-stack">
+            <label id="environment-combobox-label" for="environment-combobox-input">
+              Deployment environment
+            </label>
+            <div id="environment-combobox">
+              <input id="environment-combobox-input" autocomplete="off" />
+              <div
+                id="environment-combobox-listbox"
+                aria-labelledby="environment-combobox-label"
+                hidden
+              >
+                <div>Development</div>
+                <div>Staging</div>
+                <div>Production</div>
+              </div>
+            </div>
+            <label id="owner-autocomplete-label" for="owner-autocomplete-input">
+              Release owner
+            </label>
+            <div id="owner-autocomplete">
+              <input id="owner-autocomplete-input" autocomplete="off" />
+              <div
+                id="owner-autocomplete-listbox"
+                aria-labelledby="owner-autocomplete-label"
+                hidden
+              >
+                <div>Ada Lovelace</div>
+                <div>Grace Hopper</div>
+                <div>Linus Torvalds</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="panel phase3-demo toast-stage"
+          aria-labelledby="toast-proof-heading"
+        >
+          <h2 id="toast-proof-heading">Toast</h2>
+          <button type="button" data-morfira-button id="show-toast">
+            Show deployment toast
+          </button>
+          <div id="deployment-toast">
+            <div data-morfira-toast-content>
+              <strong data-morfira-toast-title>Deployment complete</strong>
+              <p data-morfira-toast-body>Version 3.0 is serving production traffic.</p>
+            </div>
+            <button
+              type="button"
+              data-morfira-toast-close
+              aria-label="Dismiss deployment notification"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="panel phase3-demo" aria-labelledby="drawer-proof-heading">
+          <h2 id="drawer-proof-heading">Drawer</h2>
+          <p>A modal details surface anchored to the logical inline end.</p>
+          <button type="button" data-morfira-button id="open-drawer">
+            Inspect deployment
+          </button>
+        </section>
+      </div>
+
+      <section class="panel" aria-labelledby="table-proof-heading">
+        <h2 id="table-proof-heading">Table</h2>
+        <p class="lede">
+          Native table semantics remain distinct from a future interactive Data Grid.
+        </p>
+        <div data-morfira-table-container tabindex="0" aria-label="Deployment table">
+          <table id="deployment-table">
+            <caption>
+              Recent deployments
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col" aria-sort="descending">
+                  <button type="button">Version</button>
+                </th>
+                <th scope="col">Environment</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-selected>
+                <th scope="row">3.0.0</th>
+                <td>Production</td>
+                <td>Healthy</td>
+              </tr>
+              <tr>
+                <th scope="row">3.0.0-rc.2</th>
+                <td>Staging</td>
+                <td>Superseded</td>
+              </tr>
+              <tr>
+                <th scope="row">2.9.4</th>
+                <td>Production</td>
+                <td>Archived</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <dialog id="deployment-drawer">
+        <header data-morfira-drawer-header>
+          <div>
+            <h2 id="deployment-drawer-title" data-morfira-drawer-title>
+              Deployment details
+            </h2>
+            <p id="deployment-drawer-description" data-morfira-drawer-description>
+              Production release 3.0.0
+            </p>
+          </div>
+          <button
+            type="button"
+            data-morfira-drawer-close
+            aria-label="Close deployment details"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </header>
+        <div data-morfira-drawer-body>
+          <p>All health checks passed and traffic migration is complete.</p>
+          <button type="button" data-morfira-button data-morfira-drawer-initial-focus>
+            View release log
+          </button>
+        </div>
+        <footer data-morfira-drawer-footer>
+          <button type="button" data-morfira-button data-drawer-done>Done</button>
+        </footer>
+      </dialog>
     </main>
     <script type="importmap">
       {
@@ -564,7 +753,14 @@ Ready for staged rollout.</textarea>
           "@morfira-dev/core/tooltip": "../../packages/core/dist/tooltip.js",
           "@morfira-dev/core/popover": "../../packages/core/dist/popover.js",
           "@morfira-dev/core/tabs": "../../packages/core/dist/tabs.js",
-          "@morfira-dev/core/accordion": "../../packages/core/dist/accordion.js"
+          "@morfira-dev/core/accordion": "../../packages/core/dist/accordion.js",
+          "@morfira-dev/core/menu": "../../packages/core/dist/menu.js",
+          "@morfira-dev/core/dropdown": "../../packages/core/dist/dropdown.js",
+          "@morfira-dev/core/combobox": "../../packages/core/dist/combobox.js",
+          "@morfira-dev/core/autocomplete": "../../packages/core/dist/autocomplete.js",
+          "@morfira-dev/core/toast": "../../packages/core/dist/toast.js",
+          "@morfira-dev/core/drawer": "../../packages/core/dist/drawer.js",
+          "@morfira-dev/core/table": "../../packages/core/dist/table.js"
         }
       }
     </script>
@@ -574,6 +770,13 @@ Ready for staged rollout.</textarea>
       import { enhancePopover } from '../../packages/dom/dist/popover.js';
       import { enhanceTabs } from '../../packages/dom/dist/tabs.js';
       import { enhanceAccordion } from '../../packages/dom/dist/accordion.js';
+      import { enhanceMenu } from '../../packages/dom/dist/menu.js';
+      import { enhanceDropdown } from '../../packages/dom/dist/dropdown.js';
+      import { enhanceCombobox } from '../../packages/dom/dist/combobox.js';
+      import { enhanceAutocomplete } from '../../packages/dom/dist/autocomplete.js';
+      import { enhanceToast } from '../../packages/dom/dist/toast.js';
+      import { enhanceDrawer } from '../../packages/dom/dist/drawer.js';
+      import { enhanceTable } from '../../packages/dom/dist/table.js';
 
       const root = document.documentElement;
       const themeToggle = document.querySelector('#theme-toggle');
@@ -707,6 +910,192 @@ Ready for staged rollout.</textarea>
       const dialogController = dialog
         ? enhanceDialog(dialog, dialogOptions(false))
         : undefined;
+
+      const releaseMenuTrigger = document.querySelector('#release-menu-trigger');
+      const releaseMenu = document.querySelector('#release-menu');
+      const releaseMenuItems = releaseMenu
+        ? [...releaseMenu.querySelectorAll('button')]
+        : [];
+      const releaseMenuDefinitions = [
+        { id: 'release-promote', textValue: 'Promote release' },
+        {
+          id: 'release-rollback',
+          textValue: 'Rollback unavailable',
+          disabled: true,
+        },
+        { id: 'release-archive', textValue: 'Archive release' },
+      ];
+      let releaseMenuOpen = false;
+      let releaseMenuController;
+      let releaseDropdownController;
+      const releaseMenuOptions = () => ({
+        items: releaseMenuDefinitions,
+        onSelect: (id) => {
+          const result = document.querySelector('#release-menu-result');
+          if (result) result.textContent = `Selected: ${id}`;
+        },
+        onDismiss: (reason) => {
+          if (reason !== 'tab') {
+            releaseMenuOpen = false;
+            releaseDropdownController?.update(releaseDropdownOptions());
+          }
+        },
+      });
+      const releaseDropdownOptions = () => ({
+        contentId: 'release-menu',
+        open: releaseMenuOpen,
+        placement: 'block-end',
+        onOpenChange: (open) => {
+          releaseMenuOpen = open;
+          releaseDropdownController?.update(releaseDropdownOptions());
+        },
+      });
+      if (
+        releaseMenuTrigger &&
+        releaseMenu &&
+        releaseMenuItems.length === releaseMenuDefinitions.length
+      ) {
+        releaseMenuController = enhanceMenu(
+          releaseMenu,
+          releaseMenuItems,
+          releaseMenuOptions(),
+        );
+        releaseDropdownController = enhanceDropdown(
+          releaseMenuTrigger,
+          releaseMenu,
+          releaseMenuController,
+          releaseDropdownOptions(),
+        );
+      }
+
+      const environmentDefinitions = [
+        { id: 'environment-development', value: 'development', label: 'Development' },
+        {
+          id: 'environment-staging',
+          value: 'staging',
+          label: 'Staging',
+          disabled: true,
+        },
+        { id: 'environment-production', value: 'production', label: 'Production' },
+      ];
+      const ownerDefinitions = [
+        { id: 'owner-ada', value: 'ada', label: 'Ada Lovelace' },
+        { id: 'owner-grace', value: 'grace', label: 'Grace Hopper' },
+        { id: 'owner-linus', value: 'linus', label: 'Linus Torvalds' },
+      ];
+
+      const setupCombobox = (rootId, definitions, enhance) => {
+        const comboboxRoot = document.querySelector(`#${rootId}`);
+        const input = comboboxRoot?.querySelector('input');
+        const listbox = comboboxRoot?.querySelector('div');
+        const optionElements = listbox ? [...listbox.children] : [];
+        if (!comboboxRoot || !input || !listbox) return undefined;
+        let query = '';
+        let selectedValue;
+        let activeId;
+        let open = false;
+        let controller;
+        const options = () => ({
+          inputId: input.id,
+          listboxId: listbox.id,
+          options: definitions,
+          query,
+          selectedValue,
+          activeId,
+          open,
+          onQueryChange: (nextQuery) => {
+            query = nextQuery;
+            controller?.update(options());
+          },
+          onOpenChange: (nextOpen) => {
+            open = nextOpen;
+            controller?.update(options());
+          },
+          onActiveChange: (nextActiveId) => {
+            activeId = nextActiveId;
+            controller?.update(options());
+          },
+          onValueChange: (nextValue) => {
+            selectedValue = nextValue;
+            controller?.update(options());
+          },
+        });
+        controller = enhance(
+          { root: comboboxRoot, input, listbox, options: optionElements },
+          options(),
+        );
+        return controller;
+      };
+
+      setupCombobox('environment-combobox', environmentDefinitions, enhanceCombobox);
+      setupCombobox('owner-autocomplete', ownerDefinitions, enhanceAutocomplete);
+
+      const deploymentToast = document.querySelector('#deployment-toast');
+      const showToast = document.querySelector('#show-toast');
+      const dismissToast = deploymentToast?.querySelector('[data-morfira-toast-close]');
+      let toastOpen = true;
+      let toastController;
+      const toastOptions = () => ({
+        open: toastOpen,
+        tone: 'success',
+        duration: null,
+        onDismiss: () => {
+          toastOpen = false;
+          toastController?.update(toastOptions());
+        },
+      });
+      if (deploymentToast) {
+        toastController = enhanceToast(deploymentToast, toastOptions());
+      }
+      dismissToast?.addEventListener('click', () => {
+        toastController?.requestDismiss('close-button');
+      });
+      showToast?.addEventListener('click', () => {
+        toastOpen = true;
+        toastController?.update(toastOptions());
+      });
+
+      const drawerTrigger = document.querySelector('#open-drawer');
+      const drawer = document.querySelector('#deployment-drawer');
+      const drawerClose = drawer?.querySelector('[data-morfira-drawer-close]');
+      const drawerDone = drawer?.querySelector('[data-drawer-done]');
+      let drawerOpen = false;
+      let drawerController;
+      const drawerOptions = () => ({
+        ids: {
+          titleId: 'deployment-drawer-title',
+          descriptionId: 'deployment-drawer-description',
+        },
+        open: drawerOpen,
+        side: 'inline-end',
+        closeOnBackdrop: true,
+        returnFocus: drawerTrigger,
+        onDismiss: () => {
+          drawerOpen = false;
+          drawerController?.update(drawerOptions());
+        },
+      });
+      if (drawer) drawerController = enhanceDrawer(drawer, drawerOptions());
+      drawerTrigger?.addEventListener('click', () => {
+        drawerOpen = true;
+        drawerController?.update(drawerOptions());
+      });
+      drawerClose?.addEventListener('click', () => {
+        drawerController?.requestClose('close-button');
+      });
+      drawerDone?.addEventListener('click', () => {
+        drawerController?.requestClose('close-button');
+      });
+
+      const deploymentTable = document.querySelector('#deployment-table');
+      if (deploymentTable) {
+        enhanceTable(deploymentTable, {
+          density: 'comfortable',
+          striped: true,
+          hoverable: true,
+          stickyHeader: true,
+        });
+      }
 
       themeToggle?.addEventListener('click', () => {
         const activeTheme =

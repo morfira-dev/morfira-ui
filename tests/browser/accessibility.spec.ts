@@ -51,6 +51,38 @@ test('DOM playground open Dialog has no automated WCAG 2.2 AA violations', async
   await expectNoWcag22AAViolations(page);
 });
 
+test('DOM playground open Phase 3 disclosures have no automated WCAG 2.2 AA violations', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('./');
+  await page.getByRole('button', { name: 'Release actions' }).click();
+  await page
+    .getByRole('combobox', { name: 'Deployment environment' })
+    .fill('Production');
+
+  await expect(page.getByRole('menu')).toBeVisible();
+  await expect(
+    page.getByRole('listbox', { name: 'Deployment environment' }),
+  ).toBeVisible();
+  await expectNoWcag22AAViolations(page);
+});
+
+test('DOM playground open Drawer has no automated WCAG 2.2 AA violations', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('./');
+  await page.getByRole('button', { name: 'Inspect deployment' }).click();
+
+  const drawer = page.getByRole('dialog', { name: 'Deployment details' });
+  await expect(drawer).toHaveAttribute('open', '');
+  await expect
+    .poll(() => drawer.evaluate((element) => element.matches(':modal')))
+    .toBe(true);
+  await expectNoWcag22AAViolations(page);
+});
+
 for (const framework of ['react', 'svelte', 'vue'] as const) {
   test(`${framework} hydrated Phase 2 surface has no automated WCAG 2.2 AA violations`, async ({
     page,

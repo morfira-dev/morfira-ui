@@ -79,6 +79,41 @@
       "svelte": "./dist/accordion/index.js",
       "import": "./dist/accordion/index.js"
     },
+    "./autocomplete": {
+      "types": "./dist/autocomplete/index.d.ts",
+      "svelte": "./dist/autocomplete/index.js",
+      "import": "./dist/autocomplete/index.js"
+    },
+    "./combobox": {
+      "types": "./dist/combobox/index.d.ts",
+      "svelte": "./dist/combobox/index.js",
+      "import": "./dist/combobox/index.js"
+    },
+    "./drawer": {
+      "types": "./dist/drawer/index.d.ts",
+      "svelte": "./dist/drawer/index.js",
+      "import": "./dist/drawer/index.js"
+    },
+    "./dropdown": {
+      "types": "./dist/dropdown/index.d.ts",
+      "svelte": "./dist/dropdown/index.js",
+      "import": "./dist/dropdown/index.js"
+    },
+    "./menu": {
+      "types": "./dist/menu/index.d.ts",
+      "svelte": "./dist/menu/index.js",
+      "import": "./dist/menu/index.js"
+    },
+    "./table": {
+      "types": "./dist/table/index.d.ts",
+      "svelte": "./dist/table/index.js",
+      "import": "./dist/table/index.js"
+    },
+    "./toast": {
+      "types": "./dist/toast/index.d.ts",
+      "svelte": "./dist/toast/index.js",
+      "import": "./dist/toast/index.js"
+    },
     "./package.json": "./package.json"
   },
   "dependencies": {

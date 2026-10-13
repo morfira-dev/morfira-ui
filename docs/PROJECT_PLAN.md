@@ -1,8 +1,8 @@
 # Morfira UI: Product and Technical Plan
 
-Status: Phase 0 foundation plus Phase 1 and Phase 2 implementation complete. Released
-browser and manual assistive-technology certification remains pending for Phase 1 and
-Phase 2.
+Status: Phase 0 foundation plus Phase 1, Phase 2, and Phase 3 implementation complete.
+Released-browser and manual assistive-technology certification remains pending for all
+three phases.
 
 This document records the agreed product direction and technical boundaries for Morfira
 UI. It is a roadmap, not evidence that the described packages, APIs, or infrastructure
@@ -32,6 +32,13 @@ As of 2026-10-14:
   isolated-import, and size-budget coverage is active. Form validation, status/severity,
   and action groups are implementation-complete composition patterns under
   `docs/patterns/`; they intentionally add no runtime component. Released-browser and
+  assistive-technology evidence remains the manual certification gate.
+- Phase 3 implements Menu, Dropdown, Combobox, Autocomplete, Toast, Drawer, and semantic
+  Table across all shared layers and framework adapters. Automated conformance, browser,
+  accessibility, SSR/hydration, visual, package-consumer, isolated-import, and
+  size-budget coverage is active. Table is intentionally separate from a future
+  interactive Data Grid. Application shell and navigation, filtering and bulk actions,
+  and primary-detail workflows are documented as product patterns. Released-browser and
   assistive-technology evidence remains the manual certification gate.
 
 The exact GitHub repository slug is not part of the public package contract and does not
@@ -327,6 +334,17 @@ replaced by automated browser-engine coverage.
 - Table and Data Grid boundaries.
 - Application shell, navigation, filtering, bulk actions, and primary-detail patterns.
 
+Implementation status: complete. The seven named components are implemented and the
+product-level scenarios are defined as compositions rather than duplicated runtimes:
+
+- [Application shell and navigation](patterns/application-shell-navigation.md)
+- [Filtering and bulk actions](patterns/filtering-bulk-actions.md)
+- [Primary-detail](patterns/primary-detail.md)
+
+The semantic Table contract is implemented; the interactive Data Grid remains a future,
+separate component boundary. Released Safari, Firefox ESR, VoiceOver, and NVDA evidence
+remains pending and is not replaced by automated browser-engine coverage.
+
 ### Phase 4
 
 - Expand the catalog according to real product scenarios.
@@ -356,6 +374,10 @@ A component is complete only when:
 2. Run and record the Phase 2 released-browser and assistive-technology matrix for
    native controls, floating layers, Tabs, Accordion, and the three documented product
    patterns. Automated Playwright engines do not waive or replace this certification.
-3. Begin Phase 3 only through behavior-owned vertical slices, starting from a written
-   contract and preserving the native-first and cross-framework boundaries proved in
-   Phases 1 and 2.
+3. Run and record the Phase 3 released-browser and assistive-technology matrix for
+   composite navigation, selection controls, live regions, overlays, semantic tables,
+   and the three documented product patterns. Automated Playwright engines do not waive
+   or replace this certification.
+4. Begin Phase 4 from validated product scenarios and maintained competitive gaps;
+   introduce new runtime abstractions only when a concrete behavior owner is
+   established.

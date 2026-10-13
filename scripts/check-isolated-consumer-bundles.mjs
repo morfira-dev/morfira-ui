@@ -20,6 +20,13 @@ const components = [
   'popover',
   'tabs',
   'accordion',
+  'menu',
+  'dropdown',
+  'combobox',
+  'autocomplete',
+  'toast',
+  'drawer',
+  'table',
 ];
 const frameworkPackages = {
   react: '@morfira-dev/consumer-react',
@@ -27,19 +34,30 @@ const frameworkPackages = {
   vue: '@morfira-dev/consumer-vue',
 };
 const cssMarkers = {
-  accordion: '[data-morfira-accordion]',
-  button: '[data-morfira-button]',
-  checkbox: '[data-morfira-checkbox]',
-  dialog: '[data-morfira-dialog]',
-  field: '[data-morfira-field]',
-  input: '[data-morfira-input]',
-  popover: '[data-morfira-popover]',
-  radio: '[data-morfira-radio]',
-  select: '[data-morfira-select]',
-  switch: '[data-morfira-switch]',
-  tabs: '[data-morfira-tabs]',
-  textarea: '[data-morfira-textarea]',
-  tooltip: '[data-morfira-tooltip]',
+  accordion: ['[data-morfira-accordion]'],
+  autocomplete: ['[data-morfira-combobox]'],
+  button: ['[data-morfira-button]'],
+  checkbox: ['[data-morfira-checkbox]'],
+  combobox: ['[data-morfira-combobox]'],
+  dialog: ['[data-morfira-dialog]'],
+  drawer: ['[data-morfira-drawer]'],
+  dropdown: ['[data-morfira-dropdown]', '[data-morfira-menu]'],
+  field: ['[data-morfira-field]'],
+  input: ['[data-morfira-input]'],
+  menu: ['[data-morfira-menu]'],
+  popover: ['[data-morfira-popover]'],
+  radio: ['[data-morfira-radio]'],
+  select: ['[data-morfira-select]'],
+  switch: ['[data-morfira-switch]'],
+  table: ['[data-morfira-table]'],
+  tabs: ['[data-morfira-tabs]'],
+  textarea: ['[data-morfira-textarea]'],
+  toast: ['[data-morfira-toast]'],
+  tooltip: ['[data-morfira-tooltip]'],
+};
+const cssDependencies = {
+  autocomplete: new Set(['combobox']),
+  dropdown: new Set(['menu']),
 };
 const forbiddenCssMarkers = Object.fromEntries(
   components.map((component) => [
@@ -48,13 +66,25 @@ const forbiddenCssMarkers = Object.fromEntries(
       .filter(
         ([candidate]) =>
           candidate !== component &&
+          !cssDependencies[component]?.has(candidate) &&
           !(
             candidate === 'field' && ['input', 'select', 'textarea'].includes(component)
           ),
       )
-      .map(([, marker]) => marker),
+      .flatMap(([, markers]) => markers)
+      .filter((marker) => !cssMarkers[component].includes(marker)),
   ]),
 );
+const componentPattern = components.join('|');
+const adapterDependencies = {
+  autocomplete: new Set(['combobox']),
+  dropdown: new Set(['menu']),
+};
+const behaviorDependencies = {
+  autocomplete: new Set(['combobox']),
+  dropdown: new Set(['menu']),
+  field: new Set(['input']),
+};
 
 async function collectFiles(root) {
   const entries = await readdir(root, { withFileTypes: true });
@@ -79,7 +109,7 @@ function assertSourceBoundary(framework, component, source) {
   }
 
   const adapterMatch = new RegExp(
-    '/(?:packages/(react|svelte|vue)|node_modules/@morfira-dev/(react|svelte|vue))/dist/(button|dialog|field|input|checkbox|radio|switch|textarea|select|tooltip|popover|tabs|accordion)/([^/]+)$',
+    `/(?:packages/(react|svelte|vue)|node_modules/@morfira-dev/(react|svelte|vue))/dist/(${componentPattern})/([^/]+)$`,
     'u',
   ).exec(normalizedSource);
   if (adapterMatch !== null) {
@@ -90,10 +120,11 @@ function assertSourceBoundary(framework, component, source) {
       ['input', 'select', 'textarea'].includes(component) &&
       sourceComponent === 'field' &&
       sourceFile === 'context.js';
+    const componentDependency = adapterDependencies[component]?.has(sourceComponent);
 
     if (
       sourceFramework !== framework ||
-      (sourceComponent !== component && !fieldContext)
+      (sourceComponent !== component && !fieldContext && !componentDependency)
     ) {
       throw new Error(
         `${framework}/${component} pulled an unrelated adapter module: ${source}`,
@@ -101,16 +132,16 @@ function assertSourceBoundary(framework, component, source) {
     }
   }
 
-  const behaviorMatch =
-    /\/(?:packages\/(core|dom)|node_modules\/@morfira-dev\/(core|dom))\/dist\/(button|dialog|field|input|checkbox|radio|switch|textarea|select|tooltip|popover|tabs|accordion)\.js$/u.exec(
-      normalizedSource,
-    );
+  const behaviorMatch = new RegExp(
+    `/(?:packages/(core|dom)|node_modules/@morfira-dev/(core|dom))/dist/(${componentPattern})\\.js$`,
+    'u',
+  ).exec(normalizedSource);
   if (behaviorMatch !== null) {
     const [, workspaceLayer, installedLayer, sourceComponent] = behaviorMatch;
     const layer = workspaceLayer ?? installedLayer;
     const allowed =
       sourceComponent === component ||
-      (component === 'field' && layer === 'core' && sourceComponent === 'input');
+      (layer === 'core' && behaviorDependencies[component]?.has(sourceComponent));
 
     if (!allowed) {
       throw new Error(
@@ -214,8 +245,12 @@ for (const [framework, packageName] of Object.entries(frameworkPackages)) {
     const css = (
       await Promise.all(cssFiles.map(async (file) => readFile(file, 'utf8')))
     ).join('\n');
-    if (!css.includes(cssMarkers[component])) {
-      throw new Error(`${framework}/${component} did not include its component CSS.`);
+    for (const marker of cssMarkers[component]) {
+      if (!css.includes(marker)) {
+        throw new Error(
+          `${framework}/${component} did not include its required CSS: ${marker}`,
+        );
+      }
     }
     for (const marker of forbiddenCssMarkers[component]) {
       if (css.includes(marker)) {

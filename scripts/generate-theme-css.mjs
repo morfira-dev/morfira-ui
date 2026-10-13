@@ -27,6 +27,13 @@ const componentNames = [
   'popover',
   'tabs',
   'accordion',
+  'autocomplete',
+  'combobox',
+  'drawer',
+  'dropdown',
+  'menu',
+  'table',
+  'toast',
 ];
 
 const isRecord = (value) =>

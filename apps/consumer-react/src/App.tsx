@@ -1,16 +1,23 @@
 import { Accordion } from '@morfira-dev/react/accordion';
+import { Autocomplete } from '@morfira-dev/react/autocomplete';
 import { Button } from '@morfira-dev/react/button';
 import { Checkbox } from '@morfira-dev/react/checkbox';
+import { Combobox } from '@morfira-dev/react/combobox';
 import { Dialog } from '@morfira-dev/react/dialog';
 import type { DialogProps } from '@morfira-dev/react/dialog';
+import { Drawer } from '@morfira-dev/react/drawer';
+import { Dropdown } from '@morfira-dev/react/dropdown';
 import { Field } from '@morfira-dev/react/field';
 import { Input } from '@morfira-dev/react/input';
+import { Menu } from '@morfira-dev/react/menu';
 import { Popover } from '@morfira-dev/react/popover';
 import { Radio } from '@morfira-dev/react/radio';
 import { Select } from '@morfira-dev/react/select';
 import { Switch } from '@morfira-dev/react/switch';
+import { Table } from '@morfira-dev/react/table';
 import { Tabs } from '@morfira-dev/react/tabs';
 import { Textarea } from '@morfira-dev/react/textarea';
+import { Toast } from '@morfira-dev/react/toast';
 import { Tooltip } from '@morfira-dev/react/tooltip';
 import { useRef, useState, type ReactElement } from 'react';
 
@@ -36,8 +43,54 @@ export function App({ initialOpen }: AppProps): ReactElement {
   const [expandedAccordionIds, setExpandedAccordionIds] = useState<readonly string[]>([
     'requirements-trigger',
   ]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedAction, setSelectedAction] = useState('none');
+  const [environmentQuery, setEnvironmentQuery] = useState('Development');
+  const [environment, setEnvironment] = useState('development');
+  const [owner, setOwner] = useState('');
+  const [toastOpen, setToastOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const initialFocus = useRef<HTMLButtonElement | null>(null);
   const returnFocus = useRef<HTMLButtonElement | null>(null);
+  const drawerReturnFocus = useRef<HTMLButtonElement | null>(null);
+
+  const menuItems = [
+    { id: 'react-action-review', label: 'Review release', textValue: 'Review release' },
+    {
+      id: 'react-action-approve',
+      label: 'Approve release',
+      textValue: 'Approve release',
+    },
+    {
+      id: 'react-action-delete',
+      label: 'Delete release',
+      textValue: 'Delete release',
+      disabled: true,
+    },
+  ] as const;
+  const dropdownItems = [
+    {
+      id: 'react-dropdown-review',
+      label: 'Review release',
+      textValue: 'Review release',
+    },
+    {
+      id: 'react-dropdown-approve',
+      label: 'Approve release',
+      textValue: 'Approve release',
+    },
+    {
+      id: 'react-dropdown-delete',
+      label: 'Delete release',
+      textValue: 'Delete release',
+      disabled: true,
+    },
+  ] as const;
+  const environmentOptions = [
+    { id: 'react-environment-development', value: 'development', label: 'Development' },
+    { id: 'react-environment-staging', value: 'staging', label: 'Staging' },
+    { id: 'react-environment-production', value: 'production', label: 'Production' },
+  ] as const;
 
   const handleDismiss = (reason: DialogDismissReason): void => {
     setDismissReason(reason);
@@ -314,6 +367,143 @@ export function App({ initialOpen }: AppProps): ReactElement {
         <output data-consumer-accordion-state="">
           {expandedAccordionIds.join(',') || 'none'}
         </output>
+      </section>
+
+      <section aria-labelledby="consumer-react-phase3-title" data-consumer-phase3="">
+        <h2 id="consumer-react-phase3-title">Phase 3 workflows</h2>
+
+        <Menu
+          ariaLabel="Release shortcuts"
+          items={menuItems}
+          data-consumer-menu=""
+          onSelect={setSelectedAction}
+        />
+        <Dropdown
+          contentId="consumer-react-actions"
+          ariaLabel="Release actions"
+          items={dropdownItems}
+          open={dropdownOpen}
+          onOpenChange={(nextOpen): void => {
+            setDropdownOpen(nextOpen);
+          }}
+          onSelect={setSelectedAction}
+        >
+          <button
+            type="button"
+            data-morfira-button=""
+            data-variant="secondary"
+            data-size="sm"
+            data-consumer-dropdown-trigger=""
+          >
+            More actions
+          </button>
+        </Dropdown>
+        <output data-consumer-menu-value="">Action: {selectedAction}</output>
+
+        <label htmlFor="consumer-react-environment">Environment</label>
+        <Combobox
+          inputId="consumer-react-environment"
+          listboxId="consumer-react-environment-options"
+          options={environmentOptions}
+          query={environmentQuery}
+          selectedValue={environment}
+          onQueryChange={setEnvironmentQuery}
+          onSelectedValueChange={setEnvironment}
+          data-consumer-combobox=""
+        />
+        <output data-consumer-combobox-value="">Environment: {environment}</output>
+
+        <label htmlFor="consumer-react-owner">Owner</label>
+        <Autocomplete
+          inputId="consumer-react-owner"
+          listboxId="consumer-react-owner-options"
+          options={[
+            { id: 'react-owner-platform', value: 'platform', label: 'Platform team' },
+            { id: 'react-owner-runtime', value: 'runtime', label: 'Runtime team' },
+          ]}
+          value={owner}
+          onValueChange={setOwner}
+          data-consumer-autocomplete=""
+        />
+        <output data-consumer-autocomplete-value="">Owner: {owner || 'none'}</output>
+
+        <Toast
+          open={toastOpen}
+          title="Release ready"
+          tone="success"
+          duration={null}
+          closeLabel="Dismiss release notification"
+          data-consumer-toast=""
+          onDismiss={(): void => {
+            setToastOpen(false);
+          }}
+        >
+          All automated checks passed.
+        </Toast>
+        {!toastOpen ? (
+          <button
+            type="button"
+            data-morfira-button=""
+            data-variant="secondary"
+            data-size="sm"
+            onClick={(): void => {
+              setToastOpen(true);
+            }}
+          >
+            Show notification
+          </button>
+        ) : null}
+
+        <button
+          ref={drawerReturnFocus}
+          type="button"
+          data-morfira-button=""
+          data-variant="secondary"
+          data-size="sm"
+          data-consumer-drawer-trigger=""
+          onClick={(): void => {
+            setDrawerOpen(true);
+          }}
+        >
+          Open release details
+        </button>
+        <Drawer
+          open={drawerOpen}
+          ids={{
+            titleId: 'consumer-react-drawer-title',
+            descriptionId: 'consumer-react-drawer-description',
+          }}
+          title="Release details"
+          description="Inspect the selected release without leaving the current workflow."
+          closeLabel="Close release details"
+          returnFocus={drawerReturnFocus}
+          data-consumer-drawer=""
+          onDismiss={(): void => {
+            setDrawerOpen(false);
+          }}
+        >
+          <p>Release 24 targets the production environment.</p>
+        </Drawer>
+
+        <Table density="compact" striped hoverable data-consumer-table="">
+          <caption>Recent releases</caption>
+          <thead>
+            <tr>
+              <th scope="col">Release</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">24</th>
+              <td>Ready</td>
+            </tr>
+            <tr>
+              <th scope="row">23</th>
+              <td>Deployed</td>
+            </tr>
+          </tbody>
+        </Table>
       </section>
 
       <button

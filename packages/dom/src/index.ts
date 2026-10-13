@@ -36,3 +36,35 @@ export type {
   AccordionDomOptions,
   AccordionElements,
 } from './accordion.js';
+export { enhanceTable } from './table.js';
+export type { TableController } from './table.js';
+export { enhanceMenu } from './menu.js';
+export type { MenuController, MenuDismissReason, MenuDomOptions } from './menu.js';
+export { enhanceDropdown } from './dropdown.js';
+export type {
+  DropdownController,
+  DropdownDomOptions,
+  DropdownOpenReason,
+} from './dropdown.js';
+export { enhanceCombobox } from './combobox.js';
+export type {
+  ComboboxChangeReason,
+  ComboboxController,
+  ComboboxDomOptions,
+  ComboboxElements,
+} from './combobox.js';
+export { enhanceAutocomplete } from './autocomplete.js';
+export type {
+  AutocompleteChangeReason,
+  AutocompleteController,
+  AutocompleteDomOptions,
+  AutocompleteElements,
+} from './autocomplete.js';
+export { enhanceToast } from './toast.js';
+export type { ToastController, ToastDomOptions } from './toast.js';
+export { enhanceDrawer } from './drawer.js';
+export type {
+  DrawerController,
+  DrawerDomOptions,
+  DrawerFocusTarget,
+} from './drawer.js';

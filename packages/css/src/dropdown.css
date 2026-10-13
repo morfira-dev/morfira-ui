@@ -1,0 +1,85 @@
+@import './menu.css';
+
+@layer morfira.components {
+  :where([data-morfira-dropdown]) {
+    position: fixed;
+    z-index: 900;
+    inset-block-start: var(--morfira-dropdown-anchor-y, 0);
+    inset-inline-start: var(--morfira-dropdown-anchor-x, 0);
+    min-inline-size: 12rem;
+    max-inline-size: min(24rem, calc(100vi - var(--morfira-space-4)));
+    max-block-size: min(28rem, calc(100dvb - var(--morfira-space-4)));
+    box-sizing: border-box;
+    margin: 0;
+    border: var(--morfira-border-thin) solid var(--morfira-border-subtle);
+    border-radius: var(--morfira-radius-lg);
+    overflow: auto;
+    background: var(--morfira-surface-raised);
+    color: var(--morfira-content-primary);
+    box-shadow: var(--morfira-shadow-lg);
+    animation: morfira-dropdown-enter var(--morfira-motion-duration-fast)
+      var(--morfira-motion-easing-entrance);
+  }
+
+  :where([data-morfira-dropdown][hidden]) {
+    display: none;
+  }
+
+  :where([data-morfira-dropdown][data-placement='block-start']) {
+    translate: 0 calc(-100% - var(--morfira-space-2));
+  }
+
+  :where([data-morfira-dropdown][data-placement='block-end']) {
+    translate: 0 var(--morfira-space-2);
+  }
+
+  :where([data-morfira-dropdown][data-placement='inline-start']) {
+    translate: calc(-100% - var(--morfira-space-2)) 0;
+  }
+
+  :where(
+    [dir='rtl'] [data-morfira-dropdown][data-placement='inline-start'],
+    [data-morfira-dropdown][data-direction='rtl'][data-placement='inline-start']
+  ) {
+    translate: var(--morfira-space-2) 0;
+  }
+
+  :where([data-morfira-dropdown][data-placement='inline-end']) {
+    translate: var(--morfira-space-2) 0;
+  }
+
+  :where(
+    [dir='rtl'] [data-morfira-dropdown][data-placement='inline-end'],
+    [data-morfira-dropdown][data-direction='rtl'][data-placement='inline-end']
+  ) {
+    translate: calc(-100% - var(--morfira-space-2)) 0;
+  }
+
+  @keyframes morfira-dropdown-enter {
+    from {
+      opacity: 0;
+      scale: 0.98;
+    }
+
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where([data-morfira-dropdown]) {
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where([data-morfira-dropdown]) {
+      border-color: CanvasText;
+      background: Canvas;
+      color: CanvasText;
+      box-shadow: none;
+      forced-color-adjust: auto;
+    }
+  }
+}

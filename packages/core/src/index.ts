@@ -94,3 +94,65 @@ export type {
   ResolvedAccordionItem,
   ResolvedAccordionOptions,
 } from './accordion.js';
+export { TABLE_DENSITIES, resolveTableOptions } from './table.js';
+export type { ResolvedTableOptions, TableDensity, TableOptions } from './table.js';
+export { findMenuMatch, resolveMenuOptions } from './menu.js';
+export type {
+  MenuItem,
+  MenuOptions,
+  ResolvedMenuItem,
+  ResolvedMenuOptions,
+} from './menu.js';
+export { DROPDOWN_PLACEMENTS, resolveDropdownOptions } from './dropdown.js';
+export type {
+  DropdownOptions,
+  DropdownPlacement,
+  ResolvedDropdownOptions,
+} from './dropdown.js';
+export {
+  createAsyncRequestGate,
+  filterComboboxOptions,
+  moveComboboxActiveId,
+  resolveComboboxState,
+} from './combobox.js';
+export type {
+  AsyncRequestGate,
+  ComboboxOption,
+  ComboboxStateOptions,
+  ResolvedComboboxOption,
+  ResolvedComboboxState,
+} from './combobox.js';
+export {
+  filterAutocompleteOptions,
+  moveAutocompleteActiveId,
+  resolveAutocompleteState,
+} from './autocomplete.js';
+export type {
+  AutocompleteOption,
+  AutocompleteStateOptions,
+  ResolvedAutocompleteOption,
+  ResolvedAutocompleteState,
+} from './autocomplete.js';
+export { TOAST_DISMISS_REASONS, TOAST_TONES, resolveToastOptions } from './toast.js';
+export type {
+  ResolvedToastOptions,
+  ToastDismissReason,
+  ToastLive,
+  ToastOptions,
+  ToastRole,
+  ToastTone,
+} from './toast.js';
+export {
+  DRAWER_DISMISS_REASONS,
+  DRAWER_SIDES,
+  DRAWER_SIZES,
+  resolveDrawerOptions,
+} from './drawer.js';
+export type {
+  DrawerDismissReason,
+  DrawerIds,
+  DrawerOptions,
+  DrawerSide,
+  DrawerSize,
+  ResolvedDrawerOptions,
+} from './drawer.js';

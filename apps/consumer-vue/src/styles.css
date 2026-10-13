@@ -51,7 +51,8 @@
     justify-self: start;
   }
 
-  .consumer-phase-two {
+  .consumer-phase-two,
+  .consumer-phase-three {
     display: grid;
     gap: var(--morfira-space-3);
     border-block-start: var(--morfira-border-thin) solid var(--morfira-border-subtle);
@@ -59,7 +60,8 @@
   }
 
   .consumer-phase-two h2,
-  .consumer-phase-two legend {
+  .consumer-phase-two legend,
+  .consumer-phase-three h2 {
     margin: 0;
     color: var(--morfira-content-primary);
     font-size: var(--morfira-font-size-md);

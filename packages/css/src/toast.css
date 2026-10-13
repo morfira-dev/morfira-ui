@@ -1,0 +1,127 @@
+@layer morfira.components {
+  :where([data-morfira-toast]) {
+    --morfira-toast-accent: var(--morfira-border-strong);
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--morfira-space-3);
+    inline-size: min(24rem, calc(100vi - var(--morfira-space-4)));
+    box-sizing: border-box;
+    border: var(--morfira-border-thin) solid var(--morfira-border-subtle);
+    border-inline-start: var(--morfira-space-1) solid var(--morfira-toast-accent);
+    border-radius: var(--morfira-radius-lg);
+    padding: var(--morfira-space-4);
+    background: var(--morfira-surface-raised);
+    box-shadow: var(--morfira-shadow-lg);
+    color: var(--morfira-content-primary);
+    font-family: var(--morfira-font-family-sans);
+    animation: morfira-toast-enter var(--morfira-motion-duration-normal)
+      var(--morfira-motion-easing-entrance);
+  }
+
+  :where([data-morfira-toast][hidden]) {
+    display: none;
+  }
+
+  :where([data-morfira-toast][data-tone='info']) {
+    --morfira-toast-accent: var(--morfira-interactive-primary);
+  }
+
+  :where([data-morfira-toast][data-tone='success']) {
+    --morfira-toast-accent: var(--morfira-content-success);
+  }
+
+  :where([data-morfira-toast][data-tone='warning']) {
+    --morfira-toast-accent: var(--morfira-content-warning);
+  }
+
+  :where([data-morfira-toast][data-tone='danger']) {
+    --morfira-toast-accent: var(--morfira-content-danger);
+  }
+
+  :where([data-morfira-toast-content]) {
+    min-inline-size: 0;
+  }
+
+  :where([data-morfira-toast-title]) {
+    margin: 0;
+    font-size: var(--morfira-font-size-md);
+    font-weight: var(--morfira-font-weight-semibold);
+    line-height: var(--morfira-font-line-height-tight);
+  }
+
+  :where([data-morfira-toast-body]) {
+    margin-block-start: var(--morfira-space-1);
+    color: var(--morfira-content-secondary);
+    font-size: var(--morfira-font-size-sm);
+    line-height: var(--morfira-font-line-height-normal);
+  }
+
+  :where([data-morfira-toast-body]:only-child) {
+    margin-block-start: 0;
+  }
+
+  :where(button[data-morfira-toast-close]) {
+    display: inline-grid;
+    inline-size: var(--morfira-control-touch-target);
+    block-size: var(--morfira-control-touch-target);
+    place-items: center;
+    align-self: start;
+    margin-block: calc(-1 * var(--morfira-space-2));
+    margin-inline-end: calc(-1 * var(--morfira-space-2));
+    border: var(--morfira-border-thin) solid transparent;
+    border-radius: var(--morfira-radius-md);
+    padding: 0;
+    background: transparent;
+    color: var(--morfira-content-secondary);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  :where(button[data-morfira-toast-close]):hover {
+    border-color: var(--morfira-border-subtle);
+    background: var(--morfira-surface-subtle);
+    color: var(--morfira-content-primary);
+  }
+
+  :where(button[data-morfira-toast-close]):focus-visible {
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: var(--morfira-border-thick);
+  }
+
+  @keyframes morfira-toast-enter {
+    from {
+      opacity: 0;
+      translate: 0 var(--morfira-space-2);
+    }
+
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where([data-morfira-toast]) {
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where([data-morfira-toast]) {
+      --morfira-toast-accent: Highlight;
+
+      border-color: CanvasText;
+      border-inline-start-color: var(--morfira-toast-accent);
+      background: Canvas;
+      box-shadow: none;
+      color: CanvasText;
+      forced-color-adjust: auto;
+    }
+
+    :where(button[data-morfira-toast-close]) {
+      border-color: ButtonText;
+      color: ButtonText;
+    }
+  }
+}

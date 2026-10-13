@@ -1,8 +1,8 @@
 # Morfira UI Software Design Description
 
-Status: accepted baseline; Phase 1 and Phase 2 implementations are complete. Released
-browser and manual assistive-technology certification remains pending for both phases,
-so neither phase is release-certified by repository automation alone.
+Status: accepted baseline; Phase 1, Phase 2, and Phase 3 implementations are complete.
+Released-browser and manual assistive-technology certification remains pending for all
+three phases, so none is release-certified by repository automation alone.
 
 ## 1. Purpose
 
@@ -182,8 +182,14 @@ primitives may be extracted only from demonstrated reuse. Phase 2 product patter
 
 ### Phase 3
 
-Menu, Dropdown, Combobox, Autocomplete, Toast, Drawer, Table/Data Grid boundaries, and
-navigation components.
+Status: implementation complete. Menu, Dropdown, Combobox, Autocomplete, Toast, Drawer,
+and semantic Table are implemented across core, DOM, CSS, React, Vue, and Svelte with
+conformance, browser, accessibility, SSR/hydration, visual, package-consumer,
+isolated-import, and size-budget coverage. Table remains deliberately distinct from a
+future interactive Data Grid. Application shell and navigation, filtering and bulk
+actions, and primary-detail workflows are documented as product patterns composed from
+the catalog. Released-browser and manual assistive-technology certification remains
+pending.
 
 ### Phase 4
 

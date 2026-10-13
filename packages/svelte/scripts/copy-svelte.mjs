@@ -3,16 +3,23 @@ import { URL } from 'node:url';
 
 const components = [
   ['accordion', 'Accordion'],
+  ['autocomplete', 'Autocomplete'],
   ['button', 'Button'],
   ['checkbox', 'Checkbox'],
+  ['combobox', 'Combobox'],
   ['dialog', 'Dialog'],
+  ['drawer', 'Drawer'],
+  ['dropdown', 'Dropdown'],
   ['field', 'Field'],
   ['input', 'Input'],
+  ['menu', 'Menu'],
   ['popover', 'Popover'],
   ['radio', 'Radio'],
   ['select', 'Select'],
   ['switch', 'Switch'],
   ['tabs', 'Tabs'],
+  ['table', 'Table'],
+  ['toast', 'Toast'],
   ['textarea', 'Textarea'],
   ['tooltip', 'Tooltip'],
 ];

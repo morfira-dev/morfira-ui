@@ -19,6 +19,13 @@ const fixtureComponents = new Set([
   'popover',
   'tabs',
   'accordion',
+  'menu',
+  'dropdown',
+  'combobox',
+  'autocomplete',
+  'toast',
+  'drawer',
+  'table',
   'internal',
 ]);
 const componentSourcePath =

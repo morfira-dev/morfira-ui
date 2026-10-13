@@ -12,7 +12,14 @@
     "tooltip": { "cssGzipBytes": 900, "jsGzipBytes": 20000 },
     "popover": { "cssGzipBytes": 900, "jsGzipBytes": 20500 },
     "tabs": { "cssGzipBytes": 900, "jsGzipBytes": 21500 },
-    "accordion": { "cssGzipBytes": 1000, "jsGzipBytes": 21500 }
+    "accordion": { "cssGzipBytes": 1000, "jsGzipBytes": 21500 },
+    "menu": { "cssGzipBytes": 700, "jsGzipBytes": 15000 },
+    "dropdown": { "cssGzipBytes": 1200, "jsGzipBytes": 16500 },
+    "combobox": { "cssGzipBytes": 1300, "jsGzipBytes": 16500 },
+    "autocomplete": { "cssGzipBytes": 1300, "jsGzipBytes": 17000 },
+    "toast": { "cssGzipBytes": 1100, "jsGzipBytes": 15500 },
+    "drawer": { "cssGzipBytes": 1500, "jsGzipBytes": 17000 },
+    "table": { "cssGzipBytes": 1000, "jsGzipBytes": 14000 }
   },
   "svelte": {
     "button": { "cssGzipBytes": 1400, "jsGzipBytes": 18000 },
@@ -27,7 +34,14 @@
     "tooltip": { "cssGzipBytes": 900, "jsGzipBytes": 22500 },
     "popover": { "cssGzipBytes": 900, "jsGzipBytes": 22500 },
     "tabs": { "cssGzipBytes": 900, "jsGzipBytes": 24000 },
-    "accordion": { "cssGzipBytes": 1000, "jsGzipBytes": 24000 }
+    "accordion": { "cssGzipBytes": 1000, "jsGzipBytes": 24000 },
+    "menu": { "cssGzipBytes": 700, "jsGzipBytes": 22500 },
+    "dropdown": { "cssGzipBytes": 1200, "jsGzipBytes": 24500 },
+    "combobox": { "cssGzipBytes": 1300, "jsGzipBytes": 25000 },
+    "autocomplete": { "cssGzipBytes": 1300, "jsGzipBytes": 25500 },
+    "toast": { "cssGzipBytes": 1100, "jsGzipBytes": 22000 },
+    "drawer": { "cssGzipBytes": 1500, "jsGzipBytes": 23500 },
+    "table": { "cssGzipBytes": 1000, "jsGzipBytes": 20000 }
   },
   "vue": {
     "button": { "cssGzipBytes": 1400, "jsGzipBytes": 20500 },
@@ -42,6 +56,13 @@
     "tooltip": { "cssGzipBytes": 900, "jsGzipBytes": 23500 },
     "popover": { "cssGzipBytes": 900, "jsGzipBytes": 23500 },
     "tabs": { "cssGzipBytes": 900, "jsGzipBytes": 24000 },
-    "accordion": { "cssGzipBytes": 1000, "jsGzipBytes": 24000 }
+    "accordion": { "cssGzipBytes": 1000, "jsGzipBytes": 24000 },
+    "menu": { "cssGzipBytes": 700, "jsGzipBytes": 21500 },
+    "dropdown": { "cssGzipBytes": 1200, "jsGzipBytes": 23500 },
+    "combobox": { "cssGzipBytes": 1300, "jsGzipBytes": 23000 },
+    "autocomplete": { "cssGzipBytes": 1300, "jsGzipBytes": 23000 },
+    "toast": { "cssGzipBytes": 1100, "jsGzipBytes": 22500 },
+    "drawer": { "cssGzipBytes": 1500, "jsGzipBytes": 24000 },
+    "table": { "cssGzipBytes": 1000, "jsGzipBytes": 20500 }
   }
 }

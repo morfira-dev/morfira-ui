@@ -13,6 +13,13 @@
   import { Popover } from '@morfira-dev/svelte/popover';
   import { Tabs } from '@morfira-dev/svelte/tabs';
   import { Accordion } from '@morfira-dev/svelte/accordion';
+  import { Autocomplete } from '@morfira-dev/svelte/autocomplete';
+  import { Combobox } from '@morfira-dev/svelte/combobox';
+  import { Drawer } from '@morfira-dev/svelte/drawer';
+  import { Dropdown } from '@morfira-dev/svelte/dropdown';
+  import { Menu } from '@morfira-dev/svelte/menu';
+  import { Table } from '@morfira-dev/svelte/table';
+  import { Toast } from '@morfira-dev/svelte/toast';
 
   type DialogDismissReason = Parameters<
     NonNullable<DialogProps['onOpenChange']>
@@ -33,6 +40,13 @@
   let expandedSections = $state<readonly string[]>([
     'consumer-accordion-runtime-trigger',
   ]);
+  let dropdownOpen = $state(false);
+  let selectedAction = $state('none');
+  let environmentQuery = $state('Development');
+  let environment = $state('development');
+  let owner = $state('');
+  let toastOpen = $state(true);
+  let drawerOpen = $state(false);
 
   const handleOpenChange = (
     nextOpen: boolean,
@@ -111,6 +125,19 @@
 
 {#snippet supportContent()}
   <p data-consumer-accordion-panel="support">Twenty-four months</p>
+{/snippet}
+
+{#snippet reviewActionLabel()}Review release{/snippet}
+{#snippet approveActionLabel()}Approve release{/snippet}
+{#snippet deleteActionLabel()}Delete release{/snippet}
+{#snippet dropdownTrigger()}More actions{/snippet}
+{#snippet toastTitle()}Release ready{/snippet}
+{#snippet toastBody()}All automated checks passed.{/snippet}
+{#snippet drawerDescription()}
+  Inspect the selected release without leaving the current workflow.
+{/snippet}
+{#snippet drawerBody()}
+  <p>Release 24 targets the production environment.</p>
 {/snippet}
 
 {#snippet body()}
@@ -400,6 +427,168 @@
       <output data-consumer-accordion-state="">
         Expanded sections: {expandedSections.join(',') || 'none'}
       </output>
+    </section>
+
+    <section
+      class="consumer-controls"
+      aria-labelledby="consumer-phase-three-title"
+      data-consumer-phase-three=""
+    >
+      <h2 id="consumer-phase-three-title">Phase 3 workflows</h2>
+
+      <Menu
+        ariaLabel="Release shortcuts"
+        items={[
+          {
+            id: 'svelte-action-review',
+            label: reviewActionLabel,
+            textValue: 'Review release',
+          },
+          {
+            id: 'svelte-action-approve',
+            label: approveActionLabel,
+            textValue: 'Approve release',
+          },
+          {
+            id: 'svelte-action-delete',
+            label: deleteActionLabel,
+            textValue: 'Delete release',
+            disabled: true,
+          },
+        ]}
+        data-consumer-menu=""
+        onSelect={(id) => (selectedAction = id)}
+      />
+      <Dropdown
+        bind:open={dropdownOpen}
+        contentId="consumer-svelte-actions"
+        ariaLabel="Release actions"
+        items={[
+          {
+            id: 'svelte-dropdown-review',
+            label: reviewActionLabel,
+            textValue: 'Review release',
+          },
+          {
+            id: 'svelte-dropdown-approve',
+            label: approveActionLabel,
+            textValue: 'Approve release',
+          },
+          {
+            id: 'svelte-dropdown-delete',
+            label: deleteActionLabel,
+            textValue: 'Delete release',
+            disabled: true,
+          },
+        ]}
+        children={dropdownTrigger}
+        data-morfira-button=""
+        data-variant="secondary"
+        data-size="sm"
+        data-consumer-dropdown-trigger=""
+        onSelect={(id) => (selectedAction = id)}
+      />
+      <output data-consumer-menu-value="">Action: {selectedAction}</output>
+
+      <label for="consumer-svelte-environment">Environment</label>
+      <Combobox
+        bind:query={environmentQuery}
+        bind:selectedValue={environment}
+        inputId="consumer-svelte-environment"
+        listboxId="consumer-svelte-environment-options"
+        options={[
+          {
+            id: 'svelte-environment-development',
+            value: 'development',
+            label: 'Development',
+          },
+          { id: 'svelte-environment-staging', value: 'staging', label: 'Staging' },
+          {
+            id: 'svelte-environment-production',
+            value: 'production',
+            label: 'Production',
+          },
+        ]}
+        data-consumer-combobox=""
+      />
+      <output data-consumer-combobox-value="">
+        Environment: {environment ?? 'none'}
+      </output>
+
+      <label for="consumer-svelte-owner">Owner</label>
+      <Autocomplete
+        bind:value={owner}
+        inputId="consumer-svelte-owner"
+        listboxId="consumer-svelte-owner-options"
+        options={[
+          { id: 'svelte-owner-platform', value: 'platform', label: 'Platform team' },
+          { id: 'svelte-owner-runtime', value: 'runtime', label: 'Runtime team' },
+        ]}
+        data-consumer-autocomplete=""
+      />
+      <output data-consumer-autocomplete-value="">Owner: {owner || 'none'}</output>
+
+      <Toast
+        bind:open={toastOpen}
+        title={toastTitle}
+        tone="success"
+        duration={null}
+        closeLabel="Dismiss release notification"
+        children={toastBody}
+        data-consumer-toast=""
+      />
+      {#if !toastOpen}
+        <button
+          type="button"
+          data-morfira-button=""
+          data-variant="secondary"
+          data-size="sm"
+          onclick={() => (toastOpen = true)}>Show notification</button
+        >
+      {/if}
+
+      <button
+        type="button"
+        data-morfira-button=""
+        data-variant="secondary"
+        data-size="sm"
+        data-consumer-drawer-trigger=""
+        onclick={() => (drawerOpen = true)}
+      >
+        Open release details
+      </button>
+      <Drawer
+        bind:open={drawerOpen}
+        ids={{
+          titleId: 'consumer-svelte-drawer-title',
+          descriptionId: 'consumer-svelte-drawer-description',
+        }}
+        title="Release details"
+        description={drawerDescription}
+        closeLabel="Close release details"
+        children={drawerBody}
+        data-consumer-drawer=""
+      />
+
+      <Table density="compact" striped hoverable data-consumer-table="">
+        <caption>Recent releases</caption>
+        <thead>
+          <tr>
+            <th scope="col">Release</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">24</th>
+            <td>Ready</td>
+          </tr>
+          <tr>
+            <th scope="row">23</th>
+            <td>Deployed</td>
+          </tr>
+        </tbody>
+      </Table>
     </section>
   </section>
 

@@ -1,0 +1,116 @@
+@layer morfira.components {
+  :where([data-morfira-table-container]) {
+    max-inline-size: 100%;
+    overflow: auto;
+    border: var(--morfira-border-thin) solid var(--morfira-border-default);
+    border-radius: var(--morfira-radius-lg);
+    background: var(--morfira-surface-raised);
+  }
+
+  :where(table[data-morfira-table]) {
+    --morfira-table-cell-padding-block: var(--morfira-space-3);
+    --morfira-table-cell-padding-inline: var(--morfira-space-4);
+    inline-size: 100%;
+    border-spacing: 0;
+    border-collapse: separate;
+    color: var(--morfira-content-primary);
+    font-family: var(--morfira-font-family-sans);
+    font-size: var(--morfira-font-size-sm);
+    line-height: var(--morfira-font-line-height-normal);
+    text-align: start;
+  }
+
+  :where(table[data-morfira-table][data-density='compact']) {
+    --morfira-table-cell-padding-block: var(--morfira-space-2);
+    --morfira-table-cell-padding-inline: var(--morfira-space-3);
+  }
+
+  :where(table[data-morfira-table][data-density='spacious']) {
+    --morfira-table-cell-padding-block: var(--morfira-space-4);
+    --morfira-table-cell-padding-inline: var(--morfira-space-5);
+  }
+
+  :where(table[data-morfira-table]) :where(th, td) {
+    padding-block: var(--morfira-table-cell-padding-block);
+    padding-inline: var(--morfira-table-cell-padding-inline);
+    border-block-end: var(--morfira-border-thin) solid var(--morfira-border-default);
+    text-align: start;
+    vertical-align: middle;
+  }
+
+  :where(table[data-morfira-table]) :where(thead th) {
+    background: var(--morfira-surface-subtle);
+    color: var(--morfira-content-secondary);
+    font-weight: var(--morfira-font-weight-semibold);
+  }
+
+  :where(table[data-morfira-table]) :where(tbody tr:last-child > *) {
+    border-block-end: 0;
+  }
+
+  :where(table[data-morfira-table][data-striped]) :where(tbody tr:nth-child(even)) {
+    background: var(--morfira-surface-subtle);
+  }
+
+  :where(table[data-morfira-table][data-hoverable]) :where(tbody tr:hover) {
+    background: var(--morfira-surface-sunken);
+  }
+
+  :where(table[data-morfira-table]) :where(tbody tr[data-selected]) {
+    background: color-mix(
+      in srgb,
+      var(--morfira-interactive-primary) 12%,
+      var(--morfira-surface-raised)
+    );
+  }
+
+  :where(table[data-morfira-table]) :where(tbody tr[data-selected] > :first-child) {
+    box-shadow: inset var(--morfira-space-1) 0 0 var(--morfira-interactive-primary);
+  }
+
+  :where([dir='rtl'] table[data-morfira-table])
+    :where(tbody tr[data-selected] > :first-child) {
+    box-shadow: inset calc(-1 * var(--morfira-space-1)) 0 0
+      var(--morfira-interactive-primary);
+  }
+
+  :where(table[data-morfira-table][data-sticky-header]) :where(thead th) {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 1;
+  }
+
+  :where(table[data-morfira-table]) :where(th[aria-sort] > button) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--morfira-space-2);
+    min-block-size: var(--morfira-control-size-sm);
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  :where(table[data-morfira-table]) :where(th[aria-sort] > button:focus-visible) {
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: var(--morfira-space-1);
+  }
+
+  @media (forced-colors: active) {
+    :where([data-morfira-table-container]),
+    :where(table[data-morfira-table]) :where(th, td) {
+      border-color: CanvasText;
+    }
+
+    :where(table[data-morfira-table]) :where(tbody tr[data-selected]) {
+      outline: var(--morfira-border-thick) solid Highlight;
+      outline-offset: calc(-1 * var(--morfira-border-thick));
+    }
+
+    :where(table[data-morfira-table]) :where(tbody tr[data-selected] > :first-child) {
+      box-shadow: none;
+    }
+  }
+}

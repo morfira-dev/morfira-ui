@@ -1,17 +1,24 @@
 <script setup lang="ts">
 import { Button } from '@morfira-dev/vue/button';
 import { Accordion } from '@morfira-dev/vue/accordion';
+import { Autocomplete } from '@morfira-dev/vue/autocomplete';
 import { Checkbox } from '@morfira-dev/vue/checkbox';
+import { Combobox } from '@morfira-dev/vue/combobox';
 import { Dialog } from '@morfira-dev/vue/dialog';
 import type { DialogProps } from '@morfira-dev/vue/dialog';
+import { Drawer } from '@morfira-dev/vue/drawer';
+import { Dropdown } from '@morfira-dev/vue/dropdown';
 import { Field } from '@morfira-dev/vue/field';
 import { Input } from '@morfira-dev/vue/input';
+import { Menu } from '@morfira-dev/vue/menu';
 import { Popover } from '@morfira-dev/vue/popover';
 import { Radio } from '@morfira-dev/vue/radio';
 import { Select } from '@morfira-dev/vue/select';
 import { Switch } from '@morfira-dev/vue/switch';
+import { Table } from '@morfira-dev/vue/table';
 import { Tabs } from '@morfira-dev/vue/tabs';
 import { Textarea } from '@morfira-dev/vue/textarea';
+import { Toast } from '@morfira-dev/vue/toast';
 import { Tooltip } from '@morfira-dev/vue/tooltip';
 import { onMounted, ref } from 'vue';
 
@@ -21,6 +28,7 @@ const open = ref(true);
 const lastDismissReason = ref<DialogDismissReason | 'none'>('none');
 const initialFocus = ref<HTMLButtonElement | null>(null);
 const returnFocus = ref<HTMLButtonElement | null>(null);
+const drawerReturnFocus = ref<HTMLButtonElement | null>(null);
 const activationCount = ref(0);
 const deploymentName = ref('Morfira production');
 const deploymentSlug = ref('morfira-production');
@@ -34,6 +42,13 @@ const tooltipOpen = ref(false);
 const popoverOpen = ref(false);
 const selectedTab = ref('summary-tab');
 const expandedSections = ref<readonly string[]>(['deployment-trigger']);
+const dropdownOpen = ref(false);
+const selectedAction = ref('none');
+const environmentQuery = ref('Development');
+const environment = ref('development');
+const owner = ref('');
+const toastOpen = ref(true);
+const drawerOpen = ref(false);
 
 const tabItems = [
   {
@@ -65,12 +80,55 @@ const accordionItems = [
   },
 ] as const;
 
+const menuItems = [
+  { id: 'vue-action-review', label: 'Review release', textValue: 'Review release' },
+  { id: 'vue-action-approve', label: 'Approve release', textValue: 'Approve release' },
+  {
+    id: 'vue-action-delete',
+    label: 'Delete release',
+    textValue: 'Delete release',
+    disabled: true,
+  },
+] as const;
+
+const dropdownItems = [
+  {
+    id: 'vue-dropdown-review',
+    label: 'Review release',
+    textValue: 'Review release',
+  },
+  {
+    id: 'vue-dropdown-approve',
+    label: 'Approve release',
+    textValue: 'Approve release',
+  },
+  {
+    id: 'vue-dropdown-delete',
+    label: 'Delete release',
+    textValue: 'Delete release',
+    disabled: true,
+  },
+] as const;
+
+const environmentOptions = [
+  { id: 'vue-environment-development', value: 'development', label: 'Development' },
+  { id: 'vue-environment-staging', value: 'staging', label: 'Staging' },
+  { id: 'vue-environment-production', value: 'production', label: 'Production' },
+] as const;
+
+const ownerOptions = [
+  { id: 'vue-owner-platform', value: 'platform', label: 'Platform team' },
+  { id: 'vue-owner-runtime', value: 'runtime', label: 'Runtime team' },
+] as const;
+
 onMounted(() => {
   hydrationState.value = 'hydrated';
 });
 
 const resolveInitialFocus = (): HTMLButtonElement | null => initialFocus.value;
 const resolveReturnFocus = (): HTMLButtonElement | null => returnFocus.value;
+const resolveDrawerReturnFocus = (): HTMLButtonElement | null =>
+  drawerReturnFocus.value;
 
 const handleDismiss = (reason: DialogDismissReason): void => {
   lastDismissReason.value = reason;
@@ -285,6 +343,128 @@ const reopen = (): void => {
           <output data-consumer-accordion-value>
             Accordion: {{ expandedSections.join(',') }}
           </output>
+        </section>
+
+        <section
+          class="consumer-phase-three"
+          aria-labelledby="consumer-phase-three-title"
+        >
+          <h2 id="consumer-phase-three-title">Phase 3 workflows</h2>
+
+          <Menu
+            ariaLabel="Release shortcuts"
+            :items="menuItems"
+            data-consumer-menu
+            @select="selectedAction = $event"
+          />
+          <Dropdown
+            v-model="dropdownOpen"
+            content-id="consumer-vue-actions"
+            ariaLabel="Release actions"
+            :items="dropdownItems"
+            @select="selectedAction = $event"
+          >
+            <button
+              type="button"
+              data-morfira-button
+              data-variant="secondary"
+              data-size="sm"
+              data-consumer-dropdown-trigger
+            >
+              More actions
+            </button>
+          </Dropdown>
+          <output data-consumer-menu-value>Action: {{ selectedAction }}</output>
+
+          <label for="consumer-vue-environment">Environment</label>
+          <Combobox
+            v-model="environment"
+            v-model:query="environmentQuery"
+            input-id="consumer-vue-environment"
+            listbox-id="consumer-vue-environment-options"
+            :options="environmentOptions"
+            data-consumer-combobox
+          />
+          <output data-consumer-combobox-value> Environment: {{ environment }} </output>
+
+          <label for="consumer-vue-owner">Owner</label>
+          <Autocomplete
+            v-model="owner"
+            input-id="consumer-vue-owner"
+            listbox-id="consumer-vue-owner-options"
+            :options="ownerOptions"
+            data-consumer-autocomplete
+          />
+          <output data-consumer-autocomplete-value>Owner: {{ owner || 'none' }}</output>
+
+          <Toast
+            v-model="toastOpen"
+            title="Release ready"
+            tone="success"
+            :duration="null"
+            close-label="Dismiss release notification"
+            data-consumer-toast
+          >
+            All automated checks passed.
+          </Toast>
+          <button
+            v-if="!toastOpen"
+            type="button"
+            data-morfira-button
+            data-variant="secondary"
+            data-size="sm"
+            @click="toastOpen = true"
+          >
+            Show notification
+          </button>
+
+          <button
+            ref="drawerReturnFocus"
+            type="button"
+            data-morfira-button
+            data-variant="secondary"
+            data-size="sm"
+            data-consumer-drawer-trigger
+            @click="drawerOpen = true"
+          >
+            Open release details
+          </button>
+          <Drawer
+            v-model="drawerOpen"
+            :ids="{
+              titleId: 'consumer-vue-drawer-title',
+              descriptionId: 'consumer-vue-drawer-description',
+            }"
+            title="Release details"
+            description="Inspect the selected release without leaving the current workflow."
+            close-label="Close release details"
+            :return-focus="resolveDrawerReturnFocus"
+            data-consumer-drawer
+          >
+            <p>Release 24 targets the production environment.</p>
+          </Drawer>
+
+          <Table density="compact" striped hoverable data-consumer-table>
+            <caption>
+              Recent releases
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Release</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">24</th>
+                <td>Ready</td>
+              </tr>
+              <tr>
+                <th scope="row">23</th>
+                <td>Deployed</td>
+              </tr>
+            </tbody>
+          </Table>
         </section>
       </div>
 

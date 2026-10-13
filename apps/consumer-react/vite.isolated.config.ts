@@ -5,18 +5,25 @@ import { defineConfig } from 'vite';
 const component = process.env['MORFIRA_ISOLATED_COMPONENT'];
 const supportedComponents = new Set([
   'accordion',
+  'autocomplete',
   'button',
   'checkbox',
+  'combobox',
   'dialog',
+  'drawer',
+  'dropdown',
   'field',
   'input',
+  'menu',
   'popover',
   'radio',
   'select',
   'switch',
+  'table',
   'tabs',
   'textarea',
   'tooltip',
+  'toast',
 ]);
 
 if (component === undefined || !supportedComponents.has(component)) {

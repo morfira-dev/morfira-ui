@@ -138,6 +138,28 @@ test('keeps Phase 2 Tabs and Accordion selected states stable', async ({ page })
   await expect(accordion).toHaveScreenshot('phase2-accordion-open-light.png');
 });
 
+test('keeps open Phase 3 selection surfaces stable', async ({ page }) => {
+  await setTheme(page, 'light');
+  const panel = page
+    .getByRole('heading', { name: 'Combobox and Autocomplete' })
+    .locator('..');
+  await page.getByRole('combobox', { name: 'Deployment environment' }).fill('Pro');
+  await page
+    .getByRole('combobox', { name: 'Deployment environment' })
+    .press('ArrowDown');
+
+  await expect(panel).toHaveScreenshot('phase3-combobox-open-light.png');
+});
+
+test('keeps Phase 3 Toast and Table presentation stable', async ({ page }) => {
+  await setTheme(page, 'dark');
+  const toast = page.getByRole('heading', { name: 'Toast', exact: true }).locator('..');
+  const table = page.getByRole('table', { name: 'Recent deployments' });
+
+  await expect(toast).toHaveScreenshot('phase3-toast-dark.png');
+  await expect(table.locator('..')).toHaveScreenshot('phase3-table-dark.png');
+});
+
 for (const size of ['small', 'medium', 'large'] as const) {
   test(`keeps the ${size} Dialog geometry stable`, async ({ page }) => {
     await setTheme(page, size === 'medium' ? 'dark' : 'light');

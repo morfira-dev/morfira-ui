@@ -12,6 +12,13 @@ import '@morfira-dev/css/switch.css';
 import '@morfira-dev/css/tabs.css';
 import '@morfira-dev/css/textarea.css';
 import '@morfira-dev/css/tooltip.css';
+import '@morfira-dev/css/menu.css';
+import '@morfira-dev/css/dropdown.css';
+import '@morfira-dev/css/combobox.css';
+import '@morfira-dev/css/autocomplete.css';
+import '@morfira-dev/css/toast.css';
+import '@morfira-dev/css/drawer.css';
+import '@morfira-dev/css/table.css';
 import './styles.css';
 
 import { renderToString } from '@vue/server-renderer';
