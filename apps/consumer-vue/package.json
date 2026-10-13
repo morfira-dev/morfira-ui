@@ -1,0 +1,25 @@
+{
+  "name": "@morfira-dev/consumer-vue",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm run typecheck && pnpm run build:client && pnpm run build:ssr && pnpm run render:ssr",
+    "build:client": "vite build --outDir dist/client --manifest",
+    "build:ssr": "vite build --ssr src/entry-server.ts --outDir dist/server",
+    "render:ssr": "node ../../scripts/render-consumer-fixture.mjs vue",
+    "typecheck": "vue-tsc -p tsconfig.json --noEmit --pretty false"
+  },
+  "dependencies": {
+    "@morfira-dev/css": "workspace:*",
+    "@morfira-dev/vue": "workspace:*",
+    "@vue/server-renderer": "3.5.44",
+    "vue": "3.5.44"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.10",
+    "typescript": "6.0.3",
+    "vite": "8.3.4",
+    "vue-tsc": "3.3.13"
+  }
+}

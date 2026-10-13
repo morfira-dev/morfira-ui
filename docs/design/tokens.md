@@ -73,7 +73,9 @@ for an explicit choice:
 Supported built-in values are `light` and `dark`. When the attribute is absent, the
 standard theme contract may follow `prefers-color-scheme`; an explicit attribute wins.
 Keeping selection in an HTML attribute makes server-rendered output deterministic and
-lets applications set the theme before hydration.
+lets applications set the theme before hydration. Each explicit theme scope also sets
+its foreground to `--morfira-content-primary`, so a nested theme does not retain the
+resolved text color inherited from its parent theme.
 
 Custom themes override semantic custom properties in a consumer-owned cascade layer or
 scope. Consumers should prefer semantic variables and leave primitives unchanged unless

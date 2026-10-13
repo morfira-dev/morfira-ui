@@ -1,7 +1,8 @@
 # Button contract
 
-Status: Phase 1 public contract; core, DOM, and framework adapters are implemented,
-while browser evidence remains in progress.
+Status: Phase 1 public contract; core, DOM, and framework adapters are implemented. DOM
+browser geometry, themes, accessibility, RTL, reduced motion, and forced colors are
+automated across Chromium, Firefox, and WebKit; adapter hydration conformance remains.
 
 Button is the first action primitive in Morfira UI's original product and enterprise
 system. Mature enterprise libraries such as PatternFly are useful coverage and edge-case
@@ -26,7 +27,7 @@ The stable styling hook is `button[data-morfira-button]`.
 | Contract       | Values                                    | Meaning                                                                  |
 | -------------- | ----------------------------------------- | ------------------------------------------------------------------------ |
 | `data-variant` | `primary`, `secondary`, `ghost`, `danger` | Visual role. `primary` is the default adapter value.                     |
-| `data-size`    | `sm`, `md`, `lg`                          | Visual density. Every size keeps the minimum touch target.               |
+| `data-size`    | `sm`, `md`, `lg`                          | Visual density with distinct 32, 40, and 48 px block sizes.              |
 | `data-loading` | present or absent                         | Shows a non-color loading indicator and suppresses hover/active styling. |
 | `disabled`     | native boolean attribute                  | Prevents activation and form submission.                                 |
 | `aria-busy`    | `true` while loading                      | Exposes the in-progress state to assistive technology.                   |
@@ -109,7 +110,11 @@ raw palette step as product meaning. Its visible action label remains the non-co
 
 ## Accessibility and rendering modes
 
-- The minimum inline and block target is `--morfira-control-touch-target` in every size.
+- The visible block size follows `--morfira-control-size-sm`, `-md`, or `-lg`; size is
+  geometry, not a font-only variant. The minimum inline target remains
+  `--morfira-control-touch-target`, while all three block sizes stay above the baseline
+  24 px target-size requirement. Touch-oriented products may override the public size
+  variable to the larger `--morfira-control-touch-target` token.
 - Reduced-motion mode removes transitions and spinner rotation. The loading ring and
   visible label remain, so progress does not depend on motion.
 - Forced-color mode uses system button, highlight, focus, and disabled colors while
@@ -120,6 +125,7 @@ raw palette step as product meaning. Its visible action label remains the non-co
   stylesheet reads no browser globals. Hydration must reproduce the server attributes.
 
 Static contract tests cover selectors, independent export wiring, logical properties,
-focus, reduced motion, and forced colors. They do not prove rendered contrast, target
-geometry, focus visibility, RTL layout, or loading perception. Those claims remain
-pending until the shared browser fixture and visual matrix pass.
+focus, reduced motion, and forced colors. The shared browser fixture proves size
+geometry, theme switching, loading state, RTL, reduced motion, forced-color rendering,
+and automated WCAG checks. Framework consumer hydration, screenshot regression, and
+manual assistive-technology perception remain separate pending evidence.

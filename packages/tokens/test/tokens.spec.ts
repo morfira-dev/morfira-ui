@@ -83,4 +83,10 @@ describe('semantic themes', () => {
   it('uses a stable explicit-theme attribute', () => {
     expect(themeAttribute).toBe('data-morfira-theme');
   });
+
+  it('keeps dark disabled content on the higher-contrast neutral step', () => {
+    expect(darkThemeTokens.interactive.disabledContent).toBe(
+      'var(--morfira-color-neutral-400)',
+    );
+  });
 });

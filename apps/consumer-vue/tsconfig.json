@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "isolatedDeclarations": false,
+    "isolatedModules": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "noEmit": true,
+    "types": ["vite/client"]
+  },
+  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.vue", "vite.config.ts"]
+}

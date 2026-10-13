@@ -1,7 +1,7 @@
 # Morfira UI Software Design Description
 
-Status: accepted baseline; Phase 1 is active with tokens, themes, and Button
-implemented.
+Status: accepted baseline; Phase 1 is active with tokens, themes, Button, Field, Input,
+and Dialog implemented.
 
 ## 1. Purpose
 
@@ -147,12 +147,14 @@ evidence.
 
 ### Phase 1 — proof-oriented vertical slice
 
-- Status: active; tokens, themes, and Button are implemented pending complete browser
-  and consumer proof.
+- Status: active; tokens, themes, Button, Field, Input, and Dialog are implemented.
+  Cross-browser DOM, accessibility, rendering-mode, and consumer SSR/hydration proof for
+  Button, Field, Input, and Dialog are active; shared adapter conformance, visual
+  regression, and the extended lifecycle matrix remain.
 - Tokens and themes.
 - Button across core, DOM, React, Vue, and Svelte.
-- Field and Input.
-- Dialog as the first complex overlay.
+- Field and Input across core, DOM, React, Vue, and Svelte.
+- Dialog as the first complex overlay across core, DOM, React, Vue, and Svelte.
 - DOM, React, Vue, and Svelte implementations.
 - Documentation, conformance, browser, SSR, and consumer verification.
 

@@ -1,0 +1,26 @@
+{
+  "name": "@morfira-dev/consumer-react",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm run typecheck && pnpm run build:client && pnpm run build:ssr && pnpm run render:ssr",
+    "typecheck": "tsc -p tsconfig.json --noEmit --pretty false",
+    "build:client": "vite build --outDir dist/client --manifest",
+    "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "render:ssr": "node ../../scripts/render-consumer-fixture.mjs react"
+  },
+  "dependencies": {
+    "@morfira-dev/css": "workspace:*",
+    "@morfira-dev/react": "workspace:*",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "6.0.3",
+    "vite": "8.3.4"
+  }
+}

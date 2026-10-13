@@ -13,9 +13,8 @@
     appearance: none;
     position: relative;
     display: inline-flex;
-    min-block-size: var(--morfira-control-touch-target);
     min-inline-size: var(--morfira-control-touch-target);
-    block-size: max(var(--morfira-button-size), var(--morfira-control-touch-target));
+    block-size: var(--morfira-button-size);
     box-sizing: border-box;
     align-items: center;
     justify-content: center;

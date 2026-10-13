@@ -14,6 +14,9 @@ const outputDirectory = resolve(repositoryRoot, 'packages/css/dist');
 const themesDirectory = resolve(outputDirectory, 'themes');
 const generatedNotice = '/* Generated from @morfira-dev/tokens. Do not edit. */';
 const buttonSource = resolve(repositoryRoot, 'packages/css/src/button.css');
+const dialogSource = resolve(repositoryRoot, 'packages/css/src/dialog.css');
+const fieldSource = resolve(repositoryRoot, 'packages/css/src/field.css');
+const inputSource = resolve(repositoryRoot, 'packages/css/src/input.css');
 
 const isRecord = (value) =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -146,6 +149,7 @@ const lightCss = `${generatedNotice}
 @layer morfira.tokens {
   ${lightSelector} {
     color-scheme: light;
+    color: var(--morfira-content-primary);
 ${indentDeclarations(lightEntries)}
   }
 }
@@ -155,12 +159,14 @@ const darkCss = `${generatedNotice}
 @layer morfira.tokens {
   ${darkSelector} {
     color-scheme: dark;
+    color: var(--morfira-content-primary);
 ${indentDeclarations(darkEntries)}
   }
 
   @media (prefers-color-scheme: dark) {
     ${automaticDarkSelector} {
       color-scheme: dark;
+      color: var(--morfira-content-primary);
 ${indentDeclarations(darkEntries, 'fallback', 6)}
     }
   }
@@ -219,8 +225,14 @@ const aggregateCss = `${generatedNotice}
 
 await mkdir(themesDirectory, { recursive: true });
 const buttonCss = await readFile(buttonSource, 'utf8');
+const dialogCss = await readFile(dialogSource, 'utf8');
+const fieldCss = await readFile(fieldSource, 'utf8');
+const inputCss = await readFile(inputSource, 'utf8');
 await Promise.all([
   writeFile(resolve(outputDirectory, 'button.css'), buttonCss),
+  writeFile(resolve(outputDirectory, 'dialog.css'), dialogCss),
+  writeFile(resolve(outputDirectory, 'field.css'), fieldCss),
+  writeFile(resolve(outputDirectory, 'input.css'), inputCss),
   writeFile(resolve(outputDirectory, 'primitives.css'), primitiveCss),
   writeFile(resolve(outputDirectory, 'theme.css'), aggregateCss),
   writeFile(resolve(themesDirectory, 'light.css'), lightCss),

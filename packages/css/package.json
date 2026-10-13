@@ -7,6 +7,9 @@
   "type": "module",
   "sideEffects": [
     "./dist/button.css",
+    "./dist/dialog.css",
+    "./dist/field.css",
+    "./dist/input.css",
     "./dist/primitives.css",
     "./dist/theme.css",
     "./dist/themes/*.css"
@@ -20,6 +23,9 @@
       "import": "./dist/index.js"
     },
     "./button.css": "./dist/button.css",
+    "./dialog.css": "./dist/dialog.css",
+    "./field.css": "./dist/field.css",
+    "./input.css": "./dist/input.css",
     "./primitives.css": "./dist/primitives.css",
     "./theme.css": "./dist/theme.css",
     "./themes/light.css": "./dist/themes/light.css",

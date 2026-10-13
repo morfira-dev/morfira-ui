@@ -1,0 +1,203 @@
+@layer morfira.components {
+  :where(dialog[data-morfira-dialog]) {
+    --morfira-dialog-background: var(--morfira-surface-raised);
+    --morfira-dialog-border-color: var(--morfira-border-subtle);
+    --morfira-dialog-color: var(--morfira-content-primary);
+    --morfira-dialog-inline-size: 36rem;
+    --morfira-dialog-radius: var(--morfira-radius-xl);
+    --morfira-dialog-shadow: var(--morfira-shadow-lg);
+    --morfira-dialog-viewport-gap: var(--morfira-space-4);
+    --morfira-dialog-backdrop-background: rgb(13 16 21 / 0.56);
+
+    inline-size: min(
+      var(--morfira-dialog-inline-size),
+      calc(
+        100vi - var(--morfira-dialog-viewport-gap) - var(--morfira-dialog-viewport-gap)
+      )
+    );
+    max-block-size: calc(
+      100vh - var(--morfira-dialog-viewport-gap) - var(--morfira-dialog-viewport-gap)
+    );
+    max-block-size: calc(
+      100dvb - var(--morfira-dialog-viewport-gap) - var(--morfira-dialog-viewport-gap)
+    );
+    box-sizing: border-box;
+    margin: auto;
+    border: var(--morfira-border-thin) solid var(--morfira-dialog-border-color);
+    border-radius: var(--morfira-dialog-radius);
+    padding: 0;
+    overflow: hidden;
+    background: var(--morfira-dialog-background);
+    box-shadow: var(--morfira-dialog-shadow);
+    color: var(--morfira-dialog-color);
+    font-family: var(--morfira-font-family-sans);
+  }
+
+  :where(dialog[data-morfira-dialog][open]) {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    animation: morfira-dialog-enter var(--morfira-motion-duration-normal)
+      var(--morfira-motion-easing-entrance);
+  }
+
+  :where(dialog[data-morfira-dialog][data-size='sm']) {
+    --morfira-dialog-inline-size: 26rem;
+  }
+
+  :where(dialog[data-morfira-dialog][data-size='lg']) {
+    --morfira-dialog-inline-size: 48rem;
+  }
+
+  :where(dialog[data-morfira-dialog])::backdrop {
+    background: var(--morfira-dialog-backdrop-background);
+    animation: morfira-dialog-backdrop-enter var(--morfira-motion-duration-normal)
+      var(--morfira-motion-easing-entrance);
+  }
+
+  :where([data-morfira-dialog-header], [data-morfira-dialog-footer]) {
+    display: flex;
+    flex: none;
+    min-inline-size: 0;
+    align-items: center;
+    gap: var(--morfira-space-3);
+    padding-block: var(--morfira-space-4);
+    padding-inline: var(--morfira-space-5);
+  }
+
+  :where([data-morfira-dialog-header]) {
+    justify-content: space-between;
+    border-block-end: var(--morfira-border-thin) solid
+      var(--morfira-dialog-border-color);
+  }
+
+  :where([data-morfira-dialog-header] > :first-child) {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+  }
+
+  :where([data-morfira-dialog-footer]) {
+    justify-content: flex-end;
+    border-block-start: var(--morfira-border-thin) solid
+      var(--morfira-dialog-border-color);
+  }
+
+  :where([data-morfira-dialog-title]) {
+    min-inline-size: 0;
+    margin: 0;
+    font-size: var(--morfira-font-size-xl);
+    font-weight: var(--morfira-font-weight-semibold);
+    line-height: var(--morfira-font-line-height-tight);
+  }
+
+  :where([data-morfira-dialog-description]) {
+    margin: var(--morfira-space-1) 0 0;
+    color: var(--morfira-content-secondary);
+    font-size: var(--morfira-font-size-sm);
+    line-height: var(--morfira-font-line-height-normal);
+  }
+
+  :where([data-morfira-dialog-body]) {
+    min-block-size: 0;
+    min-inline-size: 0;
+    padding-block: var(--morfira-space-5);
+    padding-inline: var(--morfira-space-5);
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+
+  :where(button[data-morfira-dialog-close]) {
+    display: inline-grid;
+    flex: none;
+    align-self: flex-start;
+    inline-size: var(--morfira-control-touch-target);
+    block-size: var(--morfira-control-touch-target);
+    box-sizing: border-box;
+    place-items: center;
+    margin-block: calc(-1 * var(--morfira-space-2));
+    margin-inline-start: auto;
+    margin-inline-end: calc(-1 * var(--morfira-space-2));
+    border: var(--morfira-border-thin) solid transparent;
+    border-radius: var(--morfira-radius-md);
+    padding: 0;
+    background: transparent;
+    color: var(--morfira-content-secondary);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  :where(button[data-morfira-dialog-close]):hover {
+    border-color: var(--morfira-border-subtle);
+    background: var(--morfira-surface-subtle);
+    color: var(--morfira-content-primary);
+  }
+
+  :where(button[data-morfira-dialog-close]):focus-visible {
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: var(--morfira-border-thick);
+  }
+
+  @keyframes morfira-dialog-enter {
+    from {
+      opacity: 0;
+      transform: translateY(var(--morfira-space-2)) scale(0.985);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes morfira-dialog-backdrop-enter {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    :where(dialog[data-morfira-dialog]) {
+      --morfira-dialog-viewport-gap: var(--morfira-space-2);
+    }
+
+    :where([data-morfira-dialog-header], [data-morfira-dialog-footer]) {
+      padding-inline: var(--morfira-space-4);
+    }
+
+    :where([data-morfira-dialog-body]) {
+      padding: var(--morfira-space-4);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(dialog[data-morfira-dialog][open]),
+    :where(dialog[data-morfira-dialog])::backdrop {
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where(dialog[data-morfira-dialog]) {
+      --morfira-dialog-background: Canvas;
+      --morfira-dialog-border-color: CanvasText;
+      --morfira-dialog-color: CanvasText;
+      --morfira-dialog-shadow: none;
+      --morfira-dialog-backdrop-background: rgb(0 0 0 / 0.6);
+
+      forced-color-adjust: auto;
+    }
+
+    :where(dialog[data-morfira-dialog])::backdrop {
+      background: CanvasText;
+      opacity: 0.6;
+    }
+
+    :where(button[data-morfira-dialog-close]) {
+      border-color: ButtonText;
+      color: ButtonText;
+    }
+  }
+}

@@ -1,18 +1,31 @@
 import { cp, mkdir } from 'node:fs/promises';
 import { URL } from 'node:url';
 
-await mkdir(new URL('../dist/button/', import.meta.url), { recursive: true });
-await Promise.all([
-  cp(
-    new URL('../src/button/Button.svelte', import.meta.url),
-    new URL('../dist/button/Button.svelte', import.meta.url),
-  ),
-  cp(
-    new URL('../src/button/Button.svelte.d.ts', import.meta.url),
-    new URL('../dist/button/Button.svelte.d.ts', import.meta.url),
-  ),
-  cp(
-    new URL('../src/button/Button.svelte.d.ts', import.meta.url),
-    new URL('../dist/button/Button.d.svelte.ts', import.meta.url),
-  ),
-]);
+const components = [
+  ['button', 'Button'],
+  ['dialog', 'Dialog'],
+  ['field', 'Field'],
+  ['input', 'Input'],
+];
+
+await Promise.all(
+  components.flatMap(([directory, component]) => {
+    const destination = new URL(`../dist/${directory}/`, import.meta.url);
+
+    return [
+      mkdir(destination, { recursive: true }),
+      cp(
+        new URL(`../src/${directory}/${component}.svelte`, import.meta.url),
+        new URL(`${component}.svelte`, destination),
+      ),
+      cp(
+        new URL(`../src/${directory}/${component}.svelte.d.ts`, import.meta.url),
+        new URL(`${component}.svelte.d.ts`, destination),
+      ),
+      cp(
+        new URL(`../src/${directory}/${component}.svelte.d.ts`, import.meta.url),
+        new URL(`${component}.d.svelte.ts`, destination),
+      ),
+    ];
+  }),
+);

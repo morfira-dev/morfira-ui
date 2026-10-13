@@ -11,11 +11,13 @@ import type {
   ButtonVariant,
 } from '@morfira-dev/core/button';
 import { defineComponent, h, mergeProps } from 'vue';
-import type { DefineComponent, PropType, VNode } from 'vue';
+import type { ButtonHTMLAttributes, DefineComponent, PropType, VNode } from 'vue';
 
-export type ButtonProps = ButtonOptions;
+type NativeButtonProps = Omit<ButtonHTMLAttributes, keyof ButtonOptions | 'aria-busy'>;
 
-export const Button: DefineComponent<ButtonProps> = defineComponent({
+export interface ButtonProps extends NativeButtonProps, ButtonOptions {}
+
+export const Button = defineComponent({
   name: 'MorfiraButton',
   inheritAttrs: false,
   props: {
@@ -87,4 +89,4 @@ export const Button: DefineComponent<ButtonProps> = defineComponent({
       );
     };
   },
-});
+}) as DefineComponent<ButtonProps>;

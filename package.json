@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "pnpm -r --if-present build",
-    "check": "pnpm deps:check && pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm instructions:check && pnpm build && pnpm package:check",
+    "check": "pnpm deps:check && pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm test:browser && pnpm instructions:check && pnpm build && pnpm package:check",
+    "consumers:check": "node scripts/check-consumer-bundles.mjs",
     "deps:check": "pnpm peers check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -19,11 +20,14 @@
     "lint": "eslint .",
     "package:check": "pnpm -r --if-present package:check",
     "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc -b --pretty false"
+    "test:browser": "pnpm build && pnpm consumers:check && playwright test",
+    "typecheck": "tsc -b --pretty false && tsc -p tests/browser/tsconfig.json --pretty false"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
+    "@axe-core/playwright": "4.13.0",
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.0",
     "@types/node": "26.6.5",
     "eslint": "10.12.0",
     "prettier": "3.9.10",

@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "isolatedDeclarations": false,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "noEmit": true,
+    "types": ["node", "@playwright/test"]
+  },
+  "include": ["./**/*.ts", "../../playwright.config.ts"]
+}

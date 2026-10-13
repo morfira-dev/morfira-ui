@@ -285,7 +285,7 @@ export const darkThemeTokens: SemanticTokenTree = {
     primaryActive: 'var(--morfira-color-accent-50)',
     primaryContent: 'var(--morfira-color-neutral-950)',
     disabled: 'var(--morfira-color-neutral-800)',
-    disabledContent: 'var(--morfira-color-neutral-500)',
+    disabledContent: 'var(--morfira-color-neutral-400)',
   },
   focus: {
     ring: 'var(--morfira-color-accent-100)',

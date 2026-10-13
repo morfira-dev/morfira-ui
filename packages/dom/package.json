@@ -18,6 +18,18 @@
       "types": "./dist/button.d.ts",
       "import": "./dist/button.js"
     },
+    "./dialog": {
+      "types": "./dist/dialog.d.ts",
+      "import": "./dist/dialog.js"
+    },
+    "./field": {
+      "types": "./dist/field.d.ts",
+      "import": "./dist/field.js"
+    },
+    "./input": {
+      "types": "./dist/input.d.ts",
+      "import": "./dist/input.js"
+    },
     "./package.json": "./package.json"
   },
   "dependencies": {

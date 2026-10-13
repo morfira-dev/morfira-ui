@@ -3,8 +3,24 @@ import { createSSRApp, h } from 'vue';
 import { describe, expect, it } from 'vitest';
 
 import { Button } from '../src/button/index.js';
+import type { ButtonProps } from '../src/button/index.js';
 
 describe('Vue Button', () => {
+  it('exposes native button attributes through its public props', () => {
+    type PublicButtonProps = InstanceType<typeof Button>['$props'];
+
+    const props = {
+      id: 'confirm',
+      name: 'intent',
+      form: 'account-form',
+      class: 'primary-action',
+      'aria-label': 'Confirm changes',
+      onClick: (): void => undefined,
+    } satisfies ButtonProps & PublicButtonProps;
+
+    expect(props.form).toBe('account-form');
+  });
+
   it('renders slots, attrs, and native-safe defaults', async () => {
     const app = createSSRApp({
       render: () => h(Button, { id: 'confirm' }, { default: () => 'Confirm' }),

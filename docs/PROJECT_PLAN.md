@@ -16,9 +16,10 @@ As of 2026-10-13:
   governance, ADRs, and validation commands exist;
 - Phase 0 is committed locally; publication and push remain separate user-authorized
   operations;
-- Phase 1 includes implemented token/theme contracts and the first Button vertical slice
-  across core, DOM, React, Vue, and Svelte. Browser and visual proof remain separate
-  gates until the shared fixture is inspected and automated.
+- Phase 1 includes implemented token/theme, Button, Field, Input, and modal Dialog
+  vertical slices across core, DOM, React, Vue, and Svelte. Cross-browser SSR/hydration,
+  accessibility, and rendering-mode fixtures are automated; visual regression and the
+  remaining conformance/lifecycle matrix are still separate gates.
 
 The exact GitHub repository slug is not part of the public package contract and does not
 block architecture or implementation work. The current `morfira-dev/morfira-ui`
@@ -326,9 +327,11 @@ A component is complete only when:
 
 ## Immediate work
 
-1. Prove the implemented tokens, themes, and Button states in the shared browser
-   fixture; keep browser evidence distinct from static tests.
-2. Add consumer fixtures and hydration checks for the first Button slice.
-3. Implement Field/Input, then Dialog across the DOM, React, Vue, and Svelte contracts.
-4. Add consumer fixtures, SSR checks, accessibility tests, and isolated-import budgets
-   with each slice instead of bulk-porting a component catalog.
+1. Extend the React, Vue, and Svelte consumer matrix from Dialog to Button, Field, and
+   Input with shared hydration and interaction cases.
+2. Add per-component isolated-import builds and size budgets; the current production
+   consumer budget proves the Dialog subpath only.
+3. Add stable visual snapshots and the documented manual screen-reader and released
+   Safari/Firefox ESR evidence before declaring Phase 1 stable.
+4. Complete the remaining nested and interrupted Dialog lifecycle cases, then start
+   Phase 2 with Checkbox without adapter-specific exceptions.

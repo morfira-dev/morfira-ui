@@ -1,0 +1,215 @@
+@layer morfira.components {
+  :where(input[data-morfira-input], [data-morfira-field-control]) {
+    --morfira-input-background: var(--morfira-surface-raised);
+    --morfira-input-border-color: var(--morfira-border-default);
+    --morfira-input-color: var(--morfira-content-primary);
+    --morfira-input-placeholder-color: var(--morfira-content-muted);
+    --morfira-input-size: var(--morfira-control-size-md);
+    --morfira-input-padding-inline: var(--morfira-space-3);
+  }
+
+  :where(input[data-morfira-input]) {
+    appearance: none;
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    block-size: var(--morfira-input-size);
+    box-sizing: border-box;
+    border: var(--morfira-border-thin) solid var(--morfira-input-border-color);
+    border-radius: var(--morfira-radius-md);
+    padding-block: 0;
+    padding-inline: var(--morfira-input-padding-inline);
+    background: var(--morfira-input-background);
+    color: var(--morfira-input-color);
+    font-family: var(--morfira-font-family-sans);
+    font-size: var(--morfira-font-size-sm);
+    line-height: var(--morfira-font-line-height-normal);
+    text-overflow: ellipsis;
+    transition:
+      background-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      border-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      box-shadow var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard);
+  }
+
+  :where(input[data-morfira-input])::placeholder {
+    color: var(--morfira-input-placeholder-color);
+    opacity: 1;
+  }
+
+  :where(input[data-morfira-input]):hover:not(:disabled, [readonly]) {
+    --morfira-input-border-color: var(--morfira-border-strong);
+  }
+
+  :where(input[data-morfira-input]):focus-visible {
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: 0;
+  }
+
+  :where(
+    input[data-morfira-input][data-size='sm'],
+    [data-morfira-field][data-size='sm'] input[data-morfira-input],
+    [data-morfira-field][data-size='sm'] [data-morfira-field-control]
+  ) {
+    --morfira-input-size: var(--morfira-control-size-sm);
+    --morfira-input-padding-inline: var(--morfira-space-2);
+
+    font-size: var(--morfira-font-size-xs);
+  }
+
+  :where(
+    input[data-morfira-input][data-size='lg'],
+    [data-morfira-field][data-size='lg'] input[data-morfira-input],
+    [data-morfira-field][data-size='lg'] [data-morfira-field-control]
+  ) {
+    --morfira-input-size: var(--morfira-control-size-lg);
+    --morfira-input-padding-inline: var(--morfira-space-4);
+
+    font-size: var(--morfira-font-size-md);
+  }
+
+  :where(
+    input[data-morfira-input][data-validation='none'],
+    [data-morfira-field][data-validation='none'] input[data-morfira-input],
+    [data-morfira-field][data-validation='none'] [data-morfira-field-control]
+  ) {
+    --morfira-input-border-color: var(--morfira-border-default);
+  }
+
+  :where(
+    input[data-morfira-input][data-validation='error'],
+    [data-morfira-field][data-validation='error'] input[data-morfira-input],
+    [data-morfira-field][data-validation='error'] [data-morfira-field-control]
+  ) {
+    --morfira-input-border-color: var(--morfira-border-danger);
+  }
+
+  :where(
+    input[data-morfira-input][data-validation='warning'],
+    [data-morfira-field][data-validation='warning'] input[data-morfira-input],
+    [data-morfira-field][data-validation='warning'] [data-morfira-field-control]
+  ) {
+    --morfira-input-border-color: var(--morfira-content-warning);
+  }
+
+  :where(
+    input[data-morfira-input][data-validation='success'],
+    [data-morfira-field][data-validation='success'] input[data-morfira-input],
+    [data-morfira-field][data-validation='success'] [data-morfira-field-control]
+  ) {
+    --morfira-input-border-color: var(--morfira-content-success);
+  }
+
+  :where(input[data-morfira-input]):disabled {
+    --morfira-input-background: var(--morfira-interactive-disabled);
+    --morfira-input-border-color: var(--morfira-border-subtle);
+    --morfira-input-color: var(--morfira-interactive-disabled-content);
+    --morfira-input-placeholder-color: var(--morfira-interactive-disabled-content);
+
+    cursor: not-allowed;
+  }
+
+  :where(input[data-morfira-input])[readonly] {
+    --morfira-input-background: var(--morfira-surface-subtle);
+    --morfira-input-color: var(--morfira-content-primary);
+
+    cursor: text;
+  }
+
+  :where([data-morfira-field-control]) {
+    display: flex;
+    min-inline-size: 0;
+    block-size: var(--morfira-input-size);
+    box-sizing: border-box;
+    align-items: center;
+    gap: var(--morfira-space-2);
+    border: var(--morfira-border-thin) solid var(--morfira-input-border-color);
+    border-radius: var(--morfira-radius-md);
+    padding-inline: var(--morfira-input-padding-inline);
+    background: var(--morfira-input-background);
+    color: var(--morfira-input-color);
+    transition:
+      background-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      border-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      box-shadow var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard);
+  }
+
+  :where(
+    [data-morfira-field-control]:hover:not(:has(input:disabled, input[readonly]))
+  ) {
+    --morfira-input-border-color: var(--morfira-border-strong);
+  }
+
+  :where([data-morfira-field-control]:focus-within) {
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: 0;
+  }
+
+  :where([data-morfira-field-control] > input[data-morfira-input]) {
+    flex: 1 1 auto;
+    block-size: 100%;
+    min-block-size: 0;
+    border: 0;
+    border-radius: 0;
+    padding-inline: 0;
+    background: transparent;
+    outline: 0;
+  }
+
+  :where([data-morfira-field-control] > input[data-morfira-input]):focus-visible {
+    outline: 0;
+  }
+
+  :where([data-morfira-field-control]:has(input:disabled)) {
+    --morfira-input-background: var(--morfira-interactive-disabled);
+    --morfira-input-border-color: var(--morfira-border-subtle);
+    --morfira-input-color: var(--morfira-interactive-disabled-content);
+    --morfira-input-placeholder-color: var(--morfira-interactive-disabled-content);
+
+    cursor: not-allowed;
+  }
+
+  :where([data-morfira-field-control]:has(input[readonly])) {
+    --morfira-input-background: var(--morfira-surface-subtle);
+    --morfira-input-color: var(--morfira-content-primary);
+  }
+
+  :where([data-morfira-field-prefix], [data-morfira-field-suffix]) {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    color: var(--morfira-content-secondary);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(input[data-morfira-input], [data-morfira-field-control]) {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where(input[data-morfira-input], [data-morfira-field-control]) {
+      --morfira-input-background: Field;
+      --morfira-input-border-color: FieldText;
+      --morfira-input-color: FieldText;
+      --morfira-input-placeholder-color: GrayText;
+
+      forced-color-adjust: auto;
+      box-shadow: none;
+    }
+
+    :where(input[data-morfira-input]):disabled,
+    :where([data-morfira-field-control]:has(input:disabled)) {
+      --morfira-input-border-color: GrayText;
+      --morfira-input-color: GrayText;
+    }
+  }
+}

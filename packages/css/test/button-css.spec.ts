@@ -30,7 +30,7 @@ describe('button CSS contract', () => {
 
   it('keeps accessibility modes in the component contract', () => {
     expect(buttonCss).toContain(':focus-visible');
-    expect(buttonCss).toContain('var(--morfira-control-touch-target)');
+    expect(buttonCss).toContain('min-inline-size: var(--morfira-control-touch-target)');
     expect(buttonCss).toContain('@media (forced-colors: active)');
     expect(buttonCss).toContain('@media (prefers-reduced-motion: reduce)');
     expect(buttonCss).toContain('[data-loading])::before');
@@ -39,8 +39,23 @@ describe('button CSS contract', () => {
   it('uses logical sizing and spacing properties', () => {
     expect(buttonCss).toContain('padding-inline:');
     expect(buttonCss).toContain('min-inline-size:');
-    expect(buttonCss).toContain('min-block-size:');
+    expect(buttonCss).toContain('block-size:');
     expect(buttonCss).not.toMatch(/\b(?:margin|padding|border)-(?:left|right):/);
+  });
+
+  it('maps each size token to visible button geometry', () => {
+    expect(buttonCss).toContain('block-size: var(--morfira-button-size)');
+    expect(buttonCss).not.toContain('block-size: max(');
+
+    expect(buttonCss).toMatch(
+      /\[data-size='sm'\][^{]*\{[^}]*--morfira-button-size:\s*var\(--morfira-control-size-sm\)/su,
+    );
+    expect(buttonCss).toMatch(
+      /--morfira-button-size:\s*var\(--morfira-control-size-md\)/u,
+    );
+    expect(buttonCss).toMatch(
+      /\[data-size='lg'\][^{]*\{[^}]*--morfira-button-size:\s*var\(--morfira-control-size-lg\)/su,
+    );
   });
 
   it('ships as an independent, explicit CSS side effect', () => {

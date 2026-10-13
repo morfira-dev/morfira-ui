@@ -1,5 +1,13 @@
 {
-  "files": [],
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "isolatedDeclarations": false,
+    "lib": ["ES2022", "DOM"],
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "files": ["playwright.config.ts", "vitest.config.ts"],
   "references": [
     { "path": "./packages/core" },
     { "path": "./packages/dom" },

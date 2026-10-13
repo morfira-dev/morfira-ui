@@ -6,6 +6,9 @@
     <title>Morfira UI DOM playground</title>
     <link rel="stylesheet" href="../../packages/css/dist/theme.css" />
     <link rel="stylesheet" href="../../packages/css/dist/button.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/dialog.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/field.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/input.css" />
     <style>
       @layer playground {
         * {
@@ -26,7 +29,7 @@
           padding-block: var(--morfira-space-12);
         }
 
-        header,
+        main > header,
         .toolbar,
         .button-row {
           display: flex;
@@ -35,7 +38,7 @@
           gap: var(--morfira-space-3);
         }
 
-        header {
+        main > header {
           justify-content: space-between;
           margin-block-end: var(--morfira-space-8);
         }
@@ -58,8 +61,14 @@
 
         .grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+          grid-template-columns: minmax(0, 1fr);
           gap: var(--morfira-space-6);
+        }
+
+        @media (min-width: 64rem) {
+          .grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
         }
 
         .panel {
@@ -79,6 +88,16 @@
           margin-block-start: var(--morfira-space-4);
         }
 
+        .section-title {
+          margin-block: var(--morfira-space-10) var(--morfira-space-4);
+          font-size: var(--morfira-font-size-2xl);
+        }
+
+        .field-stack {
+          display: grid;
+          gap: var(--morfira-space-5);
+        }
+
         .dark-panel {
           color-scheme: dark;
         }
@@ -89,7 +108,7 @@
     <main>
       <header>
         <div>
-          <h1>Morfira UI Button</h1>
+          <h1>Morfira UI component proofs</h1>
           <p class="lede">Token, theme, state, and focus proof fixture.</p>
         </div>
         <div class="toolbar">
@@ -118,7 +137,9 @@
           </div>
           <div class="button-row">
             <button data-morfira-button disabled>Disabled</button>
-            <button data-morfira-button data-loading aria-busy="true">Saving</button>
+            <button data-morfira-button data-loading aria-busy="true" disabled>
+              Saving
+            </button>
           </div>
         </section>
 
@@ -141,19 +162,246 @@
           </div>
         </section>
       </div>
+
+      <h2 class="section-title">Field and Input</h2>
+      <div class="grid">
+        <section class="panel field-stack" aria-label="Input states">
+          <div data-morfira-field data-size="md" data-validation="none" data-required>
+            <label id="email-label" for="email" data-morfira-field-label>
+              Email
+              <span aria-hidden="true" data-morfira-field-required>*</span>
+            </label>
+            <div data-morfira-field-control>
+              <span data-morfira-field-prefix aria-hidden="true">@</span>
+              <input
+                id="email"
+                type="email"
+                placeholder="name@example.com"
+                required
+                aria-labelledby="email-label"
+                aria-describedby="email-helper"
+                data-morfira-input
+                data-size="md"
+                data-validation="none"
+              />
+            </div>
+            <p id="email-helper" data-morfira-field-message data-message-kind="helper">
+              Used for account notifications.
+            </p>
+          </div>
+
+          <div data-morfira-field data-size="md" data-validation="error">
+            <label id="slug-label" for="slug" data-morfira-field-label>
+              Workspace slug
+            </label>
+            <div data-morfira-field-control>
+              <input
+                id="slug"
+                value="Already used"
+                aria-invalid="true"
+                aria-labelledby="slug-label"
+                aria-describedby="slug-error"
+                aria-errormessage="slug-error"
+                data-morfira-input
+                data-size="md"
+                data-validation="error"
+              />
+            </div>
+            <p id="slug-error" data-morfira-field-message data-message-kind="error">
+              Choose a unique workspace slug.
+            </p>
+          </div>
+        </section>
+
+        <section
+          class="panel field-stack dark-panel"
+          data-morfira-theme="dark"
+          aria-label="Dark input states"
+        >
+          <div data-morfira-field data-size="sm" data-validation="success">
+            <label id="token-label" for="token" data-morfira-field-label>
+              Access token
+            </label>
+            <div data-morfira-field-control>
+              <input
+                id="token"
+                value="morfira_live_••••••"
+                readonly
+                aria-labelledby="token-label"
+                aria-describedby="token-success"
+                data-morfira-input
+                data-size="sm"
+                data-validation="success"
+              />
+              <span data-morfira-field-suffix aria-hidden="true">✓</span>
+            </div>
+            <p
+              id="token-success"
+              data-morfira-field-message
+              data-message-kind="success"
+            >
+              Token format is valid.
+            </p>
+          </div>
+
+          <div
+            data-morfira-field
+            data-size="lg"
+            data-validation="warning"
+            data-disabled
+          >
+            <label id="region-label" for="region" data-morfira-field-label>
+              Region
+            </label>
+            <div data-morfira-field-control>
+              <input
+                id="region"
+                value="Managed by organization"
+                disabled
+                aria-labelledby="region-label"
+                aria-describedby="region-warning"
+                data-morfira-input
+                data-size="lg"
+                data-validation="warning"
+              />
+            </div>
+            <p
+              id="region-warning"
+              data-morfira-field-message
+              data-message-kind="warning"
+            >
+              Contact an administrator to change the region.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <h2 class="section-title">Dialog</h2>
+      <section class="panel" aria-labelledby="dialog-proof-heading">
+        <h2 id="dialog-proof-heading">Native modal lifecycle</h2>
+        <div class="button-row">
+          <button data-morfira-button data-size="sm" data-dialog-size="sm">
+            Open small
+          </button>
+          <button data-morfira-button data-size="md" data-dialog-size="md">
+            Open medium
+          </button>
+          <button data-morfira-button data-size="lg" data-dialog-size="lg">
+            Open large
+          </button>
+        </div>
+      </section>
+
+      <dialog
+        data-morfira-dialog
+        data-size="md"
+        data-state="closed"
+        aria-modal="true"
+        aria-labelledby="proof-dialog-title"
+        aria-describedby="proof-dialog-description"
+        tabindex="-1"
+      >
+        <header data-morfira-dialog-header>
+          <div>
+            <h2 id="proof-dialog-title" data-morfira-dialog-title>Review deployment</h2>
+            <div id="proof-dialog-description" data-morfira-dialog-description>
+              Native top layer, controlled dismissal, focus restoration, and inherited
+              theme.
+            </div>
+          </div>
+          <button type="button" aria-label="Close dialog" data-morfira-dialog-close>
+            <span aria-hidden="true">×</span>
+          </button>
+        </header>
+        <div data-morfira-dialog-body>
+          <p>
+            This Dialog is opened through the shared DOM controller. Escape and direct
+            backdrop interaction request dismissal without bypassing controlled state.
+          </p>
+        </div>
+        <footer data-morfira-dialog-footer>
+          <button
+            type="button"
+            data-morfira-button
+            data-variant="secondary"
+            data-dialog-cancel
+            data-morfira-dialog-initial-focus
+          >
+            Cancel
+          </button>
+          <button type="button" data-morfira-button data-dialog-confirm>
+            Confirm deployment
+          </button>
+        </footer>
+      </dialog>
     </main>
+    <script type="importmap">
+      {
+        "imports": {
+          "@morfira-dev/core/dialog": "../../packages/core/dist/dialog.js"
+        }
+      }
+    </script>
     <script type="module">
+      import { enhanceDialog } from '../../packages/dom/dist/dialog.js';
+
       const root = document.documentElement;
       const themeToggle = document.querySelector('#theme-toggle');
       const directionToggle = document.querySelector('#direction-toggle');
+      const dialog = document.querySelector('dialog[data-morfira-dialog]');
+      const dialogClose = dialog?.querySelector('[data-morfira-dialog-close]');
+      const dialogCancel = dialog?.querySelector('[data-dialog-cancel]');
+      const dialogConfirm = dialog?.querySelector('[data-dialog-confirm]');
+      let dialogSize = 'md';
+
+      const dialogOptions = (open) => ({
+        ids: {
+          titleId: 'proof-dialog-title',
+          descriptionId: 'proof-dialog-description',
+        },
+        open,
+        size: dialogSize,
+        closeOnBackdrop: true,
+        onDismiss: () => {
+          dialogController?.update(dialogOptions(false));
+        },
+      });
+
+      const dialogController = dialog
+        ? enhanceDialog(dialog, dialogOptions(false))
+        : undefined;
 
       themeToggle?.addEventListener('click', () => {
-        root.dataset.morfiraTheme =
-          root.dataset.morfiraTheme === 'dark' ? 'light' : 'dark';
+        const activeTheme =
+          root.dataset.morfiraTheme ??
+          (window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light');
+
+        root.dataset.morfiraTheme = activeTheme === 'dark' ? 'light' : 'dark';
       });
 
       directionToggle?.addEventListener('click', () => {
         root.dir = root.dir === 'rtl' ? 'ltr' : 'rtl';
+      });
+
+      document.querySelectorAll('[data-dialog-size]').forEach((trigger) => {
+        trigger.addEventListener('click', () => {
+          dialogSize = trigger.dataset.dialogSize ?? 'md';
+          dialogController?.update(dialogOptions(true));
+        });
+      });
+
+      dialogClose?.addEventListener('click', () => {
+        dialogController?.requestClose('close-button');
+      });
+
+      dialogCancel?.addEventListener('click', () => {
+        dialogController?.requestClose('close-button');
+      });
+
+      dialogConfirm?.addEventListener('click', () => {
+        dialogController?.update(dialogOptions(false));
       });
     </script>
   </body>

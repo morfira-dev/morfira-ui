@@ -1,0 +1,104 @@
+@layer morfira.components {
+  :where([data-morfira-field]) {
+    --morfira-field-gap: var(--morfira-space-2);
+    --morfira-field-label-color: var(--morfira-content-primary);
+    --morfira-field-message-color: var(--morfira-content-secondary);
+    --morfira-field-status-color: var(--morfira-content-secondary);
+
+    display: grid;
+    gap: var(--morfira-field-gap);
+    color: var(--morfira-content-primary);
+    font-family: var(--morfira-font-family-sans);
+    font-size: var(--morfira-font-size-sm);
+    line-height: var(--morfira-font-line-height-normal);
+  }
+
+  :where([data-morfira-field-label]) {
+    display: inline-flex;
+    inline-size: fit-content;
+    align-items: baseline;
+    gap: var(--morfira-space-1);
+    color: var(--morfira-field-label-color);
+    font-weight: var(--morfira-font-weight-medium);
+  }
+
+  :where([data-morfira-field-required]) {
+    color: var(--morfira-content-danger);
+    font-weight: var(--morfira-font-weight-semibold);
+  }
+
+  :where([data-morfira-field-message]) {
+    display: flex;
+    min-inline-size: 0;
+    align-items: flex-start;
+    gap: var(--morfira-space-1);
+    margin: 0;
+    color: var(--morfira-field-message-color);
+    font-size: var(--morfira-font-size-xs);
+  }
+
+  :where(
+    [data-morfira-field-message][data-message-kind]:not([data-message-kind='helper'])
+  )::before {
+    flex: none;
+    inline-size: 1em;
+    color: var(--morfira-field-status-color);
+    font-weight: var(--morfira-font-weight-bold);
+    line-height: inherit;
+    text-align: center;
+  }
+
+  :where([data-morfira-field-message][data-message-kind='error'])::before {
+    content: '×' / '';
+  }
+
+  :where([data-morfira-field-message][data-message-kind='warning'])::before {
+    content: '!' / '';
+  }
+
+  :where([data-morfira-field-message][data-message-kind='success'])::before {
+    content: '✓' / '';
+  }
+
+  :where([data-morfira-field][data-validation='none']) {
+    --morfira-field-message-color: var(--morfira-content-secondary);
+    --morfira-field-status-color: var(--morfira-content-secondary);
+  }
+
+  :where([data-morfira-field][data-validation='error']) {
+    --morfira-field-message-color: var(--morfira-content-danger);
+    --morfira-field-status-color: var(--morfira-content-danger);
+  }
+
+  :where([data-morfira-field][data-validation='warning']) {
+    --morfira-field-message-color: var(--morfira-content-warning);
+    --morfira-field-status-color: var(--morfira-content-warning);
+  }
+
+  :where([data-morfira-field][data-validation='success']) {
+    --morfira-field-message-color: var(--morfira-content-success);
+    --morfira-field-status-color: var(--morfira-content-success);
+  }
+
+  :where([data-morfira-field][data-disabled]) {
+    --morfira-field-label-color: var(--morfira-interactive-disabled-content);
+    --morfira-field-message-color: var(--morfira-interactive-disabled-content);
+  }
+
+  @media (forced-colors: active) {
+    :where([data-morfira-field]) {
+      --morfira-field-label-color: CanvasText;
+      --morfira-field-message-color: CanvasText;
+      --morfira-field-status-color: CanvasText;
+    }
+
+    :where([data-morfira-field][data-disabled]) {
+      --morfira-field-label-color: GrayText;
+      --morfira-field-message-color: GrayText;
+    }
+
+    :where([data-morfira-field-required]) {
+      color: CanvasText;
+    }
+  }
+}

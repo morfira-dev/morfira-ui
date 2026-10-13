@@ -1,0 +1,63 @@
+@layer consumer {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-block-size: 100vh;
+    background: var(--morfira-surface-canvas);
+    color: var(--morfira-content-primary);
+    font-family: var(--morfira-font-family-sans);
+  }
+
+  main {
+    display: grid;
+    min-block-size: 100vh;
+    place-items: center;
+    padding: var(--morfira-space-6);
+  }
+
+  .consumer-card {
+    display: grid;
+    inline-size: min(36rem, 100%);
+    gap: var(--morfira-space-4);
+    border: var(--morfira-border-thin) solid var(--morfira-border-subtle);
+    border-radius: var(--morfira-radius-xl);
+    padding: var(--morfira-space-6);
+    background: var(--morfira-surface-raised);
+    box-shadow: var(--morfira-shadow-md);
+  }
+
+  h1,
+  p {
+    margin: 0;
+  }
+
+  .eyebrow {
+    color: var(--morfira-content-accent);
+    font-size: var(--morfira-font-size-xs);
+    font-weight: var(--morfira-font-weight-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .consumer-controls {
+    display: grid;
+    gap: var(--morfira-space-3);
+  }
+
+  .consumer-controls > [data-morfira-button] {
+    justify-self: start;
+  }
+
+  output {
+    color: var(--morfira-content-secondary);
+    font-size: var(--morfira-font-size-sm);
+  }
+
+  [data-morfira-dialog-body] {
+    display: grid;
+    gap: var(--morfira-space-3);
+  }
+}
