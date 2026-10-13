@@ -1,0 +1,20 @@
+{
+  "react": {
+    "button": { "cssGzipBytes": 1400, "jsGzipBytes": 14000 },
+    "dialog": { "cssGzipBytes": 1500, "jsGzipBytes": 17000 },
+    "field": { "cssGzipBytes": 800, "jsGzipBytes": 15000 },
+    "input": { "cssGzipBytes": 1300, "jsGzipBytes": 14500 }
+  },
+  "svelte": {
+    "button": { "cssGzipBytes": 1400, "jsGzipBytes": 18000 },
+    "dialog": { "cssGzipBytes": 1500, "jsGzipBytes": 23000 },
+    "field": { "cssGzipBytes": 800, "jsGzipBytes": 19500 },
+    "input": { "cssGzipBytes": 1300, "jsGzipBytes": 19000 }
+  },
+  "vue": {
+    "button": { "cssGzipBytes": 1400, "jsGzipBytes": 20500 },
+    "dialog": { "cssGzipBytes": 1500, "jsGzipBytes": 23500 },
+    "field": { "cssGzipBytes": 800, "jsGzipBytes": 21500 },
+    "input": { "cssGzipBytes": 1300, "jsGzipBytes": 20500 }
+  }
+}

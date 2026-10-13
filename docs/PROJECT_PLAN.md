@@ -1,6 +1,7 @@
 # Morfira UI: Product and Technical Plan
 
-Status: Phase 0 foundation complete; Phase 1 implementation is active.
+Status: Phase 0 foundation and Phase 1 implementation complete; Phase 1 release-browser
+and manual assistive-technology certification is pending.
 
 This document records the agreed product direction and technical boundaries for Morfira
 UI. It is a roadmap, not evidence that the described packages, APIs, or infrastructure
@@ -19,8 +20,11 @@ As of 2026-10-13:
 - Phase 1 includes implemented token/theme, Button, Field, Input, and modal Dialog
   vertical slices across core, DOM, React, Vue, and Svelte. Cross-browser SSR/hydration,
   accessibility, rendering-mode, and shared Button/Field/Input adapter conformance are
-  automated; visual regression and the remaining Dialog lifecycle matrix are separate
-  gates.
+  automated. Isolated production builds enforce component code, CSS, and gzip boundaries
+  for all twelve React, Vue, and Svelte Phase 1 subpath imports. Stable visual
+  regression and the extended Dialog lifecycle matrix are automated. Released
+  Safari/Firefox ESR and VoiceOver/NVDA evidence remains the final manual certification
+  gate.
 
 The exact GitHub repository slug is not part of the public package contract and does not
 block architecture or implementation work. The current `morfira-dev/morfira-ui`
@@ -328,9 +332,8 @@ A component is complete only when:
 
 ## Immediate work
 
-1. Add per-component isolated-import builds and size budgets; the current production
-   consumer budget proves the Dialog subpath only.
-2. Add stable visual snapshots and the documented manual screen-reader and released
-   Safari/Firefox ESR evidence before declaring Phase 1 stable.
-3. Complete the remaining nested and interrupted Dialog lifecycle cases, then start
-   Phase 2 with Checkbox without adapter-specific exceptions.
+1. Run and record the release matrix, including native autofill, for the latest two
+   Safari releases, current Firefox ESR, VoiceOver with Safari, and NVDA with Firefox
+   ESR before declaring Phase 1 stable.
+2. Start Phase 2 with Checkbox without adapter-specific exceptions after the manual
+   Phase 1 certification record passes.

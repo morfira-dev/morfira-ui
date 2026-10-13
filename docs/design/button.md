@@ -129,5 +129,6 @@ Static contract tests cover selectors, independent export wiring, logical proper
 focus, reduced motion, and forced colors. The shared browser fixture proves size
 geometry, theme switching, loading state, RTL, reduced motion, forced-color rendering,
 and automated WCAG checks. Framework consumer SSR, hydration, and shared interaction
-conformance run in all three browser engines. Screenshot regression and manual
-assistive-technology perception remain separate pending evidence.
+conformance run in all three browser engines. Stable light/dark screenshot regression
+protects the complete variant and size matrix. Manual assistive-technology perception
+remains separate pending evidence.

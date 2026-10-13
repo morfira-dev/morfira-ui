@@ -2,9 +2,10 @@
 
 Status: Phase 1 public contract; the native DOM and framework adapters implement the
 first modal overlay slice. Automated Chromium, Firefox, and WebKit coverage proves the
-primary browser, accessibility, SSR, hydration, and consumer contracts; the extended
-nested, interrupted-lifecycle, screenshot, and manual assistive-technology matrix
-remains.
+primary browser, accessibility, SSR, hydration, consumer, nested scroll-lock,
+interrupted state-sync, disconnected teardown, and idempotent cleanup contracts. Stable
+screenshot regression covers every size and the complete modal composition; manual
+assistive-technology verification remains separate evidence.
 
 Dialog is Morfira UI's first complex overlay. Its API, markup, visual treatment, focus
 model, and dismissal behavior are original to Morfira UI. Other enterprise systems are
@@ -176,4 +177,7 @@ initial focus fallback, Tab wrapping, programmatic focus containment, Escape and
 backdrop dismissal, focus restoration, nested scroll locks, long-body scrolling,
 26/36/48-rem computed size selection subject to viewport caps, narrow and zoomed
 viewports, light and dark themes, RTL, reduced motion, forced colors, unmount cleanup,
-and hydration. Static CSS or DOM snapshots alone are not evidence for those behaviors.
+interrupted state synchronization, repeated teardown, and hydration. The controller has
+no timer, animation-event, or queued-callback dependency; native close reconciliation is
+synchronous and stale listeners are removed during teardown. Static CSS or DOM snapshots
+alone are not evidence for those behaviors.

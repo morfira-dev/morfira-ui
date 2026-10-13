@@ -1,7 +1,7 @@
 # Morfira UI Software Design Description
 
-Status: accepted baseline; Phase 1 is active with tokens, themes, Button, Field, Input,
-and Dialog implemented.
+Status: accepted baseline; Phase 1 implementation is complete, with release-browser and
+manual assistive-technology certification still pending.
 
 ## 1. Purpose
 
@@ -147,11 +147,14 @@ evidence.
 
 ### Phase 1 — proof-oriented vertical slice
 
-- Status: active; tokens, themes, Button, Field, Input, and Dialog are implemented.
-  Cross-browser DOM, accessibility, rendering-mode, and consumer SSR/hydration proof for
-  Button, Field, Input, and Dialog are active. Shared Button, Field, and Input adapter
-  conformance runs against React, Vue, and Svelte; visual regression and the extended
-  Dialog lifecycle matrix remain.
+- Status: implementation complete; tokens, themes, Button, Field, Input, and Dialog are
+  implemented. Cross-browser DOM, accessibility, rendering-mode, and consumer
+  SSR/hydration proof for Button, Field, Input, and Dialog are active. Shared Button,
+  Field, and Input adapter conformance runs against React, Vue, and Svelte. Production
+  builds verify every Phase 1 adapter subpath against component-specific code, CSS, and
+  gzip boundaries. Stable visual regression and the extended Dialog lifecycle matrix are
+  automated. Released Safari/Firefox ESR and VoiceOver/NVDA evidence remains a manual
+  certification gate and is tracked separately from Playwright engine coverage.
 - Tokens and themes.
 - Button across core, DOM, React, Vue, and Svelte.
 - Field and Input across core, DOM, React, Vue, and Svelte.

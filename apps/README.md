@@ -15,3 +15,9 @@ entries hydrate the same markup and promote the surface to the native top layer.
 fixtures are served together by `scripts/serve-consumer-fixtures.mjs` for the Playwright
 matrix. They are verification applications, not documentation-site templates or packages
 intended for publication.
+
+Each framework fixture also owns four isolated library-mode entrypoints. The consumer
+gate builds Button, Field, Input, and Dialog separately through their public package and
+CSS subpaths, rejects package root barrels and unrelated component sources or selectors,
+and applies component-specific gzip budgets from
+`tooling/isolated-consumer-size-budgets.json`.

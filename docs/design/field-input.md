@@ -134,5 +134,6 @@ separation, logical properties, focus modes, package exports, reduced motion, an
 colors. Browser tests additionally prove visible control geometry, accessible names and
 descriptions, focus treatment, RTL composition, forced colors, rendered contrast, and
 axe WCAG checks. Adapter fixtures additionally cover SSR markup and hydrated input/value
-bindings. Browser autofill and manual screen-reader announcement order remain separate
+bindings. Stable light/dark screenshot regression protects validation, size, and focus
+states. Browser autofill and manual screen-reader announcement order remain separate
 pending evidence.

@@ -232,6 +232,77 @@ describe('enhanceDialog', () => {
     expect(document.documentElement.style.overflow).toBe('clip');
   });
 
+  it('keeps the shared scroll lock when nested dialogs tear down out of order', () => {
+    const document = new FakeDocument();
+    const outer = new FakeDialog(document);
+    const inner = new FakeDialog(document);
+    const outerController = enhanceDialog(asDialog(outer), { ids, open: true });
+    const innerController = enhanceDialog(asDialog(inner), {
+      ids: { titleId: 'inner-title' },
+      open: true,
+    });
+
+    outerController.destroy();
+    outerController.destroy();
+
+    expect(outer.open).toBe(false);
+    expect(inner.open).toBe(true);
+    expect(document.documentElement.style.overflow).toBe('hidden');
+
+    innerController.destroy();
+
+    expect(document.documentElement.style.overflow).toBe('clip');
+  });
+
+  it('reconciles rapid close and reopen updates without duplicating lifecycle effects', () => {
+    const document = new FakeDocument();
+    const dialog = new FakeDialog(document);
+    const opener = new FakeElement(document);
+    const dialogControl = new FakeElement(document);
+    dialog.candidates.push(dialogControl);
+    document.activeElement = opener;
+    const controller = enhanceDialog(asDialog(dialog), { ids, open: true });
+
+    controller.update({ ids, open: false });
+    controller.update({ ids, open: true });
+    controller.update({ ids, open: true, size: 'lg' });
+    controller.update({ ids, open: false });
+
+    expect(dialog.showModalCalls).toBe(2);
+    expect(dialog.closeCalls).toBe(2);
+    expect(opener.focused).toBe(2);
+    expect(dialogControl.focused).toBe(2);
+    expect(dialog.getAttribute('data-state')).toBe('closed');
+    expect(document.documentElement.style.overflow).toBe('clip');
+  });
+
+  it('uses the latest callbacks and policies after an interrupted open lifecycle', () => {
+    const document = new FakeDocument();
+    const dialog = new FakeDialog(document);
+    const previousDismiss = vi.fn();
+    const currentDismiss = vi.fn();
+    const controller = enhanceDialog(asDialog(dialog), {
+      ids,
+      open: true,
+      closeOnEscape: false,
+      onDismiss: previousDismiss,
+    });
+
+    controller.update({
+      ids,
+      open: true,
+      closeOnEscape: true,
+      onDismiss: currentDismiss,
+    });
+    dialog.dispatchEvent(new Event('cancel', { cancelable: true }));
+    controller.update({ ids, open: false, onDismiss: currentDismiss });
+    dialog.dispatchEvent(new Event('close'));
+
+    expect(previousDismiss).not.toHaveBeenCalled();
+    expect(currentDismiss.mock.calls).toEqual([['escape']]);
+    expect(document.documentElement.style.overflow).toBe('clip');
+  });
+
   it('reconciles an unexpected native close and cleans its lifecycle', () => {
     const document = new FakeDocument();
     const dialog = new FakeDialog(document);
@@ -276,6 +347,31 @@ describe('enhanceDialog', () => {
     expect(dialog.getAttribute('data-size')).toBe('consumer-size');
     expect(dialog.getAttribute('aria-describedby')).toBe('consumer-description');
     expect(dialog.getAttribute('aria-modal')).toBeNull();
+    expect(document.documentElement.style.overflow).toBe('clip');
+    expect(onDismiss).not.toHaveBeenCalled();
+  });
+
+  it('cleans an open lifecycle after the dialog disconnects', () => {
+    const document = new FakeDocument();
+    const dialog = new FakeDialog(document);
+    const opener = new FakeElement(document);
+    const onDismiss = vi.fn();
+    document.activeElement = opener;
+    const controller = enhanceDialog(asDialog(dialog), {
+      ids,
+      open: true,
+      onDismiss,
+    });
+
+    dialog.isConnected = false;
+    controller.destroy();
+    controller.destroy();
+    dialog.dispatchEvent(new Event('close'));
+    dialog.dispatchEvent(new Event('cancel', { cancelable: true }));
+
+    expect(dialog.open).toBe(false);
+    expect(dialog.closeCalls).toBe(1);
+    expect(opener.focused).toBe(1);
     expect(document.documentElement.style.overflow).toBe('clip');
     expect(onDismiss).not.toHaveBeenCalled();
   });

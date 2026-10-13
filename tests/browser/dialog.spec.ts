@@ -1,5 +1,10 @@
 import { expect, test } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
+import type {
+  DialogController,
+  DialogDomOptions,
+  enhanceDialog as enhanceDialogType,
+} from '../../packages/dom/src/dialog.js';
 
 const dialogSizes = [
   { label: 'Open small', rem: 26, size: 'sm' },
@@ -145,6 +150,260 @@ test('locks document scrolling only for the open lifecycle', async ({ page }) =>
   await expect
     .poll(() => page.locator('html').evaluate((element) => element.style.overflow))
     .toBe('');
+});
+
+test('nested modals retain the shared scroll lock and restore focus in stack order', async ({
+  page,
+}) => {
+  const initialOverflow = await page.evaluate(async () => {
+    const moduleUrl = '/packages/dom/dist/dialog.js';
+    const dialogModule: unknown = await import(moduleUrl);
+    const { enhanceDialog } = dialogModule as {
+      enhanceDialog: typeof enhanceDialogType;
+    };
+    const root = document.documentElement;
+    root.style.overflow = 'clip';
+
+    const opener = document.createElement('button');
+    opener.textContent = 'Nested dialog opener';
+    const outer = document.createElement('dialog');
+    const outerControl = document.createElement('button');
+    outerControl.textContent = 'Outer control';
+    outer.append(outerControl);
+    const inner = document.createElement('dialog');
+    const innerControl = document.createElement('button');
+    innerControl.textContent = 'Inner control';
+    inner.append(innerControl);
+    document.body.append(opener, outer, inner);
+    opener.focus();
+
+    const controllers: {
+      inner?: DialogController;
+      outer?: DialogController;
+    } = {};
+    const outerOptions: DialogDomOptions = {
+      ids: { titleId: 'nested-outer-title' },
+      open: true,
+      initialFocus: outerControl,
+      onDismiss: () => {
+        controllers.outer?.update({
+          ids: { titleId: 'nested-outer-title' },
+          open: false,
+          initialFocus: outerControl,
+        });
+      },
+    };
+    const innerOptions: DialogDomOptions = {
+      ids: { titleId: 'nested-inner-title' },
+      open: true,
+      initialFocus: innerControl,
+      onDismiss: () => {
+        controllers.inner?.update({
+          ids: { titleId: 'nested-inner-title' },
+          open: false,
+          initialFocus: innerControl,
+        });
+      },
+    };
+    controllers.outer = enhanceDialog(outer, outerOptions);
+    controllers.inner = enhanceDialog(inner, innerOptions);
+
+    Object.assign(window, {
+      __morfiraNestedDialogProof: {
+        inner,
+        innerControl,
+        innerController: controllers.inner,
+        opener,
+        outer,
+        outerControl,
+        outerController: controllers.outer,
+      },
+    });
+
+    return root.style.overflow;
+  });
+
+  expect(initialOverflow).toBe('hidden');
+  await expect(page.getByRole('button', { name: 'Inner control' })).toBeFocused();
+
+  await page.keyboard.press('Escape');
+
+  await expect(page.getByRole('button', { name: 'Outer control' })).toBeFocused();
+  expect(
+    await page.evaluate(() => {
+      const proof = Reflect.get(window, '__morfiraNestedDialogProof') as {
+        inner: HTMLDialogElement;
+        outer: HTMLDialogElement;
+      };
+      return {
+        innerOpen: proof.inner.open,
+        outerOpen: proof.outer.open,
+        overflow: document.documentElement.style.overflow,
+      };
+    }),
+  ).toEqual({ innerOpen: false, outerOpen: true, overflow: 'hidden' });
+
+  await page.keyboard.press('Escape');
+
+  await expect(
+    page.getByRole('button', { name: 'Nested dialog opener' }),
+  ).toBeFocused();
+  expect(
+    await page.evaluate(() => {
+      const proof = Reflect.get(window, '__morfiraNestedDialogProof') as {
+        innerController: { destroy(): void };
+        outerController: { destroy(): void };
+      };
+      proof.innerController.destroy();
+      proof.outerController.destroy();
+      const overflow = document.documentElement.style.overflow;
+      Reflect.deleteProperty(window, '__morfiraNestedDialogProof');
+      return overflow;
+    }),
+  ).toBe('clip');
+});
+
+test('destroying the outer modal first preserves the inner top layer and scroll lock', async ({
+  page,
+}) => {
+  const result = await page.evaluate(async () => {
+    const moduleUrl = '/packages/dom/dist/dialog.js';
+    const dialogModule: unknown = await import(moduleUrl);
+    const { enhanceDialog } = dialogModule as {
+      enhanceDialog: typeof enhanceDialogType;
+    };
+    const root = document.documentElement;
+    root.style.overflow = 'clip';
+    const opener = document.createElement('button');
+    opener.textContent = 'Out-of-order opener';
+    const outer = document.createElement('dialog');
+    const outerControl = document.createElement('button');
+    outerControl.textContent = 'Out-of-order outer control';
+    outer.append(outerControl);
+    const inner = document.createElement('dialog');
+    const innerControl = document.createElement('button');
+    innerControl.textContent = 'Out-of-order inner control';
+    inner.append(innerControl);
+    document.body.append(opener, outer, inner);
+    opener.focus();
+
+    const outerController = enhanceDialog(outer, {
+      ids: { titleId: 'out-of-order-outer-title' },
+      initialFocus: outerControl,
+      open: true,
+      returnFocus: opener,
+    });
+    const innerController = enhanceDialog(inner, {
+      ids: { titleId: 'out-of-order-inner-title' },
+      initialFocus: innerControl,
+      open: true,
+      returnFocus: opener,
+    });
+
+    outerController.destroy();
+    const afterOuterDestroy = {
+      activeText: document.activeElement?.textContent,
+      innerOpen: inner.open,
+      outerOpen: outer.open,
+      overflow: root.style.overflow,
+    };
+    innerController.destroy();
+    const afterInnerDestroy = {
+      activeText: document.activeElement?.textContent,
+      innerOpen: inner.open,
+      overflow: root.style.overflow,
+    };
+
+    outer.remove();
+    inner.remove();
+    opener.remove();
+    root.style.overflow = '';
+    return { afterInnerDestroy, afterOuterDestroy };
+  });
+
+  expect(result).toEqual({
+    afterInnerDestroy: {
+      activeText: 'Out-of-order opener',
+      innerOpen: false,
+      overflow: 'clip',
+    },
+    afterOuterDestroy: {
+      activeText: 'Out-of-order inner control',
+      innerOpen: true,
+      outerOpen: false,
+      overflow: 'hidden',
+    },
+  });
+});
+
+test('rapid state synchronization and disconnected teardown leave no modal effects', async ({
+  page,
+}) => {
+  const result = await page.evaluate(async () => {
+    const moduleUrl = '/packages/dom/dist/dialog.js';
+    const dialogModule: unknown = await import(moduleUrl);
+    const { enhanceDialog } = dialogModule as {
+      enhanceDialog: typeof enhanceDialogType;
+    };
+    const root = document.documentElement;
+    root.style.overflow = 'scroll';
+    const opener = document.createElement('button');
+    opener.textContent = 'Lifecycle opener';
+    const dialog = document.createElement('dialog');
+    const control = document.createElement('button');
+    control.textContent = 'Lifecycle control';
+    dialog.append(control);
+    document.body.append(opener, dialog);
+    opener.focus();
+
+    const nativeShowModal = dialog.showModal.bind(dialog);
+    const nativeClose = dialog.close.bind(dialog);
+    let showModalCalls = 0;
+    let closeCalls = 0;
+    dialog.showModal = () => {
+      showModalCalls += 1;
+      nativeShowModal();
+    };
+    dialog.close = () => {
+      closeCalls += 1;
+      nativeClose();
+    };
+
+    const ids = { titleId: 'lifecycle-title' } as const;
+    const controller = enhanceDialog(dialog, {
+      ids,
+      open: true,
+      initialFocus: control,
+    });
+    controller.update({ ids, open: false, initialFocus: control });
+    controller.update({ ids, open: true, initialFocus: control });
+    controller.update({ ids, open: true, initialFocus: control, size: 'lg' });
+    dialog.remove();
+    controller.destroy();
+    controller.destroy();
+    controller.update({ ids, open: true });
+    controller.requestClose('close-button');
+
+    return {
+      activeText: document.activeElement?.textContent,
+      closeCalls,
+      connected: dialog.isConnected,
+      dataState: dialog.getAttribute('data-state'),
+      open: dialog.open,
+      overflow: root.style.overflow,
+      showModalCalls,
+    };
+  });
+
+  expect(result).toEqual({
+    activeText: 'Lifecycle opener',
+    closeCalls: 2,
+    connected: false,
+    dataState: null,
+    open: false,
+    overflow: 'scroll',
+    showModalCalls: 2,
+  });
 });
 
 test('keeps header and footer fixed while a long body owns scrolling', async ({
