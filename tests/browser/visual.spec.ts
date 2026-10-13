@@ -74,6 +74,70 @@ test('keeps Field and Input sizes, validation states, and focus treatment stable
   );
 });
 
+test('keeps Phase 2 native form controls stable in light and dark themes', async ({
+  page,
+}) => {
+  const controls = page
+    .getByRole('heading', { name: 'Phase 2 form controls' })
+    .locator('xpath=following-sibling::div[1]');
+  const checkbox = controls.locator('input[data-morfira-checkbox]');
+
+  await checkbox.evaluate((element: HTMLInputElement) => {
+    element.indeterminate = true;
+    element.setAttribute('data-indeterminate', '');
+  });
+  await setTheme(page, 'light');
+  await expect(controls).toHaveScreenshot('phase2-form-controls-light.png', {
+    maxDiffPixelRatio: 0.002,
+  });
+
+  await setTheme(page, 'dark');
+  await expect(controls).toHaveScreenshot('phase2-form-controls-dark.png', {
+    maxDiffPixelRatio: 0.002,
+  });
+});
+
+test('keeps the open Phase 2 Tooltip surface stable', async ({ page }) => {
+  await setTheme(page, 'light');
+  const panel = page
+    .getByRole('heading', { name: 'Tooltip and Popover' })
+    .locator('..');
+  await panel.evaluate((element: HTMLElement) => {
+    element.style.minBlockSize = '14rem';
+  });
+  await page.getByRole('button', { name: 'Deployment help' }).hover();
+  await expect(page.getByRole('tooltip')).toBeVisible();
+
+  await expect(panel).toHaveScreenshot('phase2-tooltip-open-light.png');
+});
+
+test('keeps the open Phase 2 Popover surface stable', async ({ page }) => {
+  await setTheme(page, 'dark');
+  const panel = page
+    .getByRole('heading', { name: 'Tooltip and Popover' })
+    .locator('..');
+  await panel.evaluate((element: HTMLElement) => {
+    element.style.minBlockSize = '28rem';
+  });
+  await page.getByRole('button', { name: 'Deployment actions' }).click();
+  await expect(page.getByRole('dialog', { name: 'Deployment actions' })).toBeVisible();
+
+  await expect(panel).toHaveScreenshot('phase2-popover-open-dark.png');
+});
+
+test('keeps Phase 2 Tabs and Accordion selected states stable', async ({ page }) => {
+  await setTheme(page, 'light');
+  await page.getByRole('tab', { name: 'Activity' }).click();
+  await page.getByText('Rollback', { exact: true }).click();
+
+  const tabs = page.getByRole('heading', { name: 'Tabs', exact: true }).locator('..');
+  const accordion = page
+    .getByRole('heading', { name: 'Accordion', exact: true })
+    .locator('..');
+  await expect(tabs).toHaveScreenshot('phase2-tabs-active-light.png');
+  await expect(accordion).toHaveScreenshot('phase2-accordion-open-light.png');
+});
+
 for (const size of ['small', 'medium', 'large'] as const) {
   test(`keeps the ${size} Dialog geometry stable`, async ({ page }) => {
     await setTheme(page, size === 'medium' ? 'dark' : 'light');

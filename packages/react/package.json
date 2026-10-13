@@ -18,6 +18,10 @@
       "types": "./dist/button/index.d.ts",
       "import": "./dist/button/index.js"
     },
+    "./checkbox": {
+      "types": "./dist/checkbox/index.d.ts",
+      "import": "./dist/checkbox/index.js"
+    },
     "./dialog": {
       "types": "./dist/dialog/index.d.ts",
       "import": "./dist/dialog/index.js"
@@ -29,6 +33,38 @@
     "./input": {
       "types": "./dist/input/index.d.ts",
       "import": "./dist/input/index.js"
+    },
+    "./radio": {
+      "types": "./dist/radio/index.d.ts",
+      "import": "./dist/radio/index.js"
+    },
+    "./switch": {
+      "types": "./dist/switch/index.d.ts",
+      "import": "./dist/switch/index.js"
+    },
+    "./textarea": {
+      "types": "./dist/textarea/index.d.ts",
+      "import": "./dist/textarea/index.js"
+    },
+    "./select": {
+      "types": "./dist/select/index.d.ts",
+      "import": "./dist/select/index.js"
+    },
+    "./tooltip": {
+      "types": "./dist/tooltip/index.d.ts",
+      "import": "./dist/tooltip/index.js"
+    },
+    "./popover": {
+      "types": "./dist/popover/index.d.ts",
+      "import": "./dist/popover/index.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs/index.d.ts",
+      "import": "./dist/tabs/index.js"
+    },
+    "./accordion": {
+      "types": "./dist/accordion/index.d.ts",
+      "import": "./dist/accordion/index.js"
     },
     "./package.json": "./package.json"
   },

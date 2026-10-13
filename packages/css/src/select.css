@@ -1,0 +1,93 @@
+@layer morfira.components {
+  :where(select[data-morfira-select]) {
+    --morfira-select-size: var(--morfira-control-size-md);
+    --morfira-select-border-color: var(--morfira-border-default);
+    appearance: none;
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    block-size: var(--morfira-select-size);
+    box-sizing: border-box;
+    border: var(--morfira-border-thin) solid var(--morfira-select-border-color);
+    border-radius: var(--morfira-radius-md);
+    padding-block: 0;
+    padding-inline: var(--morfira-space-3)
+      calc(var(--morfira-space-5) + var(--morfira-space-2));
+    background-color: var(--morfira-surface-raised);
+    background-image:
+      linear-gradient(45deg, transparent 50%, currentColor 50%),
+      linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position:
+      right calc(var(--morfira-space-3) + 0.25rem) center,
+      right var(--morfira-space-3) center;
+    background-size: 0.3rem 0.3rem;
+    background-repeat: no-repeat;
+    color: var(--morfira-content-primary);
+    font-family: var(--morfira-font-family-sans);
+    font-size: var(--morfira-font-size-sm);
+    line-height: var(--morfira-font-line-height-normal);
+    cursor: pointer;
+    transition:
+      border-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      background-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard);
+  }
+  :where(select[data-morfira-select]):hover:not(:disabled) {
+    --morfira-select-border-color: var(--morfira-border-strong);
+  }
+  :where(select[data-morfira-select]):focus-visible {
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: 0;
+  }
+  :where(select[data-morfira-select][data-size='sm']) {
+    --morfira-select-size: var(--morfira-control-size-sm);
+    padding-inline-start: var(--morfira-space-2);
+    font-size: var(--morfira-font-size-xs);
+  }
+  :where(select[data-morfira-select][data-size='lg']) {
+    --morfira-select-size: var(--morfira-control-size-lg);
+    padding-inline-start: var(--morfira-space-4);
+    font-size: var(--morfira-font-size-md);
+  }
+  :where(select[data-morfira-select][data-validation='error']) {
+    --morfira-select-border-color: var(--morfira-border-danger);
+  }
+  :where(select[data-morfira-select][data-validation='warning']) {
+    --morfira-select-border-color: var(--morfira-content-warning);
+  }
+  :where(select[data-morfira-select][data-validation='success']) {
+    --morfira-select-border-color: var(--morfira-content-success);
+  }
+  :where(select[data-morfira-select][data-multiple]) {
+    block-size: auto;
+    min-block-size: calc(var(--morfira-select-size) * 2.5);
+    padding: var(--morfira-space-2);
+    background-image: none;
+  }
+  :where([dir='rtl'] select[data-morfira-select]:not([data-multiple])) {
+    background-position:
+      left calc(var(--morfira-space-3) + 0.25rem) center,
+      left var(--morfira-space-3) center;
+  }
+  :where(select[data-morfira-select]):disabled {
+    background-color: var(--morfira-interactive-disabled);
+    color: var(--morfira-interactive-disabled-content);
+    cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(select[data-morfira-select]) {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    :where(select[data-morfira-select]) {
+      appearance: auto;
+      border-color: FieldText;
+      background: Field;
+      color: FieldText;
+      forced-color-adjust: auto;
+    }
+  }
+}

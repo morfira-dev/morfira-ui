@@ -1,14 +1,14 @@
 {
   "react": {
-    "cssGzipBytes": 6000,
-    "jsGzipBytes": 80000
+    "cssGzipBytes": 8000,
+    "jsGzipBytes": 95000
   },
   "svelte": {
-    "cssGzipBytes": 6000,
-    "jsGzipBytes": 30000
+    "cssGzipBytes": 8000,
+    "jsGzipBytes": 45000
   },
   "vue": {
-    "cssGzipBytes": 6000,
-    "jsGzipBytes": 60000
+    "cssGzipBytes": 8000,
+    "jsGzipBytes": 70000
   }
 }

@@ -13,10 +13,21 @@ const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outputDirectory = resolve(repositoryRoot, 'packages/css/dist');
 const themesDirectory = resolve(outputDirectory, 'themes');
 const generatedNotice = '/* Generated from @morfira-dev/tokens. Do not edit. */';
-const buttonSource = resolve(repositoryRoot, 'packages/css/src/button.css');
-const dialogSource = resolve(repositoryRoot, 'packages/css/src/dialog.css');
-const fieldSource = resolve(repositoryRoot, 'packages/css/src/field.css');
-const inputSource = resolve(repositoryRoot, 'packages/css/src/input.css');
+const componentNames = [
+  'button',
+  'checkbox',
+  'dialog',
+  'field',
+  'input',
+  'radio',
+  'switch',
+  'textarea',
+  'select',
+  'tooltip',
+  'popover',
+  'tabs',
+  'accordion',
+];
 
 const isRecord = (value) =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -224,15 +235,19 @@ const aggregateCss = `${generatedNotice}
 `;
 
 await mkdir(themesDirectory, { recursive: true });
-const buttonCss = await readFile(buttonSource, 'utf8');
-const dialogCss = await readFile(dialogSource, 'utf8');
-const fieldCss = await readFile(fieldSource, 'utf8');
-const inputCss = await readFile(inputSource, 'utf8');
+const componentCss = await Promise.all(
+  componentNames.map(async (name) => ({
+    name,
+    css: await readFile(
+      resolve(repositoryRoot, `packages/css/src/${name}.css`),
+      'utf8',
+    ),
+  })),
+);
 await Promise.all([
-  writeFile(resolve(outputDirectory, 'button.css'), buttonCss),
-  writeFile(resolve(outputDirectory, 'dialog.css'), dialogCss),
-  writeFile(resolve(outputDirectory, 'field.css'), fieldCss),
-  writeFile(resolve(outputDirectory, 'input.css'), inputCss),
+  ...componentCss.map(({ name, css }) =>
+    writeFile(resolve(outputDirectory, `${name}.css`), css),
+  ),
   writeFile(resolve(outputDirectory, 'primitives.css'), primitiveCss),
   writeFile(resolve(outputDirectory, 'theme.css'), aggregateCss),
   writeFile(resolve(themesDirectory, 'light.css'), lightCss),

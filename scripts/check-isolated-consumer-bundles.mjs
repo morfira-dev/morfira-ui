@@ -6,29 +6,55 @@ import { gzipSync } from 'node:zlib';
 const budgets = JSON.parse(
   await readFile(resolve('tooling/isolated-consumer-size-budgets.json'), 'utf8'),
 );
-const components = ['button', 'dialog', 'field', 'input'];
+const components = [
+  'button',
+  'dialog',
+  'field',
+  'input',
+  'checkbox',
+  'radio',
+  'switch',
+  'textarea',
+  'select',
+  'tooltip',
+  'popover',
+  'tabs',
+  'accordion',
+];
 const frameworkPackages = {
   react: '@morfira-dev/consumer-react',
   svelte: '@morfira-dev/consumer-svelte',
   vue: '@morfira-dev/consumer-vue',
 };
 const cssMarkers = {
+  accordion: '[data-morfira-accordion]',
   button: '[data-morfira-button]',
+  checkbox: '[data-morfira-checkbox]',
   dialog: '[data-morfira-dialog]',
   field: '[data-morfira-field]',
   input: '[data-morfira-input]',
+  popover: '[data-morfira-popover]',
+  radio: '[data-morfira-radio]',
+  select: '[data-morfira-select]',
+  switch: '[data-morfira-switch]',
+  tabs: '[data-morfira-tabs]',
+  textarea: '[data-morfira-textarea]',
+  tooltip: '[data-morfira-tooltip]',
 };
-const forbiddenCssMarkers = {
-  button: ['[data-morfira-dialog]', '[data-morfira-field]', '[data-morfira-input]'],
-  dialog: ['[data-morfira-button]', '[data-morfira-field]', '[data-morfira-input]'],
-  field: ['[data-morfira-button]', '[data-morfira-dialog]', '[data-morfira-input]'],
-  input: [
-    '[data-morfira-button]',
-    '[data-morfira-dialog]',
-    '[data-morfira-field-label]',
-    '[data-morfira-field-message]',
-  ],
-};
+const forbiddenCssMarkers = Object.fromEntries(
+  components.map((component) => [
+    component,
+    Object.entries(cssMarkers)
+      .filter(
+        ([candidate]) =>
+          candidate !== component &&
+          !(
+            candidate === 'field' && ['input', 'select', 'textarea'].includes(component)
+          ),
+      )
+      .map(([, marker]) => marker),
+  ]),
+);
 
 async function collectFiles(root) {
   const entries = await readdir(root, { withFileTypes: true });
@@ -53,21 +79,21 @@ function assertSourceBoundary(framework, component, source) {
   }
 
   const adapterMatch = new RegExp(
-    '/(?:packages/(react|svelte|vue)|node_modules/@morfira-dev/(react|svelte|vue))/dist/(button|dialog|field|input)/([^/]+)$',
+    '/(?:packages/(react|svelte|vue)|node_modules/@morfira-dev/(react|svelte|vue))/dist/(button|dialog|field|input|checkbox|radio|switch|textarea|select|tooltip|popover|tabs|accordion)/([^/]+)$',
     'u',
   ).exec(normalizedSource);
   if (adapterMatch !== null) {
     const [, workspaceFramework, installedFramework, sourceComponent, sourceFile] =
       adapterMatch;
     const sourceFramework = workspaceFramework ?? installedFramework;
-    const inputContext =
-      component === 'input' &&
+    const fieldContext =
+      ['input', 'select', 'textarea'].includes(component) &&
       sourceComponent === 'field' &&
       sourceFile === 'context.js';
 
     if (
       sourceFramework !== framework ||
-      (sourceComponent !== component && !inputContext)
+      (sourceComponent !== component && !fieldContext)
     ) {
       throw new Error(
         `${framework}/${component} pulled an unrelated adapter module: ${source}`,
@@ -76,7 +102,7 @@ function assertSourceBoundary(framework, component, source) {
   }
 
   const behaviorMatch =
-    /\/(?:packages\/(core|dom)|node_modules\/@morfira-dev\/(core|dom))\/dist\/(button|dialog|field|input)\.js$/u.exec(
+    /\/(?:packages\/(core|dom)|node_modules\/@morfira-dev\/(core|dom))\/dist\/(button|dialog|field|input|checkbox|radio|switch|textarea|select|tooltip|popover|tabs|accordion)\.js$/u.exec(
       normalizedSource,
     );
   if (behaviorMatch !== null) {

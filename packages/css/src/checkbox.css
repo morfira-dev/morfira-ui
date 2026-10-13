@@ -1,0 +1,83 @@
+@layer morfira.components {
+  :where(input[data-morfira-checkbox]) {
+    --morfira-checkbox-size: 1.75rem;
+    --morfira-checkbox-border-color: var(--morfira-border-strong);
+    --morfira-checkbox-background: var(--morfira-surface-raised);
+
+    appearance: none;
+    display: inline-grid;
+    inline-size: var(--morfira-checkbox-size);
+    block-size: var(--morfira-checkbox-size);
+    box-sizing: border-box;
+    place-content: center;
+    margin: 0;
+    border: var(--morfira-border-thin) solid var(--morfira-checkbox-border-color);
+    border-radius: var(--morfira-radius-sm);
+    background: var(--morfira-checkbox-background);
+    color: var(--morfira-interactive-primary-content);
+    vertical-align: middle;
+    cursor: pointer;
+    transition:
+      background-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      border-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard);
+  }
+
+  :where(input[data-morfira-checkbox])::before {
+    content: '';
+    inline-size: 0.55em;
+    block-size: 0.3em;
+    border-block-end: 0.125em solid currentColor;
+    border-inline-start: 0.125em solid currentColor;
+    opacity: 0;
+    transform: translateY(-0.08em) rotate(-45deg);
+  }
+
+  :where(
+    input[data-morfira-checkbox]:checked,
+    input[data-morfira-checkbox][data-indeterminate]
+  ) {
+    --morfira-checkbox-background: var(--morfira-interactive-primary);
+    --morfira-checkbox-border-color: var(--morfira-interactive-primary);
+  }
+
+  :where(input[data-morfira-checkbox]:checked)::before {
+    opacity: 1;
+  }
+  :where(input[data-morfira-checkbox][data-indeterminate])::before {
+    inline-size: 0.6em;
+    block-size: 0;
+    border-inline-start: 0;
+    opacity: 1;
+    transform: none;
+  }
+  :where(input[data-morfira-checkbox][data-size='sm']) {
+    --morfira-checkbox-size: 1.5rem;
+  }
+  :where(input[data-morfira-checkbox][data-size='lg']) {
+    --morfira-checkbox-size: 2rem;
+  }
+  :where(input[data-morfira-checkbox]):focus-visible {
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: var(--morfira-border-thick);
+  }
+  :where(input[data-morfira-checkbox]):disabled {
+    --morfira-checkbox-background: var(--morfira-interactive-disabled);
+    --morfira-checkbox-border-color: var(--morfira-border-subtle);
+    color: var(--morfira-interactive-disabled-content);
+    cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(input[data-morfira-checkbox]) {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    :where(input[data-morfira-checkbox]) {
+      appearance: auto;
+      forced-color-adjust: auto;
+    }
+  }
+}

@@ -1,0 +1,71 @@
+@layer morfira.components {
+  :where([data-morfira-tabs]) {
+    display: flex;
+    gap: var(--morfira-space-1);
+    border-block-end: var(--morfira-border-thin) solid var(--morfira-border-subtle);
+  }
+  :where([data-morfira-tabs][data-orientation='vertical']) {
+    flex-direction: column;
+    border-block-end: 0;
+    border-inline-end: var(--morfira-border-thin) solid var(--morfira-border-subtle);
+  }
+  :where([data-morfira-tab]) {
+    appearance: none;
+    position: relative;
+    min-block-size: var(--morfira-control-touch-target);
+    min-inline-size: var(--morfira-control-touch-target);
+    border: 0;
+    padding-block: var(--morfira-space-3);
+    padding-inline: var(--morfira-space-4);
+    background: transparent;
+    color: var(--morfira-content-secondary);
+    font: inherit;
+    font-weight: var(--morfira-font-weight-semibold);
+    cursor: pointer;
+  }
+  :where([data-morfira-tab])::after {
+    content: '';
+    position: absolute;
+    inset-inline: var(--morfira-space-2);
+    inset-block-end: calc(-1 * var(--morfira-border-thin));
+    block-size: var(--morfira-border-thick);
+    background: transparent;
+  }
+  :where([data-morfira-tab][data-state='active']) {
+    color: var(--morfira-interactive-primary);
+  }
+  :where([data-morfira-tab][data-state='active'])::after {
+    background: currentColor;
+  }
+  :where([data-morfira-tabs][data-orientation='vertical'] [data-morfira-tab])::after {
+    inset-block: var(--morfira-space-2);
+    inset-inline-start: auto;
+    inset-inline-end: calc(-1 * var(--morfira-border-thin));
+    inline-size: var(--morfira-border-thick);
+    block-size: auto;
+  }
+  :where([data-morfira-tab]):hover {
+    background: var(--morfira-surface-subtle);
+    color: var(--morfira-content-primary);
+  }
+  :where([data-morfira-tab]):focus-visible {
+    z-index: 1;
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: calc(-1 * var(--morfira-border-thick));
+  }
+  :where([data-morfira-tab][aria-disabled='true']) {
+    color: var(--morfira-interactive-disabled-content);
+    cursor: not-allowed;
+  }
+  :where([data-morfira-tab-panel]) {
+    padding-block: var(--morfira-space-4);
+  }
+  @media (forced-colors: active) {
+    :where([data-morfira-tab][data-state='active']) {
+      color: Highlight;
+    }
+    :where([data-morfira-tab][data-state='active'])::after {
+      background: Highlight;
+    }
+  }
+}

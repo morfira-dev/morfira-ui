@@ -40,6 +40,28 @@
     justify-self: start;
   }
 
+  .consumer-choice {
+    display: flex;
+    align-items: center;
+    gap: var(--morfira-space-2);
+  }
+
+  fieldset {
+    display: grid;
+    gap: var(--morfira-space-2);
+    margin: 0;
+    border: var(--morfira-border-thin) solid var(--morfira-border-subtle);
+    border-radius: var(--morfira-radius-md);
+    padding: var(--morfira-space-3);
+  }
+
+  .consumer-composites {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    align-items: center;
+    gap: var(--morfira-space-2);
+  }
+
   h2,
   h1,
   p {

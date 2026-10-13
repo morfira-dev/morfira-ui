@@ -1,0 +1,71 @@
+@layer morfira.components {
+  :where([data-morfira-popover]) {
+    position: fixed;
+    z-index: 900;
+    inset-block-start: var(--morfira-popover-anchor-y, 0);
+    inset-inline-start: var(--morfira-popover-anchor-x, 0);
+    min-inline-size: 14rem;
+    max-inline-size: min(28rem, calc(100vi - var(--morfira-space-4)));
+    max-block-size: min(28rem, calc(100dvb - var(--morfira-space-4)));
+    box-sizing: border-box;
+    margin: 0;
+    border: var(--morfira-border-thin) solid var(--morfira-border-subtle);
+    border-radius: var(--morfira-radius-lg);
+    padding: var(--morfira-space-4);
+    overflow: auto;
+    background: var(--morfira-surface-raised);
+    box-shadow: var(--morfira-shadow-lg);
+    color: var(--morfira-content-primary);
+    font-family: var(--morfira-font-family-sans);
+    animation: morfira-popover-enter var(--morfira-motion-duration-fast)
+      var(--morfira-motion-easing-entrance);
+  }
+  :where([data-morfira-popover][data-placement='block-start']) {
+    translate: -50% calc(-100% - var(--morfira-space-2));
+  }
+  :where([data-morfira-popover][data-placement='block-end']) {
+    translate: -50% var(--morfira-space-2);
+  }
+  :where([data-morfira-popover][data-placement='inline-start']) {
+    translate: calc(-100% - var(--morfira-space-2)) -50%;
+  }
+  :where(
+    [dir='rtl'] [data-morfira-popover][data-placement='inline-start'],
+    [data-morfira-popover][data-direction='rtl'][data-placement='inline-start']
+  ) {
+    translate: var(--morfira-space-2) -50%;
+  }
+  :where([data-morfira-popover][data-placement='inline-end']) {
+    translate: var(--morfira-space-2) -50%;
+  }
+  :where(
+    [dir='rtl'] [data-morfira-popover][data-placement='inline-end'],
+    [data-morfira-popover][data-direction='rtl'][data-placement='inline-end']
+  ) {
+    translate: calc(-100% - var(--morfira-space-2)) -50%;
+  }
+  @keyframes morfira-popover-enter {
+    from {
+      opacity: 0;
+      scale: 0.98;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :where([data-morfira-popover]) {
+      animation: none;
+    }
+  }
+  @media (forced-colors: active) {
+    :where([data-morfira-popover]) {
+      border-color: CanvasText;
+      background: Canvas;
+      color: CanvasText;
+      box-shadow: none;
+      forced-color-adjust: auto;
+    }
+  }
+}

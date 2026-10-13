@@ -2,10 +2,19 @@ import { cp, mkdir } from 'node:fs/promises';
 import { URL } from 'node:url';
 
 const components = [
+  ['accordion', 'Accordion'],
   ['button', 'Button'],
+  ['checkbox', 'Checkbox'],
   ['dialog', 'Dialog'],
   ['field', 'Field'],
   ['input', 'Input'],
+  ['popover', 'Popover'],
+  ['radio', 'Radio'],
+  ['select', 'Select'],
+  ['switch', 'Switch'],
+  ['tabs', 'Tabs'],
+  ['textarea', 'Textarea'],
+  ['tooltip', 'Tooltip'],
 ];
 
 await Promise.all(

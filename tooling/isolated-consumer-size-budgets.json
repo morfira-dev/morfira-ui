@@ -3,18 +3,45 @@
     "button": { "cssGzipBytes": 1400, "jsGzipBytes": 14000 },
     "dialog": { "cssGzipBytes": 1500, "jsGzipBytes": 17000 },
     "field": { "cssGzipBytes": 800, "jsGzipBytes": 15000 },
-    "input": { "cssGzipBytes": 1300, "jsGzipBytes": 14500 }
+    "input": { "cssGzipBytes": 1300, "jsGzipBytes": 14500 },
+    "checkbox": { "cssGzipBytes": 900, "jsGzipBytes": 18000 },
+    "radio": { "cssGzipBytes": 800, "jsGzipBytes": 18000 },
+    "switch": { "cssGzipBytes": 900, "jsGzipBytes": 18000 },
+    "textarea": { "cssGzipBytes": 1000, "jsGzipBytes": 18500 },
+    "select": { "cssGzipBytes": 1100, "jsGzipBytes": 19000 },
+    "tooltip": { "cssGzipBytes": 900, "jsGzipBytes": 20000 },
+    "popover": { "cssGzipBytes": 900, "jsGzipBytes": 20500 },
+    "tabs": { "cssGzipBytes": 900, "jsGzipBytes": 21500 },
+    "accordion": { "cssGzipBytes": 1000, "jsGzipBytes": 21500 }
   },
   "svelte": {
     "button": { "cssGzipBytes": 1400, "jsGzipBytes": 18000 },
     "dialog": { "cssGzipBytes": 1500, "jsGzipBytes": 23000 },
     "field": { "cssGzipBytes": 800, "jsGzipBytes": 19500 },
-    "input": { "cssGzipBytes": 1300, "jsGzipBytes": 19000 }
+    "input": { "cssGzipBytes": 1300, "jsGzipBytes": 19000 },
+    "checkbox": { "cssGzipBytes": 900, "jsGzipBytes": 19000 },
+    "radio": { "cssGzipBytes": 800, "jsGzipBytes": 19000 },
+    "switch": { "cssGzipBytes": 900, "jsGzipBytes": 19000 },
+    "textarea": { "cssGzipBytes": 1000, "jsGzipBytes": 20000 },
+    "select": { "cssGzipBytes": 1100, "jsGzipBytes": 21500 },
+    "tooltip": { "cssGzipBytes": 900, "jsGzipBytes": 22500 },
+    "popover": { "cssGzipBytes": 900, "jsGzipBytes": 22500 },
+    "tabs": { "cssGzipBytes": 900, "jsGzipBytes": 24000 },
+    "accordion": { "cssGzipBytes": 1000, "jsGzipBytes": 24000 }
   },
   "vue": {
     "button": { "cssGzipBytes": 1400, "jsGzipBytes": 20500 },
     "dialog": { "cssGzipBytes": 1500, "jsGzipBytes": 23500 },
     "field": { "cssGzipBytes": 800, "jsGzipBytes": 21500 },
-    "input": { "cssGzipBytes": 1300, "jsGzipBytes": 20500 }
+    "input": { "cssGzipBytes": 1300, "jsGzipBytes": 20500 },
+    "checkbox": { "cssGzipBytes": 900, "jsGzipBytes": 21500 },
+    "radio": { "cssGzipBytes": 800, "jsGzipBytes": 21500 },
+    "switch": { "cssGzipBytes": 900, "jsGzipBytes": 21500 },
+    "textarea": { "cssGzipBytes": 1000, "jsGzipBytes": 22000 },
+    "select": { "cssGzipBytes": 1100, "jsGzipBytes": 22500 },
+    "tooltip": { "cssGzipBytes": 900, "jsGzipBytes": 23500 },
+    "popover": { "cssGzipBytes": 900, "jsGzipBytes": 23500 },
+    "tabs": { "cssGzipBytes": 900, "jsGzipBytes": 24000 },
+    "accordion": { "cssGzipBytes": 1000, "jsGzipBytes": 24000 }
   }
 }

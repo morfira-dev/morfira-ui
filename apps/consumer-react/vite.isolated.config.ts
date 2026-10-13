@@ -3,10 +3,24 @@ import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 
 const component = process.env['MORFIRA_ISOLATED_COMPONENT'];
-const supportedComponents = new Set(['button', 'dialog', 'field', 'input']);
+const supportedComponents = new Set([
+  'accordion',
+  'button',
+  'checkbox',
+  'dialog',
+  'field',
+  'input',
+  'popover',
+  'radio',
+  'select',
+  'switch',
+  'tabs',
+  'textarea',
+  'tooltip',
+]);
 
 if (component === undefined || !supportedComponents.has(component)) {
-  throw new TypeError('MORFIRA_ISOLATED_COMPONENT must name a Phase 1 component.');
+  throw new TypeError('MORFIRA_ISOLATED_COMPONENT must name a supported component.');
 }
 
 export default defineConfig({

@@ -127,4 +127,90 @@ for (const framework of consumers) {
     ).toHaveCount(1);
     expect(runtimeErrors).toEqual([]);
   });
+
+  test(`${framework} SSR and hydration conform for every Phase 2 adapter`, async ({
+    page,
+    request,
+  }) => {
+    const url = `http://127.0.0.1:4174/${framework}/`;
+    const response = await request.get(url);
+    expect(response.ok()).toBe(true);
+    const serverHtml = await response.text();
+    for (const marker of [
+      'data-consumer-checkbox',
+      'data-consumer-radio',
+      'data-consumer-switch',
+      'data-consumer-textarea',
+      'data-consumer-select',
+      'data-consumer-tooltip-trigger',
+      'data-consumer-popover-trigger',
+      'data-consumer-tabs',
+      'data-consumer-accordion',
+    ]) {
+      expect(serverHtml).toContain(marker);
+    }
+
+    const runtimeErrors: string[] = [];
+    page.on('console', (message) => {
+      if (message.type() === 'error') runtimeErrors.push(message.text());
+    });
+    page.on('pageerror', (error) => {
+      runtimeErrors.push(error.message);
+    });
+    await page.goto(url);
+    await page.getByRole('button', { name: 'Close confirmation' }).click();
+
+    const checkbox = page.locator('[data-consumer-checkbox]');
+    const checkboxInitiallyChecked = await checkbox.isChecked();
+    await checkbox.click();
+    await expect(checkbox).toBeChecked({ checked: !checkboxInitiallyChecked });
+
+    const radios = page.locator('input[data-morfira-radio]');
+    await expect(radios).toHaveCount(2);
+    await radios.nth(1).click();
+    await expect(radios.nth(1)).toBeChecked();
+    await expect(radios.nth(0)).not.toBeChecked();
+
+    const switchControl = page.locator('[data-consumer-switch]');
+    const switchInitiallyChecked = await switchControl.isChecked();
+    await switchControl.click();
+    await expect(switchControl).toBeChecked({ checked: !switchInitiallyChecked });
+
+    const textarea = page.locator('[data-consumer-textarea]');
+    await textarea.fill(`Hydrated ${framework}`);
+    await expect(textarea).toHaveValue(`Hydrated ${framework}`);
+
+    const select = page.locator('[data-consumer-select]');
+    const options = select.locator('option');
+    expect(await options.count()).toBeGreaterThan(1);
+    const secondValue = await options.nth(1).getAttribute('value');
+    expect(secondValue).toBeTruthy();
+    await select.selectOption(secondValue ?? '');
+    await expect(select).toHaveValue(secondValue ?? '');
+
+    const tooltipTrigger = page.locator('[data-consumer-tooltip-trigger]');
+    await tooltipTrigger.hover();
+    await expect(page.getByRole('tooltip')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('tooltip')).toBeHidden();
+
+    const popoverTrigger = page.locator('[data-consumer-popover-trigger]');
+    await popoverTrigger.click();
+    await expect(popoverTrigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.getByRole('dialog').last()).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(popoverTrigger).toHaveAttribute('aria-expanded', 'false');
+
+    const tabs = page.getByRole('tab');
+    await expect(tabs).toHaveCount(2);
+    await tabs.nth(1).click();
+    await expect(tabs.nth(1)).toHaveAttribute('aria-selected', 'true');
+
+    const accordionTriggers = page.locator('[data-morfira-accordion-trigger]');
+    await expect(accordionTriggers).toHaveCount(2);
+    await accordionTriggers.nth(1).click();
+    await expect(accordionTriggers.nth(1)).toHaveAttribute('aria-expanded', 'true');
+
+    expect(runtimeErrors).toEqual([]);
+  });
 }

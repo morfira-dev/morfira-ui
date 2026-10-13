@@ -1,7 +1,8 @@
 # Morfira UI: Product and Technical Plan
 
-Status: Phase 0 foundation and Phase 1 implementation complete; Phase 1 release-browser
-and manual assistive-technology certification is pending.
+Status: Phase 0 foundation plus Phase 1 and Phase 2 implementation complete. Released
+browser and manual assistive-technology certification remains pending for Phase 1 and
+Phase 2.
 
 This document records the agreed product direction and technical boundaries for Morfira
 UI. It is a roadmap, not evidence that the described packages, APIs, or infrastructure
@@ -9,7 +10,7 @@ already exist.
 
 ## Current repository state
 
-As of 2026-10-13:
+As of 2026-10-14:
 
 - the public GitHub repository exists at `morfira-dev/morfira-ui` and the local default
   branch is `main`;
@@ -25,6 +26,13 @@ As of 2026-10-13:
   regression and the extended Dialog lifecycle matrix are automated. Released
   Safari/Firefox ESR and VoiceOver/NVDA evidence remains the final manual certification
   gate.
+- Phase 2 implements Checkbox, Radio, Switch, Textarea, native Select, Tooltip, Popover,
+  Tabs, and native-details Accordion across the shared layers and adapters. Automated
+  conformance, browser, accessibility, SSR/hydration, visual, package-consumer,
+  isolated-import, and size-budget coverage is active. Form validation, status/severity,
+  and action groups are implementation-complete composition patterns under
+  `docs/patterns/`; they intentionally add no runtime component. Released-browser and
+  assistive-technology evidence remains the manual certification gate.
 
 The exact GitHub repository slug is not part of the public package contract and does not
 block architecture or implementation work. The current `morfira-dev/morfira-ui`
@@ -301,6 +309,16 @@ scaling the catalog.
 - Form validation, status/severity, and action-group patterns.
 - Extract shared primitives only from confirmed repetition.
 
+Implementation status: complete. The nine named components are implemented and the three
+product patterns are defined as compositions rather than new runtimes:
+
+- [Form validation](patterns/form-validation.md)
+- [Status and severity](patterns/status-severity.md)
+- [Action groups](patterns/action-groups.md)
+
+Released Safari, Firefox ESR, VoiceOver, and NVDA evidence remains pending and is not
+replaced by automated browser-engine coverage.
+
 ### Phase 3
 
 - Menu and Dropdown.
@@ -332,8 +350,12 @@ A component is complete only when:
 
 ## Immediate work
 
-1. Run and record the release matrix, including native autofill, for the latest two
-   Safari releases, current Firefox ESR, VoiceOver with Safari, and NVDA with Firefox
-   ESR before declaring Phase 1 stable.
-2. Start Phase 2 with Checkbox without adapter-specific exceptions after the manual
-   Phase 1 certification record passes.
+1. Run and record the remaining Phase 1 release matrix, including native autofill, for
+   the latest two Safari releases, current Firefox ESR, VoiceOver with Safari, and NVDA
+   with Firefox ESR.
+2. Run and record the Phase 2 released-browser and assistive-technology matrix for
+   native controls, floating layers, Tabs, Accordion, and the three documented product
+   patterns. Automated Playwright engines do not waive or replace this certification.
+3. Begin Phase 3 only through behavior-owned vertical slices, starting from a written
+   contract and preserving the native-first and cross-framework boundaries proved in
+   Phases 1 and 2.

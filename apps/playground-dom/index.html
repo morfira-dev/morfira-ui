@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="../../packages/css/dist/dialog.css" />
     <link rel="stylesheet" href="../../packages/css/dist/field.css" />
     <link rel="stylesheet" href="../../packages/css/dist/input.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/checkbox.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/radio.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/switch.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/textarea.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/select.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/tooltip.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/popover.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/tabs.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/accordion.css" />
     <style>
       @layer playground {
         * {
@@ -96,6 +105,31 @@
         .field-stack {
           display: grid;
           gap: var(--morfira-space-5);
+        }
+
+        .choice-stack,
+        .composite-stack {
+          display: grid;
+          gap: var(--morfira-space-4);
+        }
+
+        .popover-stack {
+          display: grid;
+          justify-items: start;
+          gap: var(--morfira-space-3);
+        }
+
+        .choice-row {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: var(--morfira-space-5);
+        }
+
+        .choice-row label {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--morfira-space-2);
         }
 
         .dark-panel {
@@ -276,6 +310,194 @@
         </section>
       </div>
 
+      <h2 class="section-title">Phase 2 form controls</h2>
+      <div class="grid">
+        <section class="panel choice-stack" aria-labelledby="choice-controls-heading">
+          <h2 id="choice-controls-heading">Choice controls</h2>
+          <div class="choice-row">
+            <label>
+              <input type="checkbox" checked data-morfira-checkbox data-size="sm" />
+              Checkbox
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                role="switch"
+                checked
+                data-morfira-switch
+                data-size="md"
+              />
+              Notifications
+            </label>
+            <label>
+              <input type="checkbox" role="switch" data-morfira-switch data-size="md" />
+              Quiet mode
+            </label>
+          </div>
+          <div class="choice-row">
+            <label>
+              <input
+                type="checkbox"
+                role="switch"
+                disabled
+                data-morfira-switch
+                data-size="md"
+              />
+              Disabled off
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                role="switch"
+                checked
+                disabled
+                data-morfira-switch
+                data-size="md"
+              />
+              Disabled on
+            </label>
+          </div>
+          <fieldset>
+            <legend>Deployment channel</legend>
+            <div class="choice-row">
+              <label>
+                <input
+                  type="radio"
+                  name="deployment-channel"
+                  value="stable"
+                  checked
+                  data-morfira-radio
+                  data-size="md"
+                />
+                Stable
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="deployment-channel"
+                  value="preview"
+                  data-morfira-radio
+                  data-size="md"
+                />
+                Preview
+              </label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Disabled deployment channel</legend>
+            <div class="choice-row">
+              <label>
+                <input
+                  type="radio"
+                  name="disabled-deployment-channel"
+                  value="stable"
+                  checked
+                  disabled
+                  data-morfira-radio
+                  data-size="md"
+                />
+                Disabled stable
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="disabled-deployment-channel"
+                  value="preview"
+                  disabled
+                  data-morfira-radio
+                  data-size="md"
+                />
+                Disabled preview
+              </label>
+            </div>
+          </fieldset>
+        </section>
+
+        <section class="panel field-stack" aria-labelledby="text-controls-heading">
+          <h2 id="text-controls-heading">Textarea and Select</h2>
+          <label for="release-notes">Release notes</label>
+          <textarea
+            id="release-notes"
+            rows="3"
+            data-morfira-textarea
+            data-size="md"
+            data-validation="none"
+          >
+Ready for staged rollout.</textarea>
+          <label for="release-region">Release region</label>
+          <select
+            id="release-region"
+            data-morfira-select
+            data-size="md"
+            data-validation="none"
+          >
+            <option value="eu">Europe</option>
+            <option value="us">United States</option>
+            <option value="apac">Asia Pacific</option>
+          </select>
+        </section>
+      </div>
+
+      <h2 class="section-title">Phase 2 disclosure and navigation</h2>
+      <div class="grid">
+        <section class="panel composite-stack" aria-labelledby="floating-heading">
+          <h2 id="floating-heading">Tooltip and Popover</h2>
+          <div class="choice-row">
+            <button type="button" data-morfira-button id="tooltip-trigger">
+              Deployment help
+            </button>
+            <div id="deployment-tooltip" hidden>Explains staged deployment.</div>
+            <button type="button" data-morfira-button id="popover-trigger">
+              Deployment actions
+            </button>
+            <div
+              id="deployment-popover"
+              role="dialog"
+              aria-label="Deployment actions"
+              hidden
+            >
+              <div class="popover-stack">
+                <p>Choose an action for this release.</p>
+                <button type="button" data-morfira-button data-variant="secondary">
+                  Schedule
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel composite-stack" aria-labelledby="tabs-proof-heading">
+          <h2 id="tabs-proof-heading">Tabs</h2>
+          <div id="deployment-tabs">
+            <div class="choice-row" data-tabs-list>
+              <button type="button">Overview</button>
+              <button type="button">Activity</button>
+              <button type="button" disabled>Audit</button>
+            </div>
+            <div data-tabs-panel>Deployment overview content.</div>
+            <div data-tabs-panel>Recent deployment activity.</div>
+            <div data-tabs-panel>Audit access is unavailable.</div>
+          </div>
+        </section>
+
+        <section
+          class="panel composite-stack"
+          aria-labelledby="accordion-proof-heading"
+        >
+          <h2 id="accordion-proof-heading">Accordion</h2>
+          <div id="deployment-accordion">
+            <details>
+              <summary>Requirements</summary>
+              <div>All automated gates must pass.</div>
+            </details>
+            <details>
+              <summary>Rollback</summary>
+              <div>Previous release remains available.</div>
+            </details>
+          </div>
+        </section>
+      </div>
+
       <h2 class="section-title">Dialog</h2>
       <section class="panel" aria-labelledby="dialog-proof-heading">
         <h2 id="dialog-proof-heading">Native modal lifecycle</h2>
@@ -338,12 +560,20 @@
     <script type="importmap">
       {
         "imports": {
-          "@morfira-dev/core/dialog": "../../packages/core/dist/dialog.js"
+          "@morfira-dev/core/dialog": "../../packages/core/dist/dialog.js",
+          "@morfira-dev/core/tooltip": "../../packages/core/dist/tooltip.js",
+          "@morfira-dev/core/popover": "../../packages/core/dist/popover.js",
+          "@morfira-dev/core/tabs": "../../packages/core/dist/tabs.js",
+          "@morfira-dev/core/accordion": "../../packages/core/dist/accordion.js"
         }
       }
     </script>
     <script type="module">
       import { enhanceDialog } from '../../packages/dom/dist/dialog.js';
+      import { enhanceTooltip } from '../../packages/dom/dist/tooltip.js';
+      import { enhancePopover } from '../../packages/dom/dist/popover.js';
+      import { enhanceTabs } from '../../packages/dom/dist/tabs.js';
+      import { enhanceAccordion } from '../../packages/dom/dist/accordion.js';
 
       const root = document.documentElement;
       const themeToggle = document.querySelector('#theme-toggle');
@@ -353,6 +583,113 @@
       const dialogCancel = dialog?.querySelector('[data-dialog-cancel]');
       const dialogConfirm = dialog?.querySelector('[data-dialog-confirm]');
       let dialogSize = 'md';
+
+      const tooltipTrigger = document.querySelector('#tooltip-trigger');
+      const tooltipContent = document.querySelector('#deployment-tooltip');
+      let tooltipOpen = false;
+      const tooltipOptions = () => ({
+        contentId: 'deployment-tooltip',
+        open: tooltipOpen,
+        openDelay: 0,
+        closeDelay: 40,
+        placement: 'block-end',
+        onOpenChange: (open) => {
+          tooltipOpen = open;
+          tooltipController?.update(tooltipOptions());
+        },
+      });
+      const tooltipController =
+        tooltipTrigger && tooltipContent
+          ? enhanceTooltip(tooltipTrigger, tooltipContent, tooltipOptions())
+          : undefined;
+
+      const popoverTrigger = document.querySelector('#popover-trigger');
+      const popoverContent = document.querySelector('#deployment-popover');
+      let popoverOpen = false;
+      const popoverOptions = () => ({
+        contentId: 'deployment-popover',
+        open: popoverOpen,
+        placement: 'block-end',
+        onOpenChange: (open) => {
+          popoverOpen = open;
+          popoverController?.update(popoverOptions());
+        },
+      });
+      const popoverController =
+        popoverTrigger && popoverContent
+          ? enhancePopover(popoverTrigger, popoverContent, popoverOptions())
+          : undefined;
+
+      const tabsRoot = document.querySelector('#deployment-tabs');
+      const tabsList = tabsRoot?.querySelector('[data-tabs-list]');
+      const tabElements = tabsList ? [...tabsList.querySelectorAll('button')] : [];
+      const tabPanels = tabsRoot
+        ? [...tabsRoot.querySelectorAll('[data-tabs-panel]')]
+        : [];
+      const tabItems = [
+        { tabId: 'deployment-overview-tab', panelId: 'deployment-overview-panel' },
+        { tabId: 'deployment-activity-tab', panelId: 'deployment-activity-panel' },
+        {
+          tabId: 'deployment-audit-tab',
+          panelId: 'deployment-audit-panel',
+          disabled: true,
+        },
+      ];
+      let selectedTab = tabItems[0].tabId;
+      const tabsOptions = () => ({
+        items: tabItems,
+        selectedId: selectedTab,
+        onSelectedChange: (tabId) => {
+          selectedTab = tabId;
+          tabsController?.update(tabsOptions());
+        },
+      });
+      const tabsController =
+        tabsList && tabElements.length === tabItems.length
+          ? enhanceTabs(
+              { root: tabsList, tabs: tabElements, panels: tabPanels },
+              tabsOptions(),
+            )
+          : undefined;
+
+      const accordionRoot = document.querySelector('#deployment-accordion');
+      const accordionItems = accordionRoot
+        ? [...accordionRoot.querySelectorAll('details')]
+        : [];
+      const accordionTriggers = accordionItems
+        .map((item) => item.querySelector('summary'))
+        .filter(Boolean);
+      const accordionPanels = accordionItems
+        .map((item) => item.querySelector('div'))
+        .filter(Boolean);
+      const accordionDefinitions = [
+        { triggerId: 'requirements-trigger', panelId: 'requirements-panel' },
+        { triggerId: 'rollback-trigger', panelId: 'rollback-panel' },
+      ];
+      let expandedAccordionItems = ['requirements-trigger'];
+      const accordionOptions = () => ({
+        items: accordionDefinitions,
+        expandedIds: expandedAccordionItems,
+        onExpandedChange: (expandedIds) => {
+          expandedAccordionItems = [...expandedIds];
+          accordionController?.update(accordionOptions());
+        },
+      });
+      const accordionController =
+        accordionRoot &&
+        accordionItems.length === accordionDefinitions.length &&
+        accordionTriggers.length === accordionDefinitions.length &&
+        accordionPanels.length === accordionDefinitions.length
+          ? enhanceAccordion(
+              {
+                root: accordionRoot,
+                items: accordionItems,
+                triggers: accordionTriggers,
+                panels: accordionPanels,
+              },
+              accordionOptions(),
+            )
+          : undefined;
 
       const dialogOptions = (open) => ({
         ids: {

@@ -1,7 +1,8 @@
 # Morfira UI Software Design Description
 
-Status: accepted baseline; Phase 1 implementation is complete, with release-browser and
-manual assistive-technology certification still pending.
+Status: accepted baseline; Phase 1 and Phase 2 implementations are complete. Released
+browser and manual assistive-technology certification remains pending for both phases,
+so neither phase is release-certified by repository automation alone.
 
 ## 1. Purpose
 
@@ -164,8 +165,20 @@ evidence.
 
 ### Phase 2
 
+Status: implementation complete. The component catalog is implemented across core, DOM,
+CSS, React, Vue, and Svelte with conformance, browser, accessibility, SSR/hydration,
+visual, package-consumer, isolated-import, and size-budget coverage. Form validation,
+status/severity, and action groups are documented as implementable compositions of the
+catalog and native semantics without speculative runtime components. Released-browser
+and manual assistive-technology certification remains pending for Phase 1 and Phase 2.
+
 Checkbox, Radio, Switch, Textarea, Select, Tooltip, Popover, Tabs, and Accordion. Shared
-primitives may be extracted only from demonstrated reuse.
+primitives may be extracted only from demonstrated reuse. Phase 2 product patterns are:
+
+- form validation using Form, Field, native constraints, and native-first controls;
+- status and severity using semantic tokens, visible text, and native live-region
+  semantics only when a state changes;
+- action groups composed from Button, native links, forms, Dialog, Tooltip, and Popover.
 
 ### Phase 3
 

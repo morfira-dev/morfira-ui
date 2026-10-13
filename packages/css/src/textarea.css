@@ -1,0 +1,88 @@
+@layer morfira.components {
+  :where(textarea[data-morfira-textarea]) {
+    --morfira-textarea-border-color: var(--morfira-border-default);
+    --morfira-textarea-min-block-size: 6rem;
+    appearance: none;
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    min-block-size: var(--morfira-textarea-min-block-size);
+    box-sizing: border-box;
+    border: var(--morfira-border-thin) solid var(--morfira-textarea-border-color);
+    border-radius: var(--morfira-radius-md);
+    padding-block: var(--morfira-space-2);
+    padding-inline: var(--morfira-space-3);
+    background: var(--morfira-surface-raised);
+    color: var(--morfira-content-primary);
+    font-family: var(--morfira-font-family-sans);
+    font-size: var(--morfira-font-size-sm);
+    line-height: var(--morfira-font-line-height-normal);
+    resize: vertical;
+    transition:
+      border-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      background-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard);
+  }
+  :where(textarea[data-morfira-textarea])::placeholder {
+    color: var(--morfira-content-muted);
+    opacity: 1;
+  }
+  :where(textarea[data-morfira-textarea]):hover:not(:disabled, [readonly]) {
+    --morfira-textarea-border-color: var(--morfira-border-strong);
+  }
+  :where(textarea[data-morfira-textarea]):focus-visible {
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: 0;
+  }
+  :where(textarea[data-morfira-textarea][data-size='sm']) {
+    --morfira-textarea-min-block-size: 4.5rem;
+    padding-block: var(--morfira-space-1);
+    padding-inline: var(--morfira-space-2);
+    font-size: var(--morfira-font-size-xs);
+  }
+  :where(textarea[data-morfira-textarea][data-size='lg']) {
+    --morfira-textarea-min-block-size: 8rem;
+    padding-block: var(--morfira-space-3);
+    padding-inline: var(--morfira-space-4);
+    font-size: var(--morfira-font-size-md);
+  }
+  :where(textarea[data-morfira-textarea][data-validation='error']) {
+    --morfira-textarea-border-color: var(--morfira-border-danger);
+  }
+  :where(textarea[data-morfira-textarea][data-validation='warning']) {
+    --morfira-textarea-border-color: var(--morfira-content-warning);
+  }
+  :where(textarea[data-morfira-textarea][data-validation='success']) {
+    --morfira-textarea-border-color: var(--morfira-content-success);
+  }
+  :where(textarea[data-morfira-textarea][data-resize='none']) {
+    resize: none;
+  }
+  :where(textarea[data-morfira-textarea][data-resize='both']) {
+    resize: both;
+  }
+  :where(textarea[data-morfira-textarea]):disabled {
+    background: var(--morfira-interactive-disabled);
+    color: var(--morfira-interactive-disabled-content);
+    cursor: not-allowed;
+  }
+  :where(textarea[data-morfira-textarea])[readonly] {
+    background: var(--morfira-surface-subtle);
+    cursor: text;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(textarea[data-morfira-textarea]) {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    :where(textarea[data-morfira-textarea]) {
+      border-color: FieldText;
+      background: Field;
+      color: FieldText;
+      forced-color-adjust: auto;
+    }
+  }
+}

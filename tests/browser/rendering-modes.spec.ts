@@ -48,10 +48,11 @@ test('forced colors preserve system-safe borders and visible focus', async ({
   const primaryButton = page
     .locator('section[aria-labelledby="light-heading"]')
     .getByRole('button', { exact: true, name: 'Primary' });
+  const switchControl = page.getByRole('switch', { name: 'Quiet mode' });
 
   await email.focus();
 
-  const [buttonStyle, inputStyle] = await Promise.all([
+  const [buttonStyle, inputStyle, switchStyle] = await Promise.all([
     primaryButton.evaluate((element) => {
       const style = getComputedStyle(element);
 
@@ -74,6 +75,16 @@ test('forced colors preserve system-safe borders and visible focus', async ({
         outlineWidth: Number.parseFloat(style.outlineWidth),
       };
     }),
+    switchControl.evaluate((element) => {
+      const style = getComputedStyle(element);
+
+      return {
+        appearance: style.appearance,
+        blockSize: Number.parseFloat(style.blockSize),
+        forcedColorAdjust: style.forcedColorAdjust,
+        inlineSize: Number.parseFloat(style.inlineSize),
+      };
+    }),
   ]);
 
   expect([undefined, 'auto']).toContain(buttonStyle.forcedColorAdjust);
@@ -86,6 +97,16 @@ test('forced colors preserve system-safe borders and visible focus', async ({
   expect(inputStyle.borderColor).not.toBe('rgba(0, 0, 0, 0)');
   expect(inputStyle.outlineStyle).not.toBe('none');
   expect(inputStyle.outlineWidth).toBeGreaterThanOrEqual(2);
+  expect(switchStyle.appearance).not.toBe('none');
+  expect([undefined, 'auto']).toContain(switchStyle.forcedColorAdjust);
+  expect(switchStyle.inlineSize).toBeGreaterThan(0);
+  expect(switchStyle.blockSize).toBeGreaterThan(0);
+
+  await switchControl.focus();
+  await expect(switchControl).toBeFocused();
+  await expect(switchControl).not.toBeChecked();
+  await switchControl.press('Space');
+  await expect(switchControl).toBeChecked();
 
   const dialog = await openDialog(page);
   const close = dialog.getByRole('button', { name: 'Close dialog' });
@@ -159,24 +180,53 @@ test('reduced motion disables Dialog and control animations and transitions', as
   const loading = page
     .locator('section[aria-labelledby="light-heading"]')
     .getByRole('button', { name: 'Saving' });
+  const switchControl = page.getByRole('switch', { name: 'Quiet mode' });
+
+  await switchControl.focus();
+  await expect(switchControl).toBeFocused();
+  expect(
+    await switchControl.evaluate((element) => element.matches(':focus-visible')),
+  ).toBe(true);
+
+  const switchFocus = await switchControl.evaluate((element) => {
+    const style = getComputedStyle(element);
+
+    return {
+      outlineStyle: style.outlineStyle,
+      outlineWidth: Number.parseFloat(style.outlineWidth),
+    };
+  });
+
   const dialog = await openDialog(page);
 
-  const [dialogAnimation, backdropAnimation, inputTransition, spinnerAnimation] =
-    await Promise.all([
-      dialog.evaluate((element) => getComputedStyle(element).animationName),
-      dialog.evaluate(
-        (element) => getComputedStyle(element, '::backdrop').animationName,
-      ),
-      input.evaluate((element) => getComputedStyle(element).transitionDuration),
-      loading.evaluate(
-        (element) => getComputedStyle(element, '::before').animationName,
-      ),
-    ]);
+  const [
+    dialogAnimation,
+    backdropAnimation,
+    inputTransition,
+    spinnerAnimation,
+    switchTransition,
+  ] = await Promise.all([
+    dialog.evaluate((element) => getComputedStyle(element).animationName),
+    dialog.evaluate((element) => getComputedStyle(element, '::backdrop').animationName),
+    input.evaluate((element) => getComputedStyle(element).transitionDuration),
+    loading.evaluate((element) => getComputedStyle(element, '::before').animationName),
+    switchControl.evaluate((element) => {
+      const style = getComputedStyle(element);
+
+      return {
+        delay: style.transitionDelay,
+        duration: style.transitionDuration,
+      };
+    }),
+  ]);
 
   expect(dialogAnimation).toBe('none');
   expect(backdropAnimation).toBe('none');
   expect(inputTransition).toBe('0s');
   expect(spinnerAnimation).toBe('none');
+  expect(switchTransition).toEqual({ delay: '0s', duration: '0s' });
+  expect(switchFocus.outlineStyle).not.toBe('none');
+  expect(switchFocus.outlineWidth).toBeGreaterThanOrEqual(2);
 });
 
 test('RTL moves close and affixes to logical inline positions', async ({ page }) => {

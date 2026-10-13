@@ -1,0 +1,65 @@
+@layer morfira.components {
+  :where(input[data-morfira-radio]) {
+    --morfira-radio-size: 1.75rem;
+    appearance: none;
+    display: inline-grid;
+    inline-size: var(--morfira-radio-size);
+    block-size: var(--morfira-radio-size);
+    box-sizing: border-box;
+    place-content: center;
+    margin: 0;
+    border: var(--morfira-border-thin) solid var(--morfira-border-strong);
+    border-radius: var(--morfira-radius-full);
+    background: var(--morfira-surface-raised);
+    vertical-align: middle;
+    cursor: pointer;
+    transition:
+      border-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      background-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard);
+  }
+  :where(input[data-morfira-radio]:checked) {
+    border-color: var(--morfira-interactive-primary);
+    background: var(--morfira-interactive-primary);
+    box-shadow: inset 0 0 0 calc(var(--morfira-radio-size) * 0.28)
+      var(--morfira-surface-raised);
+  }
+  :where(input[data-morfira-radio][data-size='sm']) {
+    --morfira-radio-size: 1.5rem;
+  }
+  :where(input[data-morfira-radio][data-size='lg']) {
+    --morfira-radio-size: 2rem;
+  }
+  :where(input[data-morfira-radio]):focus-visible {
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: var(--morfira-border-thick);
+  }
+  :where(input[data-morfira-radio]):disabled {
+    border-color: var(--morfira-border-subtle);
+    background: var(--morfira-interactive-disabled);
+    cursor: not-allowed;
+  }
+  :where(input[data-morfira-radio]):disabled:checked {
+    border-color: var(--morfira-interactive-disabled-content);
+    background-color: var(--morfira-interactive-disabled);
+    background-image: radial-gradient(
+      circle,
+      var(--morfira-interactive-disabled-content) 0 30%,
+      transparent 32%
+    );
+    box-shadow: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(input[data-morfira-radio]) {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    :where(input[data-morfira-radio]) {
+      appearance: auto;
+      forced-color-adjust: auto;
+    }
+  }
+}

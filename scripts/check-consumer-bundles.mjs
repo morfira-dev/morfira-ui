@@ -5,7 +5,22 @@ import { gzipSync } from 'node:zlib';
 const budgets = JSON.parse(
   await readFile(resolve('tooling/consumer-size-budgets.json'), 'utf8'),
 );
-const fixtureComponents = new Set(['button', 'dialog', 'field', 'input']);
+const fixtureComponents = new Set([
+  'button',
+  'dialog',
+  'field',
+  'input',
+  'checkbox',
+  'radio',
+  'switch',
+  'textarea',
+  'select',
+  'tooltip',
+  'popover',
+  'tabs',
+  'accordion',
+  'internal',
+]);
 const componentSourcePath =
   /\/packages\/(?:core|dom|react|svelte|vue)\/dist\/([^/]+)\//u;
 
@@ -49,6 +64,9 @@ for (const [framework, budget] of Object.entries(budgets)) {
   }
 
   for (const key of Object.keys(totals)) {
+    if (!Number.isFinite(budget[key]) || budget[key] < 0) {
+      throw new Error(`Invalid or missing ${key} budget for ${framework}.`);
+    }
     if (totals[key] > budget[key]) {
       throw new Error(
         `${framework} ${key} is ${totals[key]} bytes; budget is ${budget[key]} bytes.`,

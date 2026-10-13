@@ -1,0 +1,87 @@
+@layer morfira.components {
+  :where(input[data-morfira-switch]) {
+    --morfira-switch-inline-size: 2.75rem;
+    --morfira-switch-block-size: 1.625rem;
+    --morfira-switch-gap: 0.1875rem;
+    appearance: none;
+    inline-size: var(--morfira-switch-inline-size);
+    block-size: var(--morfira-switch-block-size);
+    box-sizing: border-box;
+    margin: 0;
+    border: var(--morfira-border-thin) solid var(--morfira-content-secondary);
+    border-radius: var(--morfira-radius-full);
+    background-color: var(--morfira-border-strong);
+    background-image: radial-gradient(
+      circle,
+      var(--morfira-surface-raised) 0 62%,
+      transparent 64%
+    );
+    background-position: left var(--morfira-switch-gap) center;
+    background-size: calc(
+        var(--morfira-switch-block-size) - 2 * var(--morfira-switch-gap)
+      )
+      calc(var(--morfira-switch-block-size) - 2 * var(--morfira-switch-gap));
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    cursor: pointer;
+    transition:
+      background-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      background-position var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      border-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard);
+  }
+  :where(input[data-morfira-switch]:checked) {
+    border-color: var(--morfira-interactive-primary);
+    background-color: var(--morfira-interactive-primary);
+    background-image: radial-gradient(
+      circle,
+      var(--morfira-interactive-primary-content) 0 62%,
+      transparent 64%
+    );
+    background-position: right var(--morfira-switch-gap) center;
+  }
+  :where(input[data-morfira-switch]):dir(rtl) {
+    background-position: right var(--morfira-switch-gap) center;
+  }
+  :where(input[data-morfira-switch]:checked):dir(rtl) {
+    background-position: left var(--morfira-switch-gap) center;
+  }
+  :where(input[data-morfira-switch][data-size='sm']) {
+    --morfira-switch-inline-size: 2.25rem;
+    --morfira-switch-block-size: 1.5rem;
+    --morfira-switch-gap: 0.125rem;
+  }
+  :where(input[data-morfira-switch][data-size='lg']) {
+    --morfira-switch-inline-size: 3.25rem;
+    --morfira-switch-block-size: 1.875rem;
+    --morfira-switch-gap: 0.1875rem;
+  }
+  :where(input[data-morfira-switch]):focus-visible {
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: var(--morfira-border-thick);
+  }
+  :where(input[data-morfira-switch]):disabled {
+    border-color: var(--morfira-interactive-disabled-content);
+    background-color: var(--morfira-interactive-disabled);
+    background-image: radial-gradient(
+      circle,
+      var(--morfira-interactive-disabled-content) 0 62%,
+      transparent 64%
+    );
+    cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(input[data-morfira-switch]) {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    :where(input[data-morfira-switch]) {
+      appearance: auto;
+      forced-color-adjust: auto;
+    }
+  }
+}

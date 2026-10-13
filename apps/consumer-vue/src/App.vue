@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { Button } from '@morfira-dev/vue/button';
+import { Accordion } from '@morfira-dev/vue/accordion';
+import { Checkbox } from '@morfira-dev/vue/checkbox';
 import { Dialog } from '@morfira-dev/vue/dialog';
 import type { DialogProps } from '@morfira-dev/vue/dialog';
 import { Field } from '@morfira-dev/vue/field';
 import { Input } from '@morfira-dev/vue/input';
+import { Popover } from '@morfira-dev/vue/popover';
+import { Radio } from '@morfira-dev/vue/radio';
+import { Select } from '@morfira-dev/vue/select';
+import { Switch } from '@morfira-dev/vue/switch';
+import { Tabs } from '@morfira-dev/vue/tabs';
+import { Textarea } from '@morfira-dev/vue/textarea';
+import { Tooltip } from '@morfira-dev/vue/tooltip';
 import { onMounted, ref } from 'vue';
 
 type DialogDismissReason = Parameters<NonNullable<DialogProps['onDismiss']>>[0];
@@ -16,6 +25,45 @@ const activationCount = ref(0);
 const deploymentName = ref('Morfira production');
 const deploymentSlug = ref('morfira-production');
 const hydrationState = ref<'server' | 'hydrated'>('server');
+const approved = ref(false);
+const cadence = ref('daily');
+const notifications = ref(true);
+const notes = ref('Ready for review');
+const region = ref('eu');
+const tooltipOpen = ref(false);
+const popoverOpen = ref(false);
+const selectedTab = ref('summary-tab');
+const expandedSections = ref<readonly string[]>(['deployment-trigger']);
+
+const tabItems = [
+  {
+    tabId: 'summary-tab',
+    panelId: 'summary-panel',
+    label: 'Summary',
+    content: 'Deployment summary',
+  },
+  {
+    tabId: 'history-tab',
+    panelId: 'history-panel',
+    label: 'History',
+    content: 'Deployment history',
+  },
+] as const;
+
+const accordionItems = [
+  {
+    triggerId: 'deployment-trigger',
+    panelId: 'deployment-panel',
+    title: 'Deployment',
+    content: 'Deployment configuration',
+  },
+  {
+    triggerId: 'security-trigger',
+    panelId: 'security-panel',
+    title: 'Security',
+    content: 'Security configuration',
+  },
+] as const;
 
 onMounted(() => {
   hydrationState.value = 'hydrated';
@@ -139,6 +187,105 @@ const reopen = (): void => {
         <output data-consumer-hydration-state data-testid="consumer-hydration-state">
           Hydration state: {{ hydrationState }}
         </output>
+
+        <section class="consumer-phase-two" aria-labelledby="consumer-phase-two-title">
+          <h2 id="consumer-phase-two-title">Phase 2 controls</h2>
+
+          <label class="consumer-inline-control">
+            <Checkbox v-model="approved" data-consumer-checkbox name="approved" />
+            Approved
+          </label>
+          <output data-consumer-checkbox-value>Checkbox: {{ approved }}</output>
+
+          <fieldset data-consumer-radio-group>
+            <legend>Review cadence</legend>
+            <label class="consumer-inline-control">
+              <Radio
+                v-model="cadence"
+                data-consumer-radio-daily
+                name="cadence"
+                value="daily"
+              />
+              Daily
+            </label>
+            <label class="consumer-inline-control">
+              <Radio
+                v-model="cadence"
+                data-consumer-radio-weekly
+                name="cadence"
+                value="weekly"
+              />
+              Weekly
+            </label>
+          </fieldset>
+          <output data-consumer-radio-value>Radio: {{ cadence }}</output>
+
+          <label class="consumer-inline-control">
+            <Switch v-model="notifications" data-consumer-switch name="notifications" />
+            Notifications
+          </label>
+          <output data-consumer-switch-value>Switch: {{ notifications }}</output>
+
+          <Field
+            :ids="{
+              inputId: 'consumer-vue-notes',
+              labelId: 'consumer-vue-notes-label',
+              descriptionId: 'consumer-vue-notes-description',
+            }"
+            label="Review notes"
+            description="Notes included with the review."
+          >
+            <Textarea v-model="notes" data-consumer-textarea name="notes" />
+          </Field>
+          <output data-consumer-textarea-value>Textarea: {{ notes }}</output>
+
+          <Field
+            :ids="{
+              inputId: 'consumer-vue-region',
+              labelId: 'consumer-vue-region-label',
+            }"
+            label="Region"
+          >
+            <Select v-model="region" data-consumer-select name="region">
+              <option value="eu">Europe</option>
+              <option value="us">United States</option>
+            </Select>
+          </Field>
+          <output data-consumer-select-value>Select: {{ region }}</output>
+
+          <Tooltip
+            v-model="tooltipOpen"
+            content-id="consumer-vue-tooltip-content"
+            content="Tooltip details"
+            :open-delay="0"
+            :close-delay="0"
+          >
+            <button type="button" data-consumer-tooltip-trigger>Tooltip trigger</button>
+          </Tooltip>
+          <output data-consumer-tooltip-value>Tooltip: {{ tooltipOpen }}</output>
+
+          <Popover
+            v-model="popoverOpen"
+            content-id="consumer-vue-popover-content"
+            ariaLabel="Deployment actions"
+            content="Popover actions"
+          >
+            <button type="button" data-consumer-popover-trigger>Popover trigger</button>
+          </Popover>
+          <output data-consumer-popover-value>Popover: {{ popoverOpen }}</output>
+
+          <Tabs v-model="selectedTab" :items="tabItems" data-consumer-tabs />
+          <output data-consumer-tabs-value>Tabs: {{ selectedTab }}</output>
+
+          <Accordion
+            v-model="expandedSections"
+            :items="accordionItems"
+            data-consumer-accordion
+          />
+          <output data-consumer-accordion-value>
+            Accordion: {{ expandedSections.join(',') }}
+          </output>
+        </section>
       </div>
 
       <button

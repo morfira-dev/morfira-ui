@@ -1,0 +1,67 @@
+@layer morfira.components {
+  :where([data-morfira-tooltip]) {
+    position: fixed;
+    z-index: 1000;
+    inset-block-start: var(--morfira-tooltip-anchor-y, 0);
+    inset-inline-start: var(--morfira-tooltip-anchor-x, 0);
+    max-inline-size: min(20rem, calc(100vi - var(--morfira-space-4)));
+    border-radius: var(--morfira-radius-md);
+    padding-block: var(--morfira-space-2);
+    padding-inline: var(--morfira-space-3);
+    background: var(--morfira-content-primary);
+    box-shadow: var(--morfira-shadow-md);
+    color: var(--morfira-surface-raised);
+    font-family: var(--morfira-font-family-sans);
+    font-size: var(--morfira-font-size-xs);
+    line-height: var(--morfira-font-line-height-normal);
+    overflow-wrap: anywhere;
+    pointer-events: auto;
+    animation: morfira-tooltip-enter var(--morfira-motion-duration-fast)
+      var(--morfira-motion-easing-entrance);
+  }
+  :where([data-morfira-tooltip][data-placement='block-start']) {
+    translate: -50% calc(-100% - var(--morfira-space-2));
+  }
+  :where([data-morfira-tooltip][data-placement='block-end']) {
+    translate: -50% var(--morfira-space-2);
+  }
+  :where([data-morfira-tooltip][data-placement='inline-start']) {
+    translate: calc(-100% - var(--morfira-space-2)) -50%;
+  }
+  :where(
+    [dir='rtl'] [data-morfira-tooltip][data-placement='inline-start'],
+    [data-morfira-tooltip][data-direction='rtl'][data-placement='inline-start']
+  ) {
+    translate: var(--morfira-space-2) -50%;
+  }
+  :where([data-morfira-tooltip][data-placement='inline-end']) {
+    translate: var(--morfira-space-2) -50%;
+  }
+  :where(
+    [dir='rtl'] [data-morfira-tooltip][data-placement='inline-end'],
+    [data-morfira-tooltip][data-direction='rtl'][data-placement='inline-end']
+  ) {
+    translate: calc(-100% - var(--morfira-space-2)) -50%;
+  }
+  @keyframes morfira-tooltip-enter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :where([data-morfira-tooltip]) {
+      animation: none;
+    }
+  }
+  @media (forced-colors: active) {
+    :where([data-morfira-tooltip]) {
+      border: var(--morfira-border-thin) solid CanvasText;
+      background: Canvas;
+      color: CanvasText;
+      forced-color-adjust: auto;
+    }
+  }
+}

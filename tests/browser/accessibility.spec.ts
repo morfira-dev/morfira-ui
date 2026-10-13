@@ -52,6 +52,17 @@ test('DOM playground open Dialog has no automated WCAG 2.2 AA violations', async
 });
 
 for (const framework of ['react', 'svelte', 'vue'] as const) {
+  test(`${framework} hydrated Phase 2 surface has no automated WCAG 2.2 AA violations`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto(`http://127.0.0.1:4174/${framework}/`);
+    await page.getByRole('button', { name: 'Close confirmation' }).click();
+
+    await expect(page.locator('[data-consumer-checkbox]')).toBeVisible();
+    await expectNoWcag22AAViolations(page);
+  });
+
   test(`${framework} hydrated open Dialog has no automated WCAG 2.2 AA violations`, async ({
     page,
   }) => {

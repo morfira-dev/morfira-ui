@@ -51,6 +51,34 @@
     justify-self: start;
   }
 
+  .consumer-phase-two {
+    display: grid;
+    gap: var(--morfira-space-3);
+    border-block-start: var(--morfira-border-thin) solid var(--morfira-border-subtle);
+    padding-block-start: var(--morfira-space-4);
+  }
+
+  .consumer-phase-two h2,
+  .consumer-phase-two legend {
+    margin: 0;
+    color: var(--morfira-content-primary);
+    font-size: var(--morfira-font-size-md);
+  }
+
+  .consumer-inline-control {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--morfira-space-2);
+  }
+
+  [data-consumer-radio-group] {
+    display: grid;
+    gap: var(--morfira-space-2);
+    margin: 0;
+    border: 0;
+    padding: 0;
+  }
+
   output {
     color: var(--morfira-content-secondary);
     font-size: var(--morfira-font-size-sm);
