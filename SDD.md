@@ -149,8 +149,9 @@ evidence.
 
 - Status: active; tokens, themes, Button, Field, Input, and Dialog are implemented.
   Cross-browser DOM, accessibility, rendering-mode, and consumer SSR/hydration proof for
-  Button, Field, Input, and Dialog are active; shared adapter conformance, visual
-  regression, and the extended lifecycle matrix remain.
+  Button, Field, Input, and Dialog are active. Shared Button, Field, and Input adapter
+  conformance runs against React, Vue, and Svelte; visual regression and the extended
+  Dialog lifecycle matrix remain.
 - Tokens and themes.
 - Button across core, DOM, React, Vue, and Svelte.
 - Field and Input across core, DOM, React, Vue, and Svelte.

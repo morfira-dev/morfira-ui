@@ -2,7 +2,8 @@
 
 Status: Phase 1 public contract; core, DOM, and framework adapters are implemented. DOM
 browser geometry, themes, accessibility, RTL, reduced motion, and forced colors are
-automated across Chromium, Firefox, and WebKit; adapter hydration conformance remains.
+automated across Chromium, Firefox, and WebKit. React, Vue, and Svelte SSR, hydration,
+and shared interaction conformance run against the same consumer contract.
 
 Button is the first action primitive in Morfira UI's original product and enterprise
 system. Mature enterprise libraries such as PatternFly are useful coverage and edge-case
@@ -127,5 +128,6 @@ raw palette step as product meaning. Its visible action label remains the non-co
 Static contract tests cover selectors, independent export wiring, logical properties,
 focus, reduced motion, and forced colors. The shared browser fixture proves size
 geometry, theme switching, loading state, RTL, reduced motion, forced-color rendering,
-and automated WCAG checks. Framework consumer hydration, screenshot regression, and
-manual assistive-technology perception remain separate pending evidence.
+and automated WCAG checks. Framework consumer SSR, hydration, and shared interaction
+conformance run in all three browser engines. Screenshot regression and manual
+assistive-technology perception remain separate pending evidence.

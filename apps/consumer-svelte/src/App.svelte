@@ -127,6 +127,22 @@
       >
         Capture deployment
       </Button>
+      <Button
+        data-consumer-button-loading=""
+        type="button"
+        loading
+        onclick={submitSimpleControls}
+      >
+        Capturing deployment
+      </Button>
+      <Button
+        data-consumer-button-disabled=""
+        type="button"
+        disabled
+        onclick={submitSimpleControls}
+      >
+        Capture unavailable
+      </Button>
       <output
         aria-live="polite"
         data-consumer-button-count=""
@@ -141,6 +157,26 @@
       >
         Current value: {deploymentName}
       </output>
+      <Field
+        data-consumer-field-error=""
+        ids={{
+          inputId: 'consumer-svelte-deployment-slug',
+          labelId: 'consumer-svelte-deployment-slug-label',
+          descriptionId: 'consumer-svelte-deployment-slug-description',
+          validationMessageId: 'consumer-svelte-deployment-slug-error',
+        }}
+        label="Deployment slug"
+        description="Lowercase letters and hyphens only."
+        validation="error"
+        validationMessage="This deployment slug is already in use."
+        readOnly
+      >
+        <Input
+          value="morfira-edge"
+          data-consumer-input-error=""
+          name="deploymentSlug"
+        />
+      </Field>
     </section>
   </section>
 

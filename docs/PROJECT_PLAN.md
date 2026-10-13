@@ -18,8 +18,9 @@ As of 2026-10-13:
   operations;
 - Phase 1 includes implemented token/theme, Button, Field, Input, and modal Dialog
   vertical slices across core, DOM, React, Vue, and Svelte. Cross-browser SSR/hydration,
-  accessibility, and rendering-mode fixtures are automated; visual regression and the
-  remaining conformance/lifecycle matrix are still separate gates.
+  accessibility, rendering-mode, and shared Button/Field/Input adapter conformance are
+  automated; visual regression and the remaining Dialog lifecycle matrix are separate
+  gates.
 
 The exact GitHub repository slug is not part of the public package contract and does not
 block architecture or implementation work. The current `morfira-dev/morfira-ui`
@@ -327,11 +328,9 @@ A component is complete only when:
 
 ## Immediate work
 
-1. Extend the React, Vue, and Svelte consumer matrix from Dialog to Button, Field, and
-   Input with shared hydration and interaction cases.
-2. Add per-component isolated-import builds and size budgets; the current production
+1. Add per-component isolated-import builds and size budgets; the current production
    consumer budget proves the Dialog subpath only.
-3. Add stable visual snapshots and the documented manual screen-reader and released
+2. Add stable visual snapshots and the documented manual screen-reader and released
    Safari/Firefox ESR evidence before declaring Phase 1 stable.
-4. Complete the remaining nested and interrupted Dialog lifecycle cases, then start
+3. Complete the remaining nested and interrupted Dialog lifecycle cases, then start
    Phase 2 with Checkbox without adapter-specific exceptions.

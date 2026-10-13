@@ -65,9 +65,48 @@ export function App({ initialOpen }: AppProps): ReactElement {
         >
           Save project
         </Button>
+        <Button
+          loading
+          data-consumer-button-loading=""
+          onClick={(): void => {
+            setButtonPressCount((count) => count + 1);
+          }}
+        >
+          Saving project
+        </Button>
+        <Button
+          disabled
+          data-consumer-button-disabled=""
+          onClick={(): void => {
+            setButtonPressCount((count) => count + 1);
+          }}
+        >
+          Save unavailable
+        </Button>
         <output data-consumer-button-count="" data-testid="consumer-button-count">
           {buttonPressCount}
         </output>
+        <Field
+          ids={{
+            inputId: 'consumer-react-project-slug',
+            labelId: 'consumer-react-project-slug-label',
+            descriptionId: 'consumer-react-project-slug-description',
+            validationMessageId: 'consumer-react-project-slug-error',
+          }}
+          label="Project slug"
+          description="Lowercase letters and hyphens only."
+          validation="error"
+          validationMessage="This slug is already in use."
+          readOnly
+          data-consumer-field-error=""
+        >
+          <Input
+            name="projectSlug"
+            value="morfira-ui"
+            onChange={(): void => undefined}
+            data-consumer-input-error=""
+          />
+        </Field>
       </section>
 
       <button

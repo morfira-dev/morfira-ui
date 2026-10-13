@@ -14,6 +14,7 @@ const initialFocus = ref<HTMLButtonElement | null>(null);
 const returnFocus = ref<HTMLButtonElement | null>(null);
 const activationCount = ref(0);
 const deploymentName = ref('Morfira production');
+const deploymentSlug = ref('morfira-production');
 const hydrationState = ref<'server' | 'hydrated'>('server');
 
 onMounted(() => {
@@ -49,11 +50,31 @@ const reopen = (): void => {
         <Button
           data-consumer-button
           data-testid="consumer-button"
-          size="sm"
+          name="reviewAction"
           variant="secondary"
           @click="activationCount += 1"
         >
           Record review
+        </Button>
+        <Button
+          data-consumer-button-loading
+          data-testid="consumer-button-loading"
+          loading
+          name="loadingAction"
+          size="lg"
+          variant="danger"
+          @click="activationCount += 1"
+        >
+          Loading review
+        </Button>
+        <Button
+          data-consumer-button-disabled
+          data-testid="consumer-button-disabled"
+          disabled
+          name="disabledAction"
+          @click="activationCount += 1"
+        >
+          Disabled review
         </Button>
         <output
           aria-live="polite"
@@ -90,6 +111,31 @@ const reopen = (): void => {
         >
           Input value: {{ deploymentName }}
         </output>
+
+        <Field
+          :ids="{
+            inputId: 'consumer-vue-deployment-slug',
+            labelId: 'consumer-vue-deployment-slug-label',
+            descriptionId: 'consumer-vue-deployment-slug-description',
+            validationMessageId: 'consumer-vue-deployment-slug-error',
+          }"
+          data-consumer-field-error
+          data-testid="consumer-field-error"
+          label="Deployment slug"
+          description="Permanent deployment identifier."
+          validation="error"
+          validation-message="This slug is already in use."
+          read-only
+        >
+          <Input
+            v-model="deploymentSlug"
+            autocomplete="off"
+            data-consumer-input-error
+            data-testid="consumer-input-error"
+            name="deploymentSlug"
+            placeholder="deployment-slug"
+          />
+        </Field>
         <output data-consumer-hydration-state data-testid="consumer-hydration-state">
           Hydration state: {{ hydrationState }}
         </output>

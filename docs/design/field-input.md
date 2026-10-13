@@ -3,7 +3,7 @@
 Status: Phase 1 public contract; CSS and adapters are implemented. DOM browser geometry,
 focus, accessible relationships, RTL, reduced motion, forced colors, and automated WCAG
 checks run across Chromium, Firefox, and WebKit; React, Vue, and Svelte SSR/hydration
-fixtures cover the shared public contract.
+fixtures exercise the same shared interaction and accessibility conformance contract.
 
 Field and Input establish Morfira UI's first form-control composition. PatternFly and
 other enterprise systems are capability and accessibility benchmarks only; this anatomy,
