@@ -1,0 +1,12 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/dom" },
+    { "path": "./packages/tokens" },
+    { "path": "./packages/css" },
+    { "path": "./packages/react" },
+    { "path": "./packages/vue" },
+    { "path": "./packages/svelte" }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@morfira-dev/vue",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Idiomatic Vue adapters for Morfira UI.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "vue": "3.5.44"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "package:check": "publint && attw --pack . --profile esm-only"
+  }
+}

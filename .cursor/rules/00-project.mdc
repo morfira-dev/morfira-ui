@@ -1,0 +1,8 @@
+---
+description: Canonical Morfira UI project instructions
+globs: "**/*"
+alwaysApply: true
+---
+
+Before planning or editing, read and follow `AGENTS.md`, `SKILLS.md`, `SDD.md`,
+and applicable ADRs under `docs/adr/`. Those files are canonical.
