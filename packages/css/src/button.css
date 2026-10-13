@@ -1,0 +1,187 @@
+@layer morfira.components {
+  :where(button[data-morfira-button]) {
+    --morfira-button-background: var(--morfira-interactive-primary);
+    --morfira-button-background-hover: var(--morfira-interactive-primary-hover);
+    --morfira-button-background-active: var(--morfira-interactive-primary-active);
+    --morfira-button-border-color: transparent;
+    --morfira-button-border-color-hover: var(--morfira-button-border-color);
+    --morfira-button-border-color-active: var(--morfira-button-border-color-hover);
+    --morfira-button-color: var(--morfira-interactive-primary-content);
+    --morfira-button-size: var(--morfira-control-size-md);
+    --morfira-button-padding-inline: var(--morfira-space-4);
+
+    appearance: none;
+    position: relative;
+    display: inline-flex;
+    min-block-size: var(--morfira-control-touch-target);
+    min-inline-size: var(--morfira-control-touch-target);
+    block-size: max(var(--morfira-button-size), var(--morfira-control-touch-target));
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    gap: var(--morfira-space-2);
+    margin: 0;
+    border: var(--morfira-border-thin) solid var(--morfira-button-border-color);
+    border-radius: var(--morfira-radius-md);
+    padding-block: 0;
+    padding-inline: var(--morfira-button-padding-inline);
+    overflow: visible;
+    background: var(--morfira-button-background);
+    box-shadow: var(--morfira-shadow-sm);
+    color: var(--morfira-button-color);
+    font-family: var(--morfira-font-family-sans);
+    font-size: var(--morfira-font-size-sm);
+    font-weight: var(--morfira-font-weight-semibold);
+    line-height: var(--morfira-font-line-height-normal);
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      border-color var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard),
+      color var(--morfira-motion-duration-fast) var(--morfira-motion-easing-standard),
+      box-shadow var(--morfira-motion-duration-fast)
+        var(--morfira-motion-easing-standard);
+  }
+
+  :where(button[data-morfira-button]:not(:disabled, [data-loading])):hover {
+    background: var(--morfira-button-background-hover);
+    border-color: var(--morfira-button-border-color-hover);
+  }
+
+  :where(button[data-morfira-button]:not(:disabled, [data-loading])):active {
+    background: var(--morfira-button-background-active);
+    border-color: var(--morfira-button-border-color-active);
+    box-shadow: none;
+  }
+
+  :where(button[data-morfira-button]):focus-visible {
+    outline: var(--morfira-border-thick) solid var(--morfira-focus-ring);
+    outline-offset: var(--morfira-border-thick);
+  }
+
+  :where(button[data-morfira-button][data-variant='secondary']) {
+    --morfira-button-background: var(--morfira-surface-raised);
+    --morfira-button-background-hover: var(--morfira-surface-subtle);
+    --morfira-button-background-active: var(--morfira-surface-sunken);
+    --morfira-button-border-color: var(--morfira-border-default);
+    --morfira-button-border-color-hover: var(--morfira-border-strong);
+    --morfira-button-color: var(--morfira-content-primary);
+  }
+
+  :where(button[data-morfira-button][data-variant='ghost']) {
+    --morfira-button-background: transparent;
+    --morfira-button-background-hover: var(--morfira-surface-subtle);
+    --morfira-button-background-active: var(--morfira-surface-sunken);
+    --morfira-button-border-color-hover: var(--morfira-border-subtle);
+    --morfira-button-border-color-active: var(--morfira-border-default);
+    --morfira-button-color: var(--morfira-content-primary);
+
+    box-shadow: none;
+  }
+
+  :where(button[data-morfira-button][data-variant='danger']) {
+    --morfira-button-background: var(--morfira-surface-raised);
+    --morfira-button-background-hover: var(--morfira-surface-subtle);
+    --morfira-button-background-active: var(--morfira-surface-sunken);
+    --morfira-button-border-color: var(--morfira-border-danger);
+    --morfira-button-border-color-hover: var(--morfira-content-danger);
+    --morfira-button-color: var(--morfira-content-danger);
+  }
+
+  :where(button[data-morfira-button][data-size='sm']) {
+    --morfira-button-size: var(--morfira-control-size-sm);
+    --morfira-button-padding-inline: var(--morfira-space-3);
+
+    font-size: var(--morfira-font-size-xs);
+  }
+
+  :where(button[data-morfira-button][data-size='lg']) {
+    --morfira-button-size: var(--morfira-control-size-lg);
+    --morfira-button-padding-inline: var(--morfira-space-5);
+
+    font-size: var(--morfira-font-size-md);
+  }
+
+  :where(button[data-morfira-button]:disabled) {
+    --morfira-button-background: var(--morfira-interactive-disabled);
+    --morfira-button-border-color: var(--morfira-border-subtle);
+    --morfira-button-color: var(--morfira-interactive-disabled-content);
+
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  :where(button[data-morfira-button][data-loading]) {
+    cursor: wait;
+  }
+
+  :where(button[data-morfira-button][data-loading])::before {
+    content: '';
+    flex: none;
+    inline-size: 1em;
+    block-size: 1em;
+    box-sizing: border-box;
+    border: var(--morfira-border-thick) solid currentColor;
+    border-inline-end-color: transparent;
+    border-radius: var(--morfira-radius-full);
+    animation: morfira-button-loading var(--morfira-motion-duration-slow) linear
+      infinite;
+  }
+
+  @keyframes morfira-button-loading {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(button[data-morfira-button]) {
+      transition: none;
+    }
+
+    :where(button[data-morfira-button][data-loading])::before {
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :where(button[data-morfira-button]) {
+      --morfira-button-background: ButtonFace;
+      --morfira-button-background-hover: ButtonFace;
+      --morfira-button-background-active: ButtonFace;
+      --morfira-button-border-color: ButtonText;
+      --morfira-button-border-color-hover: ButtonText;
+      --morfira-button-border-color-active: ButtonText;
+      --morfira-button-color: ButtonText;
+
+      forced-color-adjust: auto;
+      box-shadow: none;
+    }
+
+    :where(button[data-morfira-button][data-variant='primary']) {
+      --morfira-button-background: Highlight;
+      --morfira-button-background-hover: Highlight;
+      --morfira-button-background-active: Highlight;
+      --morfira-button-border-color: Highlight;
+      --morfira-button-border-color-hover: Highlight;
+      --morfira-button-border-color-active: Highlight;
+      --morfira-button-color: HighlightText;
+    }
+
+    :where(button[data-morfira-button]:disabled) {
+      --morfira-button-border-color: GrayText;
+      --morfira-button-color: GrayText;
+    }
+
+    :where(button[data-morfira-button][data-loading])::before {
+      forced-color-adjust: none;
+    }
+  }
+}

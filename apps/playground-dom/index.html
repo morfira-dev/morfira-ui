@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Morfira UI DOM playground</title>
+    <link rel="stylesheet" href="../../packages/css/dist/theme.css" />
+    <link rel="stylesheet" href="../../packages/css/dist/button.css" />
+    <style>
+      @layer playground {
+        * {
+          box-sizing: border-box;
+        }
+
+        body {
+          margin: 0;
+          min-block-size: 100vh;
+          font-family: var(--morfira-font-family-sans);
+          color: var(--morfira-content-primary);
+          background: var(--morfira-surface-canvas);
+        }
+
+        main {
+          inline-size: min(72rem, calc(100% - 2rem));
+          margin-inline: auto;
+          padding-block: var(--morfira-space-12);
+        }
+
+        header,
+        .toolbar,
+        .button-row {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: var(--morfira-space-3);
+        }
+
+        header {
+          justify-content: space-between;
+          margin-block-end: var(--morfira-space-8);
+        }
+
+        h1,
+        h2,
+        p {
+          margin: 0;
+        }
+
+        h1 {
+          font-size: var(--morfira-font-size-3xl);
+          line-height: var(--morfira-font-line-height-tight);
+        }
+
+        .lede {
+          margin-block-start: var(--morfira-space-2);
+          color: var(--morfira-content-secondary);
+        }
+
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+          gap: var(--morfira-space-6);
+        }
+
+        .panel {
+          padding: var(--morfira-space-6);
+          border: var(--morfira-border-thin) solid var(--morfira-border-subtle);
+          border-radius: var(--morfira-radius-xl);
+          background: var(--morfira-surface-raised);
+          box-shadow: var(--morfira-shadow-sm);
+        }
+
+        .panel h2 {
+          margin-block-end: var(--morfira-space-4);
+          font-size: var(--morfira-font-size-lg);
+        }
+
+        .button-row + .button-row {
+          margin-block-start: var(--morfira-space-4);
+        }
+
+        .dark-panel {
+          color-scheme: dark;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <h1>Morfira UI Button</h1>
+          <p class="lede">Token, theme, state, and focus proof fixture.</p>
+        </div>
+        <div class="toolbar">
+          <button data-morfira-button data-variant="secondary" id="theme-toggle">
+            Toggle page theme
+          </button>
+          <button data-morfira-button data-variant="ghost" id="direction-toggle">
+            Toggle RTL
+          </button>
+        </div>
+      </header>
+
+      <div class="grid">
+        <section class="panel" aria-labelledby="light-heading">
+          <h2 id="light-heading">Inherited theme</h2>
+          <div class="button-row">
+            <button data-morfira-button data-variant="primary">Primary</button>
+            <button data-morfira-button data-variant="secondary">Secondary</button>
+            <button data-morfira-button data-variant="ghost">Ghost</button>
+            <button data-morfira-button data-variant="danger">Danger</button>
+          </div>
+          <div class="button-row">
+            <button data-morfira-button data-size="sm">Small</button>
+            <button data-morfira-button data-size="md">Medium</button>
+            <button data-morfira-button data-size="lg">Large</button>
+          </div>
+          <div class="button-row">
+            <button data-morfira-button disabled>Disabled</button>
+            <button data-morfira-button data-loading aria-busy="true">Saving</button>
+          </div>
+        </section>
+
+        <section
+          class="panel dark-panel"
+          data-morfira-theme="dark"
+          aria-labelledby="dark-heading"
+        >
+          <h2 id="dark-heading">Explicit dark subtree</h2>
+          <div class="button-row">
+            <button data-morfira-button data-variant="primary">Primary</button>
+            <button data-morfira-button data-variant="secondary">Secondary</button>
+            <button data-morfira-button data-variant="ghost">Ghost</button>
+            <button data-morfira-button data-variant="danger">Danger</button>
+          </div>
+          <div class="button-row">
+            <button data-morfira-button data-size="sm">Small</button>
+            <button data-morfira-button data-size="md">Medium</button>
+            <button data-morfira-button data-size="lg">Large</button>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script type="module">
+      const root = document.documentElement;
+      const themeToggle = document.querySelector('#theme-toggle');
+      const directionToggle = document.querySelector('#direction-toggle');
+
+      themeToggle?.addEventListener('click', () => {
+        root.dataset.morfiraTheme =
+          root.dataset.morfiraTheme === 'dark' ? 'light' : 'dark';
+      });
+
+      directionToggle?.addEventListener('click', () => {
+        root.dir = root.dir === 'rtl' ? 'ltr' : 'rtl';
+      });
+    </script>
+  </body>
+</html>

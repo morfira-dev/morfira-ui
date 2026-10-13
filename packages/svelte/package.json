@@ -14,7 +14,15 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./button": {
+      "types": "./dist/button/index.d.ts",
+      "svelte": "./dist/button/Button.svelte",
+      "import": "./dist/button/index.js"
+    },
     "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@morfira-dev/core": "workspace:*"
   },
   "peerDependencies": {
     "svelte": "^5.0.0"
@@ -23,7 +31,7 @@
     "svelte": "5.57.2"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node scripts/copy-svelte.mjs",
     "package:check": "publint && attw --pack . --profile esm-only"
   }
 }

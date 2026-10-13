@@ -1,2 +1,2 @@
-/** Public exports are added only by accepted component vertical slices. */
-export {};
+export { enhanceButton } from './button.js';
+export type { ButtonController } from './button.js';

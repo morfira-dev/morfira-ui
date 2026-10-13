@@ -19,9 +19,12 @@ accessibility, security, or public-contract requirements.
 
 ## Product boundaries
 
-- Morfira UI is an original implementation. Fomantic UI and other libraries may inform
-  coverage, API ergonomics, accessibility patterns, and edge cases, but their source or
-  visual system must not be copied without an explicit license and provenance review.
+- Morfira UI is an original enterprise design system positioned as a competitor to
+  PatternFly. PatternFly may be used as a public benchmark for capability coverage,
+  documentation depth, accessibility, and enterprise workflows, but it is not an
+  implementation base or visual reference to reproduce.
+- Do not copy PatternFly source, token values, naming, markup, or visual identity. Every
+  Morfira contract and design decision must be independently justified and implemented.
 - Public npm packages use `@morfira-dev/*`.
 - Do not add Radix UI, Reka UI, or another component runtime as an implementation
   dependency.

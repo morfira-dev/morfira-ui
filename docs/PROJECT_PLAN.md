@@ -1,6 +1,6 @@
 # Morfira UI: Product and Technical Plan
 
-Status: initial project baseline; implementation has not started.
+Status: Phase 0 foundation complete; Phase 1 implementation is active.
 
 This document records the agreed product direction and technical boundaries for Morfira
 UI. It is a roadmap, not evidence that the described packages, APIs, or infrastructure
@@ -10,12 +10,15 @@ already exist.
 
 As of 2026-10-13:
 
-- the local repository is empty and has no commits;
-- its default local branch is `main`;
-- `origin` points to `https://github.com/morfira-dev/morfira-ui.git`;
-- the GitHub repository is public;
-- no workspace, package, application, CI, release, documentation, or test configuration
-  has been created yet.
+- the public GitHub repository exists at `morfira-dev/morfira-ui` and the local default
+  branch is `main`;
+- the pnpm workspace, strict TypeScript baseline, package skeletons, CI, agent
+  governance, ADRs, and validation commands exist;
+- Phase 0 is committed locally; publication and push remain separate user-authorized
+  operations;
+- Phase 1 includes implemented token/theme contracts and the first Button vertical slice
+  across core, DOM, React, Vue, and Svelte. Browser and visual proof remain separate
+  gates until the shared fixture is inspected and automated.
 
 The exact GitHub repository slug is not part of the public package contract and does not
 block architecture or implementation work. The current `morfira-dev/morfira-ui`
@@ -27,14 +30,37 @@ before the first release.
 
 ## Product definition
 
-Morfira UI is an independent, modern UI system. Fomantic UI may be studied as a source
-of ideas for component coverage and API ergonomics, but Morfira UI owns its design,
-tokens, architecture, and implementations.
+Morfira UI is an independent, modern enterprise design system positioned as a direct
+competitor to PatternFly. It targets the same class of demanding product interfaces,
+including application shells, navigation, forms, dense data, operational workflows,
+status, and administration experiences.
 
-Do not copy Fomantic UI source code or reproduce its legacy visual system without a
-separate license and provenance review. External UI libraries may be studied for API
-patterns, accessibility behavior, and edge cases, but their runtime implementations must
-not become hidden foundations of Morfira UI.
+PatternFly is a public benchmark for capability coverage, documentation quality,
+accessibility guidance, and enterprise workflow support. It is not Morfira's codebase,
+runtime foundation, API specification, token source, markup template, or visual design.
+Do not copy PatternFly source, token values, names, component structure, or appearance.
+Morfira UI owns its design, architecture, contracts, and implementations.
+
+## Competitive strategy
+
+PatternFly currently organizes its system into foundations and styles, reusable
+components, higher-level patterns, and optional extensions. Morfira should cover the
+same product-building layers with its own taxonomy where that improves clarity:
+
+- **Foundations:** tokens, typography, icon strategy, layout primitives, motion,
+  theming, accessibility, and utilities.
+- **Components:** independently importable controls and structures with native DOM,
+  React, Vue, and Svelte delivery.
+- **Enterprise patterns:** application shell, navigation, dashboards, filtering, bulk
+  selection and actions, primary-detail flows, forms, status/severity, notifications,
+  and multi-step work.
+- **Specialist integrations:** charts, code editors, virtualization, and similar heavy
+  capabilities stay optional unless there is a demonstrated reason to own them.
+
+Morfira differentiates through first-class multi-framework support, a native DOM layer,
+small explicit packages, consumer-owned theming, readable source, strict conformance,
+and an original visual language. Success is measured by whether teams can build and
+maintain real enterprise products, not by matching another catalog name-for-name.
 
 ## Brand and publication targets
 
@@ -266,6 +292,7 @@ scaling the catalog.
 - Checkbox, Radio, Switch, Textarea, and Select.
 - Tooltip and Popover.
 - Tabs and Accordion.
+- Form validation, status/severity, and action-group patterns.
 - Extract shared primitives only from confirmed repetition.
 
 ### Phase 3
@@ -274,11 +301,12 @@ scaling the catalog.
 - Combobox and Autocomplete.
 - Toast and Drawer.
 - Table and Data Grid boundaries.
-- Navigation components.
+- Application shell, navigation, filtering, bulk actions, and primary-detail patterns.
 
 ### Phase 4
 
 - Expand the catalog according to real product scenarios.
+- Close validated enterprise capability gaps against the maintained competitive map.
 - Add CLI or scaffolding only after demand is demonstrated.
 - Add complete theme presets and migration tooling.
 
@@ -296,15 +324,11 @@ A component is complete only when:
 - importing the component does not pull in unrelated components;
 - package output is readable, typed, and structurally valid.
 
-## Immediate next decisions
+## Immediate work
 
-Before scaffolding Phase 0, explicitly decide:
-
-1. The project license and provenance policy for researched external systems.
-2. Supported Node.js, browser, React, Vue, and Svelte version ranges.
-3. The initial ADR format and ownership model.
-4. The independent-release implementation, including how internal dependency updates
-   trigger downstream package releases.
-
-After these decisions, begin with ADRs and the Button + Field/Input + Dialog vertical
-slice, not a bulk port of Fomantic UI components.
+1. Prove the implemented tokens, themes, and Button states in the shared browser
+   fixture; keep browser evidence distinct from static tests.
+2. Add consumer fixtures and hydration checks for the first Button slice.
+3. Implement Field/Input, then Dialog across the DOM, React, Vue, and Svelte contracts.
+4. Add consumer fixtures, SSR checks, accessibility tests, and isolated-import budgets
+   with each slice instead of bulk-porting a component catalog.

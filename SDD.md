@@ -1,6 +1,7 @@
 # Morfira UI Software Design Description
 
-Status: accepted baseline for Phase 0.
+Status: accepted baseline; Phase 1 is active with tokens, themes, and Button
+implemented.
 
 ## 1. Purpose
 
@@ -8,9 +9,10 @@ Morfira UI is an original, accessible, framework-independent UI system with nati
 React, Vue, and Svelte delivery layers. Its design, tokens, architecture, and
 implementation belong to Morfira UI.
 
-The system uses Fomantic UI only as optional research input for component coverage and
-API ergonomics. No source copying or visual cloning is allowed without an explicit
-license and provenance review.
+Morfira UI targets the same serious product and enterprise interface category as
+PatternFly while remaining an independent system. PatternFly is a capability and quality
+benchmark, not a dependency, implementation base, API specification, token source, or
+visual template. Morfira owns its code, contracts, naming, and visual identity.
 
 ## 2. Public identity
 
@@ -60,26 +62,45 @@ Tokens have primitive, semantic, and narrowly scoped component layers. CSS custo
 properties are the public runtime theme contract. Builds produce CSS and typed
 TypeScript exports. Light, dark, and user-defined themes are required.
 
-### 5.2 CSS
+The initial visual direction is an original, neutral product system with a restrained
+violet-indigo accent. It must remain visibly distinct from PatternFly and other design
+systems. Primitive values describe raw palette and scale choices; semantic tokens
+express role and theme; component tokens are introduced only when a real component
+cannot be described clearly by the semantic layer.
+
+### 5.2 Competitive scope
+
+Morfira competes on complete product-building capability rather than component count
+alone. The catalog must grow through independently designed foundations, components,
+layouts, and reusable enterprise patterns. Priority areas are application shells and
+navigation, forms and validation, dense data display, filtering and bulk actions, status
+and notifications, overlays, and multi-step workflows.
+
+Charts, code editors, and other specialist capabilities should use explicit optional
+integrations unless owning an implementation creates a demonstrated product advantage.
+Catalog parity never permits bulk-porting another system or weakening Morfira's package,
+framework, accessibility, or visual contracts.
+
+### 5.3 CSS
 
 CSS uses explicit cascade layers, low specificity, logical properties, public `data-*`
 states, and independent component entrypoints. It supports RTL, reduced motion, forced
 colors, and consumer overrides without rebuilding.
 
-### 5.3 Core
+### 5.4 Core
 
 Core contains pure models, state machines, or controllers only when they clarify
 behavior. It cannot access browser globals. Controlled and uncontrolled semantics,
 lifecycle, and cleanup must be deterministic.
 
-### 5.4 DOM
+### 5.5 DOM
 
 The DOM layer owns browser events, focus, layers, positioning integration, scroll
 locking, progressive enhancement, and teardown. Focus management, dismissable layers,
 keyboard navigation, positioning, and scroll locking remain separate owners rather than
 one overlay singleton.
 
-### 5.5 Framework adapters
+### 5.6 Framework adapters
 
 Adapters share state and accessibility invariants but expose idiomatic APIs: React uses
 hooks, refs, controlled props, and portals; Vue uses Composition API, props, emits,
@@ -110,7 +131,11 @@ conformance tests, public type tests, accessibility checks, Playwright browser t
 visual regression, SSR/hydration tests, package validation, consumer fixtures,
 tree-shaking checks, and size budgets.
 
-Tests protect public behavior and edge cases rather than implementation text.
+Tests protect public behavior and edge cases rather than implementation text. Static
+token and generated-CSS checks prove shape, references, fallbacks, and package
+contracts. They do not prove rendered contrast, focus visibility, forced-color behavior,
+reduced motion, or theme switching; those claims require separate browser and visual
+evidence.
 
 ## 9. Delivery phases
 
@@ -122,8 +147,10 @@ Tests protect public behavior and edge cases rather than implementation text.
 
 ### Phase 1 — proof-oriented vertical slice
 
+- Status: active; tokens, themes, and Button are implemented pending complete browser
+  and consumer proof.
 - Tokens and themes.
-- Button.
+- Button across core, DOM, React, Vue, and Svelte.
 - Field and Input.
 - Dialog as the first complex overlay.
 - DOM, React, Vue, and Svelte implementations.

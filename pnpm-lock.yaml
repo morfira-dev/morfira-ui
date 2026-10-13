@@ -196,7 +196,11 @@ importers:
 
   packages/core: {}
 
-  packages/css: {}
+  packages/css:
+    devDependencies:
+      '@morfira-dev/tokens':
+        specifier: workspace:*
+        version: link:../tokens
 
   packages/dom: {}
 
